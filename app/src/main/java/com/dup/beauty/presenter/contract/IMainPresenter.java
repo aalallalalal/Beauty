@@ -21,9 +21,4 @@ public interface IMainPresenter {
      */
     void fetchMoreHotImgs();
 
-    /**
-     * 点击item，获取次item图库中的 图片们
-     */
-    void fetchGalleryWithId(long id);
-
 }

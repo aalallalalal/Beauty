@@ -71,7 +71,7 @@ public class MainPresenter implements IMainPresenter {
         }
 
         //3.没有缓存存在,则直接网络请求加载
-        ApiClient.getApiService(mActivity).getHotGalleries(1, Constant.PAGE_COUNT, 0).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        ApiClient.getApiService(mActivity).getGalleries(1, Constant.PAGE_COUNT, 0).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
                 .map(new Func1<Galleries, ArrayList<Gallery>>() {
                     @Override
@@ -179,7 +179,7 @@ public class MainPresenter implements IMainPresenter {
      */
     @Override
     public void fetchMoreHotImgs() {
-        ApiClient.getApiService(mActivity).getHotGalleries(pageNum, Constant.PAGE_COUNT, 0).subscribeOn(Schedulers.io())
+        ApiClient.getApiService(mActivity).getGalleries(pageNum, Constant.PAGE_COUNT, 0).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
                 .subscribe(new Observer<Galleries>() {
@@ -203,32 +203,4 @@ public class MainPresenter implements IMainPresenter {
                 });
     }
 
-    /**
-     * 点击item，获取次item图库中的 图片们
-     */
-    @Override
-    public void fetchGalleryWithId(final long id) {
-        ApiClient.getApiService(mActivity).getPictures(id).subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .unsubscribeOn(Schedulers.io())
-        .subscribe(new Observer<Gallery>() {
-            @Override
-            public void onCompleted() {
-                L.d("从网络  获取 图库 "+id+" 成功");
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                L.e("从网络 获取 图库 "+id+" 失败." + e.getMessage());
-                TastyToast.makeText(mActivity.getApplicationContext(),
-                        StringUtil.getStrRes(mActivity.getApplicationContext(), R.string.gallery_error)
-                        , TastyToast.LENGTH_SHORT, TastyToast.WARNING);
-            }
-
-            @Override
-            public void onNext(Gallery gallery) {
-                mMainView.onGalleryWithId(gallery,id);
-            }
-        });
-    }
 }

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.dup.beauty.R;
 import com.dup.beauty.model.entity.Category;
+import com.dup.beauty.model.entity.Gallery;
 
 import java.util.List;
 
@@ -34,11 +35,15 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.My
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-        Category category = categories.get(position);
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
+        final Category category = categories.get(position);
         holder.tv.setText(category.getName());
         int drawable = context.getResources().getIdentifier("icon_category_" + position, "drawable", context.getPackageName());
         holder.iv.setImageResource(drawable);
+
+        if (mItemClickListener != null) {
+            holder.setItemClickListener(holder.getLayoutPosition());
+        }
     }
 
     @Override
@@ -54,8 +59,29 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.My
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
+
+        public void setItemClickListener(final int position) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mItemClickListener != null) {
+                        mItemClickListener.onItemClick(position, categories.get(position));
+                    }
+                }
+            });
+        }
+    }
+
+    private OnItemClickListener mItemClickListener;
+
+    public void setItemClickListener(OnItemClickListener mItemClickListener) {
+        this.mItemClickListener = mItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position, Category category);
     }
 
 }

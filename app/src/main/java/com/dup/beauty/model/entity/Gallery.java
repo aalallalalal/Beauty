@@ -8,6 +8,7 @@ import java.util.List;
  * Created by DP on 2016/9/18.
  */
 public class Gallery implements Serializable {
+    private static final long serialVersionUID = -7505467711968557340L;
     private long id;
     private int galleryclass;//          图片分类
     private String title;//          标题

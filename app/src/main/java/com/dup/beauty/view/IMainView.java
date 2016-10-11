@@ -18,5 +18,4 @@ public interface IMainView {
 
     void onMoreHotImgs(List<Gallery> list,int page);
 
-    void onGalleryWithId(Gallery gallery,long id);
 }

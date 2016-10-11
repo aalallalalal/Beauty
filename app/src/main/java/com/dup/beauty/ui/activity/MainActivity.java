@@ -41,7 +41,7 @@ import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity implements IMainView, BGABanner.OnItemClickListener ,
-    GalleriesAdapter.OnItemClickListener{
+    GalleriesAdapter.OnItemClickListener,CategoriesAdapter.OnItemClickListener{
 
     @BindView(R.id.main_banner)
     public BGABanner banner;
@@ -233,6 +233,7 @@ public class MainActivity extends BaseActivity implements IMainView, BGABanner.O
     @Override
     public void onCategories(List<Category> list) {
         CategoriesAdapter categoriesAdapter = new CategoriesAdapter(this, list);
+        categoriesAdapter.setItemClickListener(this);
         recyclerViewCategories.setLayoutManager(new LinearLayoutManager(MainActivity.this, OrientationHelper.HORIZONTAL, false));
         recyclerViewCategories.setAdapter(categoriesAdapter);
     }
@@ -251,21 +252,6 @@ public class MainActivity extends BaseActivity implements IMainView, BGABanner.O
     }
 
     /**
-     * 根据图库id 获取到了此图库中图片们（Picture.class)
-     * @param gallery 获取到为此id 的gallery
-     * @param id 点击的图库id
-     */
-    @Override
-    public void onGalleryWithId(Gallery gallery, long id) {
-        L.e("List is :"+gallery.getList().toString());
-        Intent intent = new Intent();
-        intent.putExtra("GALLERY", gallery);
-        intent.setClass(this, GalleryActivity.class);
-        startActivity(intent);
-    }
-
-
-    /**
      * banner 点击回调方法
      *
      * @param banner 广告view
@@ -276,7 +262,10 @@ public class MainActivity extends BaseActivity implements IMainView, BGABanner.O
     @Override
     public void onBannerItemClick(BGABanner banner, View view, Object model, int position) {
         Gallery gallery = (Gallery) model;
-        mMainPresenter.fetchGalleryWithId(gallery.getId());
+        Intent intent = new Intent();
+        intent.putExtra("GALLERY", gallery);
+        intent.setClass(this, GalleryActivity.class);
+        startActivity(intent);
     }
 
     /**
@@ -285,6 +274,22 @@ public class MainActivity extends BaseActivity implements IMainView, BGABanner.O
      */
     @Override
     public void onItemClick(int position,Gallery gallery) {
-        mMainPresenter.fetchGalleryWithId(gallery.getId());
+        Intent intent = new Intent();
+        intent.putExtra("GALLERY", gallery);
+        intent.setClass(this, GalleryActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * 分类item点击监听事件
+     * @param position
+     * @param category
+     */
+    @Override
+    public void onItemClick(int position, Category category) {
+        Intent intent = new Intent();
+        intent.putExtra("CATEGORY", category);
+        intent.setClass(this, CategoryActivity.class);
+        startActivity(intent);
     }
 }

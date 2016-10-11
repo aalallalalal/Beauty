@@ -31,7 +31,7 @@ import butterknife.OnClick;
 /**
  * 图库界面，显示图库中图片们
  */
-public class GalleryActivity extends BaseActivity implements IGalleryView,PicturesAdapter.OnItemClickListener{
+public class GalleryActivity extends BaseActivity implements IGalleryView, PicturesAdapter.OnItemClickListener {
     @BindView(R.id.toolbar_title)
     public TextView titleTv;
     @BindView(R.id.gallery_recyclerview)
@@ -54,9 +54,9 @@ public class GalleryActivity extends BaseActivity implements IGalleryView,Pictur
     @Override
     protected void initView() {
         super.initView();
-        StatusBarUtil.setColor(this,getResources().getColor(R.color.colorPrimary));
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimary));
         ButterKnife.bind(GalleryActivity.this);
-        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
     }
 
     @Override
@@ -72,25 +72,22 @@ public class GalleryActivity extends BaseActivity implements IGalleryView,Pictur
 
         //设置标题
         titleTv.setText(mGallery.getTitle());
-        //设置adapter
-        DisplayMetrics metric = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metric);
-        mAdapter = new PicturesAdapter(this,mGallery.getList(),metric.widthPixels);
-        mAdapter.setItemClickListener(this);
-        recyclerView.setAdapter(mAdapter);
+        //获取网络数据
+        mPresenter.fetchGalleryWithId(mGallery.getId());
     }
 
     /**
      * 退回按钮点击事件
+     *
      * @param view
      */
     @OnClick(R.id.toolbar_back)
-    public void onBackPress(View view){
+    public void onBackPress(View view) {
         finish();
     }
 
     @OnCheckedChanged(R.id.toolbar_favorite)
-    public void OnFavoritePress(CompoundButton compoundButton, boolean checked){
+    public void OnFavoritePress(CompoundButton compoundButton, boolean checked) {
         //TODO 收藏功能
     }
 
@@ -101,6 +98,16 @@ public class GalleryActivity extends BaseActivity implements IGalleryView,Pictur
 
     @Override
     public void onItemClick(int position, Picture picture) {
-        Toast.makeText(this,"picture:"+picture.getId(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "picture:" + picture.getId(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onGalleryWithId(Gallery gallery, long id) {
+        //设置adapter
+        DisplayMetrics metric = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metric);
+        mAdapter = new PicturesAdapter(this, gallery.getList(), metric.widthPixels);
+        mAdapter.setItemClickListener(this);
+        recyclerView.setAdapter(mAdapter);
     }
 }

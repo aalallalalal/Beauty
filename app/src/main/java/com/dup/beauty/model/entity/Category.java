@@ -4,12 +4,15 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
 
+import java.io.Serializable;
+
 /**
  * 分类实体类
  * Created by DP on 2016/9/26.
  */
 @Entity
-public class Category {
+public class Category implements Serializable {
+    private static final long serialVersionUID = -511117304508211164L;
     @Id
     private Long id;
     private String name;

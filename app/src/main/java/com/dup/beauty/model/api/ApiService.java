@@ -15,7 +15,7 @@ import rx.Observable;
 
 public interface ApiService {
     /**
-     * 获取图片列表数据
+     * 获取图库列表数据
      * {
      * "count": 18,
      * "fcount": 0,
@@ -36,7 +36,7 @@ public interface ApiService {
      * @param rows 此页获取多少项。默认20 rows = 20.
      */
     @GET("/tnfs/api/list")
-    Observable<Galleries> getHotGalleries(@Query("page") int page, @Query("rows") int rows, @Query("id") int id);
+    Observable<Galleries> getGalleries(@Query("page") int page, @Query("rows") int rows, @Query("id") long id);
 
     /**
      * 获取分类数据

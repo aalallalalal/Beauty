@@ -7,6 +7,7 @@ import java.io.Serializable;
  * Created by DP on 2016/10/10.
  */
 public class Picture implements Serializable {
+    private static final long serialVersionUID = -1366111468683572725L;
     private long id;//图片ID
     private int gallery; //图片库ID
     private String src; //图片地址
