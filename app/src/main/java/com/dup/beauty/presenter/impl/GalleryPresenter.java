@@ -6,6 +6,7 @@ import com.dup.beauty.R;
 import com.dup.beauty.model.api.ApiClient;
 import com.dup.beauty.model.entity.Gallery;
 import com.dup.beauty.presenter.contract.IGalleryPresenter;
+import com.dup.beauty.util.DialogUtil;
 import com.dup.beauty.util.L;
 import com.dup.beauty.util.StringUtil;
 import com.dup.beauty.view.IGalleryView;
@@ -32,6 +33,7 @@ public class GalleryPresenter implements IGalleryPresenter {
      */
     @Override
     public void fetchGalleryWithId(final long id) {
+        DialogUtil.getInstance().showDialog(mActivity);
         ApiClient.getApiService(mActivity).getPictures(id).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
@@ -52,6 +54,7 @@ public class GalleryPresenter implements IGalleryPresenter {
                     @Override
                     public void onNext(Gallery gallery) {
                         mGalleryView.onGalleryWithId(gallery, id);
+                        DialogUtil.getInstance().dismissDialog();
                     }
                 });
     }

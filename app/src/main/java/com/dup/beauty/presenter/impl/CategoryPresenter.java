@@ -7,6 +7,7 @@ import com.dup.beauty.app.Constant;
 import com.dup.beauty.model.api.ApiClient;
 import com.dup.beauty.model.entity.Galleries;
 import com.dup.beauty.presenter.contract.ICategoryPresenter;
+import com.dup.beauty.util.DialogUtil;
 import com.dup.beauty.util.L;
 import com.dup.beauty.util.StringUtil;
 import com.dup.beauty.view.ICategoryView;
@@ -61,6 +62,7 @@ public class CategoryPresenter implements ICategoryPresenter {
 
     @Override
     public void fetchMoreGalleriesWithId() {
+        DialogUtil.getInstance().showDialog(mActivity);
         ApiClient.getApiService(mActivity).getGalleries(pageNum, Constant.PAGE_COUNT, 0).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
@@ -81,6 +83,7 @@ public class CategoryPresenter implements ICategoryPresenter {
                     @Override
                     public void onNext(Galleries galleries) {
                         mCategoryView.onMoreGalleriesWithId(galleries.getGalleries(),pageNum);
+                        DialogUtil.getInstance().dismissDialog();
                     }
                 });
     }

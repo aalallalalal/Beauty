@@ -2,7 +2,6 @@ package com.dup.beauty.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -11,18 +10,15 @@ import android.widget.TextView;
 import com.dup.beauty.R;
 import com.dup.beauty.app.BaseActivity;
 import com.dup.beauty.model.entity.Category;
-import com.dup.beauty.model.entity.Galleries;
 import com.dup.beauty.model.entity.Gallery;
 import com.dup.beauty.presenter.contract.ICategoryPresenter;
 import com.dup.beauty.presenter.impl.CategoryPresenter;
 import com.dup.beauty.ui.adapter.GalleriesAdapter;
-import com.dup.beauty.ui.adapter.PicturesAdapter;
 import com.dup.beauty.view.ICategoryView;
 import com.jaeger.library.StatusBarUtil;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
-import java.io.Serializable;
 import java.util.List;
 
 import butterknife.BindView;
@@ -51,6 +47,7 @@ public class CategoryActivity extends BaseActivity implements ICategoryView, Gal
         super.initView();
         StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimary));
         ButterKnife.bind(CategoryActivity.this);
+
         //设置recyclerview
         recyclerView.setPullRefreshEnabled(false);
         recyclerView.setLoadingMoreEnabled(true);

@@ -6,4 +6,8 @@
     <dimen name="main_top_height">60dp</dimen>
     <dimen name="main_top_appbar_height">450dp</dimen>
     <dimen name="cardview_radius">10dp</dimen>
+    <dimen name="cardview_elevation">4dp</dimen>
+    <dimen name="dialog_width">100dp</dimen>
+    <dimen name="dialog_height">100dp</dimen>
+
 </resources>

@@ -16,4 +16,6 @@
     <color name="text_bg_color_img_item">#7a4892fa</color>
 
     <color name="title_bg">#aa4892fa</color>
+
+    <color name="dialog_bg">#aacccccc</color>
 </resources>

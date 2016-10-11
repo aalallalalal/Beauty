@@ -40,8 +40,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
-public class MainActivity extends BaseActivity implements IMainView, BGABanner.OnItemClickListener ,
-    GalleriesAdapter.OnItemClickListener,CategoriesAdapter.OnItemClickListener{
+public class MainActivity extends BaseActivity implements IMainView, BGABanner.OnItemClickListener,
+        GalleriesAdapter.OnItemClickListener, CategoriesAdapter.OnItemClickListener {
 
     @BindView(R.id.main_banner)
     public BGABanner banner;
@@ -254,9 +254,9 @@ public class MainActivity extends BaseActivity implements IMainView, BGABanner.O
     /**
      * banner 点击回调方法
      *
-     * @param banner 广告view
-     * @param view 广告item中的view
-     * @param model 每item 的数据
+     * @param banner   广告view
+     * @param view     广告item中的view
+     * @param model    每item 的数据
      * @param position 点击位置
      */
     @Override
@@ -270,10 +270,11 @@ public class MainActivity extends BaseActivity implements IMainView, BGABanner.O
 
     /**
      * 热图item点击监听事件
+     *
      * @param position
      */
     @Override
-    public void onItemClick(int position,Gallery gallery) {
+    public void onItemClick(int position, Gallery gallery) {
         Intent intent = new Intent();
         intent.putExtra("GALLERY", gallery);
         intent.setClass(this, GalleryActivity.class);
@@ -282,6 +283,7 @@ public class MainActivity extends BaseActivity implements IMainView, BGABanner.O
 
     /**
      * 分类item点击监听事件
+     *
      * @param position
      * @param category
      */

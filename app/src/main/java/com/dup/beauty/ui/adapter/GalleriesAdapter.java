@@ -136,7 +136,7 @@ public class GalleriesAdapter extends RecyclerView.Adapter<GalleriesAdapter.MyVi
                 @Override
                 public void onClick(View view) {
                     if (mItemClickListener != null) {
-                        mItemClickListener.onItemClick(position, mData.get(position));
+                        mItemClickListener.onItemClick(position, mData.get(position-1));//-1是因为xrecycler有header
                     }
                 }
             });
