@@ -1,9 +1,9 @@
 package com.dup.beauty.ui.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +21,7 @@ import com.dup.beauty.presenter.contract.IMainPresenter;
 import com.dup.beauty.presenter.impl.MainPresenter;
 import com.dup.beauty.ui.adapter.BannerAdapter;
 import com.dup.beauty.ui.adapter.CategoriesAdapter;
-import com.dup.beauty.ui.adapter.ImgsAdapter;
+import com.dup.beauty.ui.adapter.GalleriesAdapter;
 import com.dup.beauty.util.Blur;
 import com.dup.beauty.util.L;
 import com.dup.beauty.view.IMainView;
@@ -40,7 +40,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
-public class MainActivity extends BaseActivity implements IMainView, BGABanner.OnItemClickListener {
+public class MainActivity extends BaseActivity implements IMainView, BGABanner.OnItemClickListener ,
+    GalleriesAdapter.OnItemClickListener{
 
     @BindView(R.id.main_banner)
     public BGABanner banner;
@@ -53,9 +54,8 @@ public class MainActivity extends BaseActivity implements IMainView, BGABanner.O
     @BindView(R.id.main_blur_iv)
     public ImageView blurImageView;
 
-    private IMainPresenter mainPresenter;
-
-    private ImgsAdapter imgsAdapter;
+    private IMainPresenter mMainPresenter;
+    private GalleriesAdapter mGalleriesAdapter;
 
     /**
      * 控制banner的停 动
@@ -81,7 +81,6 @@ public class MainActivity extends BaseActivity implements IMainView, BGABanner.O
     @Override
     protected void initData() {
         super.initData();
-        bindPresenters();
 
         requestData();
     }
@@ -90,6 +89,8 @@ public class MainActivity extends BaseActivity implements IMainView, BGABanner.O
     @Override
     protected void initAction() {
         super.initAction();
+        banner.setOnItemClickListener(this);
+
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -117,10 +118,9 @@ public class MainActivity extends BaseActivity implements IMainView, BGABanner.O
 
             @Override
             public void onLoadMore() {
-                mainPresenter.fetchMoreHotImgs();
+                mMainPresenter.fetchMoreHotImgs();
             }
         });
-
 
     }
 
@@ -135,7 +135,6 @@ public class MainActivity extends BaseActivity implements IMainView, BGABanner.O
                 (Math.abs(verticalOffset) - total * Constant.BANNER_AUTO_VALVE) /
                         (total * (1f - Constant.BANNER_AUTO_VALVE));
 
-        L.e("ratio:" + ratio);
         blurImageView.setAlpha(ratio);
     }
 
@@ -177,16 +176,17 @@ public class MainActivity extends BaseActivity implements IMainView, BGABanner.O
      */
     private void requestData() {
         //请求banner图片数据
-        mainPresenter.fetchBannerAndHotImgs();
+        mMainPresenter.fetchBannerAndHotImgs();
         //请求分类列表
-        mainPresenter.fetchCatalog();
+        mMainPresenter.fetchCatalog();
     }
 
     /**
      * 绑定presenters
      */
-    private void bindPresenters() {
-        mainPresenter = new MainPresenter(this, this);
+    @Override
+    protected void bindPresenters() {
+        mMainPresenter = new MainPresenter(this, this);
     }
 
     @Override
@@ -219,8 +219,9 @@ public class MainActivity extends BaseActivity implements IMainView, BGABanner.O
         /*2.设置hot*/
         DisplayMetrics metric = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metric);
-        imgsAdapter = new ImgsAdapter(MainActivity.this, listHot, metric.widthPixels);
-        recyclerViewHot.setAdapter(imgsAdapter);
+        mGalleriesAdapter = new GalleriesAdapter(MainActivity.this, listHot, metric.widthPixels);
+        mGalleriesAdapter.setItemClickListener(this);
+        recyclerViewHot.setAdapter(mGalleriesAdapter);
 
     }
 
@@ -239,28 +240,51 @@ public class MainActivity extends BaseActivity implements IMainView, BGABanner.O
     /**
      * 获取到更多图片数据
      *
-     * @param list 是新增图片数据，不是全部图片
+     * @param list 注意是新增图片数据，不是全部图片
      */
     @Override
     public void onMoreHotImgs(List<Gallery> list, int page) {
         recyclerViewHot.loadMoreComplete();
-        int nowCount = imgsAdapter.getItemCount();
-        imgsAdapter.getData().addAll(list);
-        imgsAdapter.notifyItemRangeInserted(nowCount + 1, list.size());//这里加1是考虑进了header
+        int nowCount = mGalleriesAdapter.getItemCount();
+        mGalleriesAdapter.getData().addAll(list);
+        mGalleriesAdapter.notifyItemRangeInserted(nowCount + 1, list.size());//这里加1是考虑进了header
+    }
+
+    /**
+     * 根据图库id 获取到了此图库中图片们（Picture.class)
+     * @param gallery 获取到为此id 的gallery
+     * @param id 点击的图库id
+     */
+    @Override
+    public void onGalleryWithId(Gallery gallery, long id) {
+        L.e("List is :"+gallery.getList().toString());
+        Intent intent = new Intent();
+        intent.putExtra("GALLERY", gallery);
+        intent.setClass(this, GalleryActivity.class);
+        startActivity(intent);
     }
 
 
     /**
      * banner 点击回调方法
      *
-     * @param banner
-     * @param view
-     * @param model
-     * @param position
+     * @param banner 广告view
+     * @param view 广告item中的view
+     * @param model 每item 的数据
+     * @param position 点击位置
      */
     @Override
     public void onBannerItemClick(BGABanner banner, View view, Object model, int position) {
         Gallery gallery = (Gallery) model;
-        Snackbar.make(view, "点击了：" + gallery.getTitle(), Snackbar.LENGTH_LONG).show();
+        mMainPresenter.fetchGalleryWithId(gallery.getId());
+    }
+
+    /**
+     * 热图item点击监听事件
+     * @param position
+     */
+    @Override
+    public void onItemClick(int position,Gallery gallery) {
+        mMainPresenter.fetchGalleryWithId(gallery.getId());
     }
 }

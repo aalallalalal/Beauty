@@ -24,7 +24,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
                     | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
@@ -36,14 +36,17 @@ public abstract class BaseActivity extends AppCompatActivity {
             window.setNavigationBarColor(Color.TRANSPARENT);
         }
 
+        bindPresenters();
         initView();
         initData();
         initAction();
     }
 
-    protected abstract
+    protected void bindPresenters() {
+    }
+
     @LayoutRes
-    int getLayoutId();
+    protected abstract int getLayoutId();
 
     protected void initAction() {
     }

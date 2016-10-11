@@ -30,8 +30,8 @@ import rx.schedulers.Schedulers;
  */
 public class MainPresenter implements IMainPresenter {
 
-    private Activity activity;
-    private IMainView mainView;
+    private Activity mActivity;
+    private IMainView mMainView;
 
     //主界面推荐列表
     private ArrayList<Gallery> hotGalleries;
@@ -43,8 +43,8 @@ public class MainPresenter implements IMainPresenter {
     private int pageNum = 2;
 
     public MainPresenter(Activity activity, IMainView mainView) {
-        this.activity = activity;
-        this.mainView = mainView;
+        this.mActivity = activity;
+        this.mMainView = mainView;
     }
 
     /**
@@ -54,8 +54,8 @@ public class MainPresenter implements IMainPresenter {
     public void fetchBannerAndHotImgs() {
         //1.如果banner数据存在，则不进行网络请求，直接加载
         if (bannerGalleries != null && bannerGalleries.size() == Constant.BANNER_NUM) {
-            mainView.onBannerAndHotImgs(bannerGalleries, hotGalleries);
-            L.d("从内存中 获取banner和hot图片数据");
+            mMainView.onBannerAndHotImgs(bannerGalleries, hotGalleries);
+            L.d("从内存中 获取banner和hot图片数据 成功");
             return;
         }
 
@@ -65,13 +65,13 @@ public class MainPresenter implements IMainPresenter {
             for (int i = 0; i < Constant.BANNER_NUM; i++) {
                 bannerGalleries.add(hotGalleries.get(i));
             }
-            mainView.onBannerAndHotImgs(bannerGalleries, hotGalleries);
-            L.d("从Hot列表中 获取banner和hot图片数据");
+            mMainView.onBannerAndHotImgs(bannerGalleries, hotGalleries);
+            L.d("从Hot列表中 获取banner和hot图片数据 成功");
             return;
         }
 
         //3.没有缓存存在,则直接网络请求加载
-        ApiClient.getApiService(activity).getHotGalleries(1, Constant.PAGE_COUNT, 0).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        ApiClient.getApiService(mActivity).getHotGalleries(1, Constant.PAGE_COUNT, 0).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
                 .map(new Func1<Galleries, ArrayList<Gallery>>() {
                     @Override
@@ -105,15 +105,15 @@ public class MainPresenter implements IMainPresenter {
                 .subscribe(new Observer<ArrayList<Gallery>>() {
                     @Override
                     public void onCompleted() {
-                        L.d("从网络 获取banner和hot图片数据");
-                        mainView.onBannerAndHotImgs(bannerGalleries, hotGalleries);
+                        L.d("从网络 获取banner和hot图片数据 成功");
+                        mMainView.onBannerAndHotImgs(bannerGalleries, hotGalleries);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         L.e("从网络 获取banner和hot图片数据失败." + e.getMessage());
-                        TastyToast.makeText(activity.getApplicationContext(),
-                                StringUtil.getStrRes(activity.getApplicationContext(), R.string.img_error)
+                        TastyToast.makeText(mActivity.getApplicationContext(),
+                                StringUtil.getStrRes(mActivity.getApplicationContext(), R.string.img_error)
                                 , TastyToast.LENGTH_SHORT, TastyToast.WARNING);
                     }
 
@@ -132,37 +132,37 @@ public class MainPresenter implements IMainPresenter {
     public void fetchCatalog() {
         //1.缓存信息
         if (categoryList != null && categoryList.size() > 0) {
-            mainView.onCategories(categoryList);
-            L.d("从内存 获取分类列表数据");
+            mMainView.onCategories(categoryList);
+            L.d("从内存 获取分类列表数据 成功");
             return;
         }
 
         //2.数据库获取信息
         categoryList = (ArrayList<Category>) DBUtil.getInstance().queryCategoryList();
         if (categoryList != null && categoryList.size() > 0) {
-            mainView.onCategories(categoryList);
-            L.d("从数据库 获取分类列表数据");
+            mMainView.onCategories(categoryList);
+            L.d("从数据库 获取分类列表数据 成功");
             return;
         }
 
         //3.如果数据库数据不存在,则网络请求.并存入数据库
-        ApiClient.getApiService(activity).getCategories().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        ApiClient.getApiService(mActivity).getCategories().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
                 .subscribe(new Observer<Categories>() {
                     @Override
                     public void onCompleted() {
-                        L.d("从网络  获取分类列表数据");
+                        L.d("从网络  获取分类列表数据 成功");
                         //1.放入数据库
                         DBUtil.getInstance().insertCategoryList(categoryList);
                         //2.回调ui
-                        mainView.onCategories(categoryList);
+                        mMainView.onCategories(categoryList);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         L.e("从网络 获取分类列表数据失败." + e.getMessage());
-                        TastyToast.makeText(activity.getApplicationContext(),
-                                StringUtil.getStrRes(activity.getApplicationContext(), R.string.category_error)
+                        TastyToast.makeText(mActivity.getApplicationContext(),
+                                StringUtil.getStrRes(mActivity.getApplicationContext(), R.string.category_error)
                                 , TastyToast.LENGTH_SHORT, TastyToast.WARNING);
                     }
 
@@ -179,7 +179,7 @@ public class MainPresenter implements IMainPresenter {
      */
     @Override
     public void fetchMoreHotImgs() {
-        ApiClient.getApiService(activity).getHotGalleries(pageNum, Constant.PAGE_COUNT, 0).subscribeOn(Schedulers.io())
+        ApiClient.getApiService(mActivity).getHotGalleries(pageNum, Constant.PAGE_COUNT, 0).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
                 .subscribe(new Observer<Galleries>() {
@@ -191,15 +191,44 @@ public class MainPresenter implements IMainPresenter {
                     @Override
                     public void onError(Throwable e) {
                         L.e("从网络 获取更多数据失败." + e.getMessage());
-                        TastyToast.makeText(activity.getApplicationContext(),
-                                StringUtil.getStrRes(activity.getApplicationContext(), R.string.loadmore_error)
+                        TastyToast.makeText(mActivity.getApplicationContext(),
+                                StringUtil.getStrRes(mActivity.getApplicationContext(), R.string.loadmore_error)
                                 , TastyToast.LENGTH_SHORT, TastyToast.WARNING);
                     }
 
                     @Override
                     public void onNext(Galleries galleries) {
-                        mainView.onMoreHotImgs(galleries.getGalleries(), pageNum);
+                        mMainView.onMoreHotImgs(galleries.getGalleries(), pageNum);
                     }
                 });
+    }
+
+    /**
+     * 点击item，获取次item图库中的 图片们
+     */
+    @Override
+    public void fetchGalleryWithId(final long id) {
+        ApiClient.getApiService(mActivity).getPictures(id).subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .unsubscribeOn(Schedulers.io())
+        .subscribe(new Observer<Gallery>() {
+            @Override
+            public void onCompleted() {
+                L.d("从网络  获取 图库 "+id+" 成功");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                L.e("从网络 获取 图库 "+id+" 失败." + e.getMessage());
+                TastyToast.makeText(mActivity.getApplicationContext(),
+                        StringUtil.getStrRes(mActivity.getApplicationContext(), R.string.gallery_error)
+                        , TastyToast.LENGTH_SHORT, TastyToast.WARNING);
+            }
+
+            @Override
+            public void onNext(Gallery gallery) {
+                mMainView.onGalleryWithId(gallery,id);
+            }
+        });
     }
 }

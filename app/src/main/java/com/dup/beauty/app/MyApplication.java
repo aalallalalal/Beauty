@@ -17,9 +17,17 @@ import java.util.Locale;
  * Created by DP on 2016/9/18.
  */
 public class MyApplication extends Application {
+    private static MyApplication INSTANCE;
+
+    public static MyApplication getInstance(){
+        return INSTANCE;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        INSTANCE = this;
+
         L.setDefTag(Constant.TAG);
 
         DBUtil.getInstance().init(getApplicationContext());

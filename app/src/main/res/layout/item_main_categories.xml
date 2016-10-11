@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="80dp"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -13,7 +13,7 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/item_main_categories_iv"
         android:layout_width="60dp"
-        android:layout_height="0dp"
+        android:layout_height="60dp"
         android:layout_gravity="center_horizontal"
         android:layout_weight="1"
         app:civ_border_color="@color/colorPrimary_trans"

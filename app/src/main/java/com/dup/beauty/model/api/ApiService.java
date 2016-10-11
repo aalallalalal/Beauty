@@ -2,6 +2,7 @@ package com.dup.beauty.model.api;
 
 import com.dup.beauty.model.entity.Categories;
 import com.dup.beauty.model.entity.Galleries;
+import com.dup.beauty.model.entity.Gallery;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -61,5 +62,27 @@ public interface ApiService {
     @GET("/tnfs/api/classify")
     Observable<Categories> getCategories();
 
+    /**
+     * 根据gallery.id 获取该图库中的图片们。
+     * {
+     "status":true,
+     "count":21,
+     "fcount":0,
+     "galleryclass":3,
+     "id":1,
+     "url":"http://www.tngou.net/tnfs/show/1",
+     "img":"/ext/150714/aeb85cdb34f325ccfb3ae0928f846d2d.jpg",
+     "rcount":0,
+     "size":18,
+     "time":1436874237000,
+     "title":"絕對吸引"，
+     "list":"[
+     {\"gallery\":1,\"id\":1,\"src\":\"/ext/150714/aeb85cdb34f325ccfb3ae0928f846d2d.jpg\"},
+     {……}
+     ]"
+     }
+     */
+    @GET("/tnfs/api/show")
+    Observable<Gallery> getPictures(@Query("id") long id);
 
 }

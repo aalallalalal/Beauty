@@ -1,6 +1,7 @@
 package com.dup.beauty.presenter.contract;
 
 /**
+ * 主界面MainActivity 的presenter
  * Created by DP on 2016/9/18.
  */
 public interface IMainPresenter {
@@ -19,5 +20,10 @@ public interface IMainPresenter {
      *  获取首页hot图片数据
      */
     void fetchMoreHotImgs();
+
+    /**
+     * 点击item，获取次item图库中的 图片们
+     */
+    void fetchGalleryWithId(long id);
 
 }

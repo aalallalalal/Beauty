@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Beauty</string>
-    
+
     <string name="catalog">分类</string>
     <string name="recommend">推荐</string>
 
@@ -10,4 +10,6 @@
     <string name="loadmore_error">加载更多失败...</string>
     <string name="category_error">图片分类获取失败...</string>
     <string name="img_error">图片加载失败...</string>
+    <string name="gallery_error">图库加载失败...</string>
+
 </resources>

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 主界面 MainActivity 的view
  * Created by DP on 2016/9/18.
  */
 public interface IMainView {
@@ -17,4 +18,5 @@ public interface IMainView {
 
     void onMoreHotImgs(List<Gallery> list,int page);
 
+    void onGalleryWithId(Gallery gallery,long id);
 }

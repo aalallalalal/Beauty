@@ -21,4 +21,14 @@ public class Constant {
      */
     public static final int PAGE_COUNT = 20;
 
+    /**
+     * 获取列表中 图片宽度为屏幕二分之一宽 / PIC_WIDTH_RATIO
+     */
+    public static final float PIC_WIDTH_RATIO = 1.8f;
+
+    /**
+     * 获取列表中 图片宽度最大为800px
+     */
+    public static final int PIC_MAX_WIDTH = 800;
+
 }

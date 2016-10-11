@@ -16,6 +16,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.dup.beauty.R;
+import com.dup.beauty.app.Constant;
 import com.dup.beauty.model.api.ApiDefine;
 import com.dup.beauty.model.entity.Gallery;
 
@@ -26,10 +27,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * 图片列表 adapter
+ * 图库封面列表 adapter
  * Created by DP on 2016/9/27.
  */
-public class ImgsAdapter extends RecyclerView.Adapter<ImgsAdapter.MyViewHolder> {
+public class GalleriesAdapter extends RecyclerView.Adapter<GalleriesAdapter.MyViewHolder> {
     private Context context;
     /**
      * 存放图片数据
@@ -47,10 +48,10 @@ public class ImgsAdapter extends RecyclerView.Adapter<ImgsAdapter.MyViewHolder> 
     private int itemWidth;
 
 
-    public ImgsAdapter(Context context, List<Gallery> data, int width) {
+    public GalleriesAdapter(Context context, List<Gallery> data, int width) {
         this.mData = (ArrayList<Gallery>) data;
         this.context = context;
-        this.itemWidth = width / 2;
+        this.itemWidth = (width / 2) > Constant.PIC_MAX_WIDTH ? Constant.PIC_MAX_WIDTH : (width / 2);//如果需求值 大于 原图片最大值，图片将不显示。所以这控制一下
     }
 
 
@@ -64,14 +65,15 @@ public class ImgsAdapter extends RecyclerView.Adapter<ImgsAdapter.MyViewHolder> 
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_imgs, parent, false));
+        return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_gallery, parent, false));
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
         Gallery gallery = mData.get(position);
-        String url = ApiDefine.getImageUrlWithSize(gallery.getImg(), (int) (itemWidth / 1.8f), 0);
+        //这里设置图片宽度 为屏幕一半除1.8 宽
+        String url = ApiDefine.getImageUrlWithSize(gallery.getImg(), (int) (itemWidth / Constant.PIC_WIDTH_RATIO), 0);
 
         if (sizeMap.containsKey(url) && !sizeMap.get(url).isNull()) {
             /*当图片大小数据已得到,先改变item大小,后加载图片*/
@@ -102,6 +104,9 @@ public class ImgsAdapter extends RecyclerView.Adapter<ImgsAdapter.MyViewHolder> 
         holder.tvTitle.setText(gallery.getTitle() + "");
         holder.tvCount.setText(count);
         holder.tvSize.setText(size);
+
+        //设置点击监听
+        holder.setItemClickListener(holder.getLayoutPosition());
     }
 
     @Override
@@ -110,20 +115,32 @@ public class ImgsAdapter extends RecyclerView.Adapter<ImgsAdapter.MyViewHolder> 
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.item_imgs_iv)
+        public View itemView;
+        @BindView(R.id.item_gallery_iv)
         public ImageView iv;
-        @BindView(R.id.item_imgs_tv_title)
+        @BindView(R.id.item_gallery_tv_title)
         public TextView tvTitle;
-        @BindView(R.id.item_imgs_tv_size)
+        @BindView(R.id.item_gallery_tv_size)
         public TextView tvSize;
-        @BindView(R.id.item_imgs_tv_count)
+        @BindView(R.id.item_gallery_tv_count)
         public TextView tvCount;
 
         public MyViewHolder(View itemView) {
             super(itemView);
+            this.itemView = itemView;
             ButterKnife.bind(this, itemView);
         }
 
+        public void setItemClickListener(final int position) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mItemClickListener != null) {
+                        mItemClickListener.onItemClick(position, mData.get(position));
+                    }
+                }
+            });
+        }
     }
 
     /**
@@ -132,10 +149,6 @@ public class ImgsAdapter extends RecyclerView.Adapter<ImgsAdapter.MyViewHolder> 
     private class ImageViewTarget extends BitmapImageViewTarget {
         private MyViewHolder holder;
         private String url;
-
-        public ImageViewTarget(ImageView view) {
-            super(view);
-        }
 
         public ImageViewTarget(MyViewHolder holder, String url) {
             super(holder.iv);
@@ -207,6 +220,16 @@ public class ImgsAdapter extends RecyclerView.Adapter<ImgsAdapter.MyViewHolder> 
             }
         }
 
+    }
+
+    private OnItemClickListener mItemClickListener;
+
+    public void setItemClickListener(OnItemClickListener mItemClickListener) {
+        this.mItemClickListener = mItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position, Gallery gallery);
     }
 
 }

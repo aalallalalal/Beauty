@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item_gallery_view"
     android:layout_width="wrap_content"
     app:cardElevation="4dp"
     android:layout_height="wrap_content"
@@ -13,7 +14,7 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/item_imgs_iv"
+            android:id="@+id/item_gallery_iv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
@@ -28,7 +29,7 @@
             android:padding="3dp">
 
             <TextView
-                android:id="@+id/item_imgs_tv_title"
+                android:id="@+id/item_gallery_tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="middle"
@@ -40,7 +41,7 @@
                 android:textSize="12sp" />
 
             <LinearLayout
-                android:layout_below="@id/item_imgs_tv_title"
+                android:layout_below="@id/item_gallery_tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -53,7 +54,7 @@
                     android:src="@drawable/icon_img_size" />
 
                 <TextView
-                    android:id="@+id/item_imgs_tv_size"
+                    android:id="@+id/item_gallery_tv_size"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="middle"
@@ -69,7 +70,7 @@
 
 
                 <TextView
-                    android:id="@+id/item_imgs_tv_count"
+                    android:id="@+id/item_gallery_tv_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="middle"
