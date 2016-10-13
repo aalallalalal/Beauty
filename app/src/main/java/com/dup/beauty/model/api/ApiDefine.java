@@ -13,6 +13,7 @@ public final class ApiDefine {
     public static final String HOST_BASE_URL = "http://www.tngou.net";
 
     public static final String HOST_BASE_IMG_WITH_SIZE = "http://tnfs.tngou.net/image";
+    public static final String HOST_BASE_IMG_WITH_NO_SIZE = "http://tnfs.tngou.net/img";
 
 
     /**
@@ -30,13 +31,13 @@ public final class ApiDefine {
     }
 
     /**
-     * 组装imgurl，获取图片原图
+     * 组装imgurl，获取图片(注意这里非原图，最大图)
      *
      * @param imgUrl
      * @return
      */
     public static final String getImageUrlWithNoSize(String imgUrl) {
-        String s = ApiDefine.HOST_BASE_IMG_WITH_SIZE + imgUrl ;
+        String s = ApiDefine.HOST_BASE_IMG_WITH_NO_SIZE + imgUrl ;
         L.d("Request img url----->" + s);
         return s;
     }

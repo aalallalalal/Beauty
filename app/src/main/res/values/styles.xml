@@ -16,13 +16,25 @@
         <item name="android:textColor">@android:color/transparent</item>
     </style>
 
+    <style name="toolbar_back_icon">
+        <item name="android:layout_width">@dimen/toolbar_icon_size</item>
+        <item name="android:layout_height">@dimen/toolbar_icon_size</item>
+        <item name="android:padding">3dp</item>
+        <item name="android:background">@drawable/ic_arrow_back</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:scaleType">fitXY</item>
+    </style>
+
     <style name="base_dialog" parent="@android:style/Theme.Dialog">
-        <item name = "android:windowFrame">@null</item>
+        <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">true</item>
-        <item name = "android:windowIsTranslucent">true</item>
+        <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
+    <dimen name="toolbar_icon_size">36dp</dimen>
 </resources>

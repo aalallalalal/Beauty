@@ -18,4 +18,7 @@
     <color name="title_bg">#aa4892fa</color>
 
     <color name="dialog_bg">#aacccccc</color>
+
+    <color name="viewpager_bg">#232323</color>
+    <color name="loading_textview">#aa4892fa</color>
 </resources>

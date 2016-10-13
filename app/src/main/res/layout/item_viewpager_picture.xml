@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:paddingLeft="@dimen/viewpager_item_space"
+    android:paddingRight="@dimen/viewpager_item_space"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/item_viewpager_picture_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="@color/loading_textview"
+        android:textSize="@dimen/item_viewpager_progress_textview">
+
+    </TextView>
+
+    <uk.co.senab.photoview.PhotoView
+        android:id="@+id/item_viewpager_picture_photoview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/viewpager_item_space"
+        android:paddingRight="@dimen/viewpager_item_space" />
+
+</RelativeLayout>

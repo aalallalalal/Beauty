@@ -15,13 +15,7 @@
 
         <ImageButton
             android:id="@+id/toolbar_back"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true"
-            android:layout_margin="8dp"
-            android:adjustViewBounds="true"
-            android:background="@drawable/ic_arrow_back"
-            android:scaleType="fitXY" />
+            style="@style/toolbar_back_icon" />
 
         <TextView
             android:id="@+id/toolbar_title"

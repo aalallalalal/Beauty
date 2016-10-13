@@ -19,6 +19,7 @@ import com.dup.beauty.R;
 import com.dup.beauty.app.Constant;
 import com.dup.beauty.model.api.ApiDefine;
 import com.dup.beauty.model.entity.Gallery;
+import com.dup.beauty.model.util.GlideUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,22 +79,17 @@ public class GalleriesAdapter extends RecyclerView.Adapter<GalleriesAdapter.MyVi
         if (sizeMap.containsKey(url) && !sizeMap.get(url).isNull()) {
             /*当图片大小数据已得到,先改变item大小,后加载图片*/
             setItemSize(sizeMap.get(url), holder.iv);
-            Glide.with(context).load(url)
-                    .thumbnail(0.2f)
-                    .priority(Priority.IMMEDIATE)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(R.drawable.icon_photo_empty)
+            GlideUtil.begin(context, url, holder.tvProgress)
+                    .thumbnail(0.2f).placeholder(R.drawable.icon_photo_empty)
                     .crossFade()
                     .error(R.drawable.icon_photo_error)
                     .into(holder.iv);
         } else {
             /*当图片大小数据没得到,通过target回调,根据图片大小改变item大小*/
-            Glide.with(context).load(url)
+             /*当图片大小数据没得到,通过target回调,根据图片大小改变item大小*/
+            GlideUtil.beginAsOther(context, url, holder.tvProgress)
                     .asBitmap()
-                    .thumbnail(0.2f)
-                    .priority(Priority.IMMEDIATE)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(R.drawable.icon_photo_empty)
+                    .thumbnail(0.2f).placeholder(R.drawable.icon_photo_empty)
                     .error(R.drawable.icon_photo_error)
                     .into(new ImageViewTarget(holder, url));
         }
@@ -124,6 +120,8 @@ public class GalleriesAdapter extends RecyclerView.Adapter<GalleriesAdapter.MyVi
         public TextView tvSize;
         @BindView(R.id.item_gallery_tv_count)
         public TextView tvCount;
+        @BindView(R.id.item_gallery_progress)
+        public TextView tvProgress;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -136,7 +134,7 @@ public class GalleriesAdapter extends RecyclerView.Adapter<GalleriesAdapter.MyVi
                 @Override
                 public void onClick(View view) {
                     if (mItemClickListener != null) {
-                        mItemClickListener.onItemClick(position, mData.get(position-1));//-1是因为xrecycler有header
+                        mItemClickListener.onItemClick(position, mData.get(position - 1));//-1是因为xrecycler有header
                     }
                 }
             });

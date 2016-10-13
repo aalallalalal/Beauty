@@ -1,9 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/slidingfinishlayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent">
+
+    <com.dup.beauty.ui.widget.PicturesViewPager
+        android:id="@+id/picture_viewpager"
+        android:layout_width="match_parent"
+        android:background="@color/viewpager_bg"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true" />
 
     <RelativeLayout
         android:id="@+id/toolbar"
@@ -13,7 +19,8 @@
 
         <ImageButton
             android:id="@+id/toolbar_back"
-            style="@style/toolbar_back_icon" />
+            style="@style/toolbar_back_icon"
+             />
 
         <TextView
             android:id="@+id/toolbar_title"
@@ -27,24 +34,18 @@
             android:textColor="@color/main_top_text"
             android:textSize="14sp" />
 
-        <CheckBox
-            android:id="@+id/toolbar_favorite"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+        <ImageButton
+            android:id="@+id/toolbar_download"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="3dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_margin="8dp"
-            android:background="@drawable/ic_favorite_selector"
-            android:button="@null"
-            android:checked="false" />
+            android:adjustViewBounds="true"
+            android:background="@drawable/ic_download"
+            />
 
     </RelativeLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/gallery_recyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"></android.support.v7.widget.RecyclerView>
-
 
 </RelativeLayout>

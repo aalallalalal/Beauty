@@ -8,6 +8,8 @@ import com.dup.beauty.util.NetUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
@@ -31,22 +33,33 @@ public class HttpUtil {
     private static final int STALE = 60 * 60 * 24 * 28;//一个月
     private static int size = 100;//缓存大小MB
 
+    private static OkHttpClient.Builder builder;
+
     public static OkHttpClient getClient(Context context) {
         if (client == null) {
             synchronized (HttpUtil.class) {
                 if (client == null) {
-                    client = new OkHttpClient.Builder()
-                            .connectTimeout(10000, TimeUnit.MILLISECONDS)
-                            .readTimeout(10000, TimeUnit.MILLISECONDS)
+                    builder = getBaseBuilder()
                             .cache(new Cache(new File(context.getExternalCacheDir(), path), 1024 * 1024 * size))
-                            .addInterceptor(createHttpLoggingInterceptor())
-                            .addInterceptor(createResponceInterceptor())
-                            .addInterceptor(createCacheInterceptor(context))
-                            .build();
+                            .addInterceptor(createCacheInterceptor(context));
+                    client = builder.build();
                 }
             }
         }
         return client;
+    }
+
+    /**
+     * 获得基础网络配置。可以用于glide(不将图片请求缓存)。
+     * @return
+     */
+    public static OkHttpClient.Builder getBaseBuilder() {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder()
+                .connectTimeout(10000, TimeUnit.MILLISECONDS)
+                .readTimeout(10000, TimeUnit.MILLISECONDS)
+                .addInterceptor(createHttpLoggingInterceptor())
+                .addInterceptor(createResponceInterceptor());
+        return builder;
     }
 
     /**
@@ -97,6 +110,11 @@ public class HttpUtil {
         return i;
     }
 
+    /**
+     * 错误
+     *
+     * @return
+     */
     private static Interceptor createResponceInterceptor() {
         Interceptor i = new Interceptor() {
             @Override

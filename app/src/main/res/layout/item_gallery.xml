@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/item_gallery_view"
     android:layout_width="wrap_content"
-    app:cardElevation="@dimen/cardview_elevation"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:foreground="?android:attr/selectableItemBackground"
-    app:cardCornerRadius="@dimen/cardview_radius">
+    app:cardCornerRadius="@dimen/cardview_radius"
+    app:cardElevation="@dimen/cardview_elevation">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
 
         <ImageView
             android:id="@+id/item_gallery_iv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
-            android:scaleType="fitXY"
-             />
+            android:scaleType="fitXY" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -41,12 +41,11 @@
                 android:textSize="12sp" />
 
             <LinearLayout
-                android:layout_below="@id/item_gallery_tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_below="@id/item_gallery_tv_title"
                 android:gravity="center_vertical|right"
-                >
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="13dp"
@@ -80,5 +79,13 @@
             </LinearLayout>
 
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/item_gallery_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/loading_textview"
+            android:textSize="@dimen/item_recyclerview_progress_textview" />
     </RelativeLayout>
 </android.support.v7.widget.CardView>

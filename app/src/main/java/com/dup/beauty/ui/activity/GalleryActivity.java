@@ -1,5 +1,6 @@
 package com.dup.beauty.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -7,7 +8,6 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dup.beauty.R;
 import com.dup.beauty.app.BaseActivity;
@@ -59,6 +59,7 @@ public class GalleryActivity extends BaseActivity implements IGalleryView, Pictu
     protected void initData() {
         super.initData();
         Bundle extras = getIntent().getExtras();
+        //这里获取到的gallery没有list图片数据
         mGallery = (Gallery) extras.getSerializable("GALLERY");
 
         if (mGallery == null) {
@@ -94,11 +95,17 @@ public class GalleryActivity extends BaseActivity implements IGalleryView, Pictu
 
     @Override
     public void onItemClick(int position, Picture picture) {
-        Toast.makeText(this, "picture:" + picture.getId(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent();
+        intent.putExtra("GALLERY", mGallery);
+        intent.putExtra("POSITION", position);
+        intent.setClass(this, PictureActivity.class);
+        startActivity(intent);
     }
 
     @Override
     public void onGalleryWithId(Gallery gallery, long id) {
+        //这里获取到的gallery有list图片数据
+        mGallery = gallery;
         //设置adapter
         DisplayMetrics metric = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metric);

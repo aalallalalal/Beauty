@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <meta-data
-        android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
+        android:name="com.dup.beauty.model.util.glide.OkHttpGlideModule"
         android:value="GlideModule" />
 
     <application
@@ -26,7 +26,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.GalleryActivity" />
-        <activity android:name=".ui.activity.CategoryActivity"></activity>
+        <activity android:name=".ui.activity.CategoryActivity" />
+        <activity android:name=".ui.activity.PictureActivity"></activity>
     </application>
 
 </manifest>
