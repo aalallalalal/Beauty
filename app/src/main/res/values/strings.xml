@@ -16,4 +16,10 @@
 
     <string name="loading_percent">%1$s%%</string>
 
+    <string name="mobile_warning">当前网络状态为数据流量，请注意流量使用！</string>
+    <string name="mobile_safe">当前为离线缓存模式，放心的看美图吧！</string>
+
+    <string name="no_net">亲，没有网络...不过还有缓存数据噢！</string>
+
+    
 </resources>

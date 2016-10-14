@@ -9,6 +9,8 @@ import com.bumptech.glide.module.GlideModule;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.dup.beauty.model.util.DBUtil;
+import com.dup.beauty.model.util.HttpUtil;
+import com.dup.beauty.model.util.SPUtil;
 import com.dup.beauty.util.L;
 
 import java.util.Locale;
@@ -19,7 +21,7 @@ import java.util.Locale;
 public class MyApplication extends Application {
     private static MyApplication INSTANCE;
 
-    public static MyApplication getInstance(){
+    public static MyApplication getInstance() {
         return INSTANCE;
     }
 
@@ -33,18 +35,8 @@ public class MyApplication extends Application {
         DBUtil.getInstance().init(getApplicationContext());
 
         Glide.get(getApplicationContext()).setMemoryCategory(MemoryCategory.HIGH);
+
+        HttpUtil.addNetModeWhiteList("/tnfs/api/classify");//设置网络模式 白名单
     }
 
-    public class LoggingListener<T, R> implements RequestListener<T, R> {
-        @Override public boolean onException(Exception e, Object model, Target target, boolean isFirstResource) {
-            android.util.Log.d("GLIDE", String.format(Locale.ROOT,
-                    "onException(%s, %s, %s, %s)", e, model, target, isFirstResource), e);
-            return false;
-        }
-        @Override public boolean onResourceReady(Object resource, Object model, Target target, boolean isFromMemoryCache, boolean isFirstResource) {
-            android.util.Log.d("GLIDE", String.format(Locale.ROOT,
-                    "onResourceReady(%s, %s, %s, %s, %s)", resource, model, target, isFromMemoryCache, isFirstResource));
-            return false;
-        }
-    }
 }

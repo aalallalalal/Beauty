@@ -36,5 +36,12 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
-    <dimen name="toolbar_icon_size">36dp</dimen>
+    <style name="splashTheme" parent="AppTheme">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
 </resources>

@@ -3,17 +3,20 @@ package com.dup.beauty.model.util;
 import android.content.Context;
 
 import com.dup.beauty.BuildConfig;
+import com.dup.beauty.app.Constant;
+import com.dup.beauty.model.api.ApiDefine;
+import com.dup.beauty.util.FileUtil;
 import com.dup.beauty.util.L;
 import com.dup.beauty.util.NetUtil;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
 import okhttp3.CacheControl;
+import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -39,9 +42,20 @@ public class HttpUtil {
         if (client == null) {
             synchronized (HttpUtil.class) {
                 if (client == null) {
-                    builder = getBaseBuilder()
-                            .cache(new Cache(new File(context.getExternalCacheDir(), path), 1024 * 1024 * size))
-                            .addInterceptor(createCacheInterceptor(context));
+                    File baseFile = FileUtil.getNetCacheFile(context);
+                    File cacheFile = null;
+                    if (baseFile != null) {
+                        cacheFile = new File(FileUtil.getNetCacheFile(context), path);
+                    }
+
+                    if (cacheFile != null) {
+                        builder = getBaseBuilder()
+                                .cache(new Cache(cacheFile, 1024 * 1024 * size))
+                                .addInterceptor(createCacheInterceptor(context));
+                    } else {
+                        builder = getBaseBuilder();
+                    }
+
                     client = builder.build();
                 }
             }
@@ -51,6 +65,7 @@ public class HttpUtil {
 
     /**
      * 获得基础网络配置。可以用于glide(不将图片请求缓存)。
+     *
      * @return
      */
     public static OkHttpClient.Builder getBaseBuilder() {
@@ -58,7 +73,7 @@ public class HttpUtil {
                 .connectTimeout(10000, TimeUnit.MILLISECONDS)
                 .readTimeout(10000, TimeUnit.MILLISECONDS)
                 .addInterceptor(createHttpLoggingInterceptor())
-                .addInterceptor(createResponceInterceptor());
+                .addInterceptor(createNetModeInterceptor());
         return builder;
     }
 
@@ -111,21 +126,68 @@ public class HttpUtil {
     }
 
     /**
-     * 错误
+     * 网络模式 拦截器
      *
      * @return
      */
-    private static Interceptor createResponceInterceptor() {
+    private static Interceptor createNetModeInterceptor() {
         Interceptor i = new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
-                Response response = chain.proceed(chain.request());
+                Response response = null;
+
+                String url = chain.request().url().toString();
+                if (SPUtil.getBoolean(SPUtil.KEY_NET_MODE, false)) {
+                    //如果 是仅wifi 联网模式。判断白名单。
+                    if (!netModeWhiteList.isEmpty() && netModeWhiteList.contains(url)) {
+                        //如果此url请求 属于白名单，则继续进行网络请求。
+                        L.e("白名单：" + url + "继续网络请求");
+//                        proceed(response, chain);
+                        response = chain.proceed(chain.request());
+                        if (!response.isSuccessful()) {
+                            L.e("与服务器连接失败" + response.header(Header.RESPONSE_STATUS.toString()));
+                        }
+                    } else {
+                        //如果不属于白名单,则终止请求
+                        L.e(url + "被终止网络请求");
+                        return response;
+                    }
+                } else {
+                    //如果是非仅wifi联网模式，正常请求
+                    L.e(url + "非仅Wifi模式，继续请求");
+                    proceed(response, chain);
+                }
+                return response;
+            }
+
+            /**
+             * 正常进行请求
+             * @param response
+             * @param chain
+             * @throws IOException
+             */
+            private void proceed(Response response, Chain chain) throws IOException {
+                response = chain.proceed(chain.request());
                 if (!response.isSuccessful()) {
                     L.e("与服务器连接失败" + response.header(Header.RESPONSE_STATUS.toString()));
                 }
-                return response;
             }
         };
         return i;
     }
+
+    /**
+     * 网络模式白名单
+     */
+    private static ArrayList<String> netModeWhiteList = new ArrayList<>();
+
+    /**
+     * 添加网络模式白名单。即不管是什么模式，什么网络，白名单中的url的请求会进行网络请求
+     *
+     * @param url
+     */
+    public static void addNetModeWhiteList(String url) {
+        netModeWhiteList.add(ApiDefine.HOST_BASE_URL + url);
+    }
+
 }

@@ -31,4 +31,9 @@ public class Constant {
      */
     public static final int PIC_MAX_WIDTH = 800;
 
+    /**
+     * 闪屏页延迟时间
+     */
+    public static long SPLASH_DELAY = 1500;
+
 }

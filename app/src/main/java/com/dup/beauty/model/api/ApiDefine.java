@@ -31,7 +31,7 @@ public final class ApiDefine {
     }
 
     /**
-     * 组装imgurl，获取图片(注意这里非原图，最大图)
+     * 组装imgurl，获取默认大小图片(注意这里非原图、最大图)
      *
      * @param imgUrl
      * @return

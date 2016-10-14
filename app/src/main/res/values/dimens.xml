@@ -7,6 +7,8 @@
     <dimen name="cardview_radius">10dp</dimen>
     <dimen name="cardview_elevation">4dp</dimen>
 
+    <dimen name="toolbar_icon_size">36dp</dimen>
+
     <dimen name="dialog_width">100dp</dimen>
     <dimen name="dialog_height">100dp</dimen>
 
@@ -17,5 +19,6 @@
     <dimen name="item_viewpager_progress_textview">16sp</dimen>
     <dimen name="item_recyclerview_progress_textview">12sp</dimen>
     <dimen name="item_gallery_progress_margin">10dp</dimen>
+
 
 </resources>

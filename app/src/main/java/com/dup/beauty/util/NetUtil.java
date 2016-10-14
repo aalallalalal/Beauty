@@ -19,7 +19,7 @@ public class NetUtil {
         return ni != null && ni.isConnectedOrConnecting();
     }
 
-
+    public static final int NETTYPE_NONE = 0x00;
     public static final int NETTYPE_WIFI = 0x01;
     public static final int NETTYPE_CMWAP = 0x02;
     public static final int NETTYPE_CMNET = 0x03;
@@ -30,7 +30,7 @@ public class NetUtil {
      * @return 0：没有网络   1：WIFI网络   2：WAP网络    3：NET网络
      */
     public static int getNetworkType(Context context) {
-        int netType = 0;
+        int netType = NETTYPE_NONE;
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo == null) {
