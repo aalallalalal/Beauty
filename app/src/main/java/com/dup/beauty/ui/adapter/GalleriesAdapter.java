@@ -85,11 +85,12 @@ public class GalleriesAdapter extends RecyclerView.Adapter<GalleriesAdapter.MyVi
                     .error(R.drawable.icon_photo_error)
                     .into(holder.iv);
         } else {
-            /*当图片大小数据没得到,通过target回调,根据图片大小改变item大小*/
              /*当图片大小数据没得到,通过target回调,根据图片大小改变item大小*/
             GlideUtil.beginAsOther(context, url, holder.tvProgress)
                     .asBitmap()
-                    .thumbnail(0.2f).placeholder(R.drawable.icon_photo_empty)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .priority(Priority.IMMEDIATE)
+                    .placeholder(R.drawable.icon_photo_empty)
                     .error(R.drawable.icon_photo_error)
                     .into(new ImageViewTarget(holder, url));
         }

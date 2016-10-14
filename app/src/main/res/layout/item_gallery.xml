@@ -19,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
+            android:src="@drawable/icon_photo_error"
             android:scaleType="fitXY" />
 
         <RelativeLayout
@@ -84,7 +85,9 @@
             android:id="@+id/item_gallery_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="@dimen/item_gallery_progress_margin"
             android:textColor="@color/loading_textview"
             android:textSize="@dimen/item_recyclerview_progress_textview" />
     </RelativeLayout>

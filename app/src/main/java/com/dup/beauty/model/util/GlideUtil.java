@@ -22,7 +22,12 @@ import rx.functions.Action1;
 import rx.functions.Func1;
 
 /**
- * 封装Glide
+ * 封装Glide.
+ * 最基本配置，进度功能<br>
+ * <b>注意：网络请求下不可以设置thumbnail，加载本地图片可以。因为设置了thumbnail会导致多个线程
+ * 去下载网络图片，会导致进度数据时而显示thumbnail进度，时而原图数据进度。
+ * 经测试原因可能如上，能力有限，不知道怎么解决...</b>
+ * <p/>
  * Created by DP on 2016/10/13.
  */
 public class GlideUtil {
@@ -104,30 +109,7 @@ public class GlideUtil {
         return Glide.with(context).using(new ProgressModelLoader(new ProgressListener() {
             @Override
             public void update(final String url, long bytesRead, long contentLength, boolean done) {
-                final float percent = (float) bytesRead / contentLength;
-                Observable.just(percent)
-                        .map(new Func1<Float, Float>() {
-                            @Override
-                            public Float call(Float aFloat) {
-                                return aFloat * 100;
-                            }
-                        })
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Action1<Float>() {
-                            @Override
-                            public void call(Float percent) {
-                                int i = percent.intValue();
-                                if (url.equals(textView.getTag())) {
-                                    L.e("GR",i+" OK"+url);
-                                    textView.setText(StringUtil.getFormatStrRes(context, R.string.loading_percent, i + ""));
-                                    if (percent == 100) {
-                                        textView.setVisibility(View.GONE);
-                                    }
-                                }else {
-                                    L.e("GR","不匹配"+url+"------"+textView.getTag());
-                                }
-                            }
-                        });
+                handlerProgress(context, textView, url, bytesRead, contentLength, done);
             }
         }))
                 .load(model).diskCacheStrategy(DiskCacheStrategy.ALL).
@@ -148,32 +130,46 @@ public class GlideUtil {
         return Glide.with(context).using(new ProgressModelLoader(new ProgressListener() {
             @Override
             public void update(final String url, long bytesRead, long contentLength, boolean done) {
-                final float percent = (float) bytesRead / contentLength;
-                Observable.just(percent)
-                        .map(new Func1<Float, Float>() {
-                            @Override
-                            public Float call(Float aFloat) {
-                                return aFloat * 100;
-                            }
-                        })
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Action1<Float>() {
-                            @Override
-                            public void call(Float percent) {
-                                int i = percent.intValue();
-                                if (url.equals(textView.getTag())) {
-                                    L.e("GR",i+" OK"+url);
-                                    textView.setText(StringUtil.getFormatStrRes(context, R.string.loading_percent, i + ""));
-                                    if (percent == 100) {
-                                        textView.setVisibility(View.GONE);
-                                }}else {
-                                    L.e("GR","不匹配"+url+"------"+textView.getTag());
-                                }
-                            }
-                        });
+                handlerProgress(context, textView, url, bytesRead, contentLength, done);
             }
         }))
                 .load(model);
+    }
+
+    /**
+     * 处理获取到的进度数据，并转到主线程，设置到textview上
+     *
+     * @param context
+     * @param textView
+     * @param url
+     * @param bytesRead
+     * @param contentLength
+     * @param done
+     */
+    private static void handlerProgress(final Context context, final TextView textView, final String url, long bytesRead, long contentLength, boolean done) {
+        final float percent = (float) bytesRead / contentLength;
+        Observable.just(percent)
+                .map(new Func1<Float, Float>() {
+                    @Override
+                    public Float call(Float aFloat) {
+                        return aFloat * 100;
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Float>() {
+                    @Override
+                    public void call(Float percent) {
+                        int i = percent.intValue();
+                        if (url.equals(textView.getTag())) {
+                            textView.setText(StringUtil.getFormatStrRes(context, R.string.loading_percent, i + ""));
+                            if (percent == 100) {
+                                textView.setVisibility(View.GONE);
+                            }
+                        } else {
+                            L.d("进度view TAG不匹配");
+                        }
+                    }
+                });
     }
 
 }

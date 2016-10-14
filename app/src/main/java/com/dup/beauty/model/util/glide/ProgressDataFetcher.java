@@ -46,7 +46,7 @@ public class ProgressDataFetcher implements DataFetcher<InputStream> {
                 } else {
                     Response originalResponse = chain.proceed(chain.request());
                     return originalResponse.newBuilder()
-                            .body(new ProgressResponseBody(url,originalResponse.body(), listener))
+                            .body(new ProgressResponseBody(url, originalResponse.body(), listener))
                             .build();
                 }
             }
@@ -90,9 +90,6 @@ public class ProgressDataFetcher implements DataFetcher<InputStream> {
         // TODO: we should consider disconnecting the url connection here, but we can't do so directly because cancel is
         // often called on the main thread.
         isCancelled = true;
-        if (progressCall != null) {
-            progressCall.cancel();
-        }
     }
 
     /**

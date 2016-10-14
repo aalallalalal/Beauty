@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.dup.beauty.R;
@@ -71,7 +73,8 @@ public class PicturesAdapter extends RecyclerView.Adapter<PicturesAdapter.MyView
 
         Picture picture = mData.get(position);
         //这里设置图片宽度 为屏幕一半除1.8 宽
-        String url = ApiDefine.getImageUrlWithSize(picture.getSrc(), (int) (itemWidth / Constant.PIC_WIDTH_RATIO), 0);
+//        String url = ApiDefine.getImageUrlWithSize(picture.getSrc(), (int) (itemWidth / Constant.PIC_WIDTH_RATIO), 0);
+        String url = ApiDefine.getImageUrlWithNoSize(picture.getSrc());
 
         if (sizeMap.containsKey(url) && !sizeMap.get(url).isNull()) {
             /*当图片大小数据已得到,先改变item大小,后加载图片*/
@@ -85,7 +88,9 @@ public class PicturesAdapter extends RecyclerView.Adapter<PicturesAdapter.MyView
             /*当图片大小数据没得到,通过target回调,根据图片大小改变item大小*/
             GlideUtil.beginAsOther(context, url, holder.progress)
                     .asBitmap()
-                    .thumbnail(0.2f).placeholder(R.drawable.icon_photo_empty)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .priority(Priority.IMMEDIATE)
+                    .placeholder(R.drawable.icon_photo_empty)
                     .error(R.drawable.icon_photo_error)
                     .into(new ImageViewTarget(holder, url));
         }

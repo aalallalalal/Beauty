@@ -59,7 +59,6 @@ public class PictureViewPagerAdapter extends PagerAdapter {
 
         //添加Textview指示下载进度
         GlideUtil.begin(mContext, url, tvProgress)
-                .thumbnail(0.6f)
                 .crossFade()
                 .error(R.drawable.icon_photo_error)
                 .into(iv);
