@@ -22,6 +22,11 @@ public class SplashActivity extends BaseActivity implements ISplashView {
     }
 
     @Override
+    protected boolean isSupportSwipeBack() {
+        return false;
+    }
+
+    @Override
     protected void bindPresenters() {
         super.bindPresenters();
         presenter = new SplashPresenter(this, this);
@@ -85,5 +90,7 @@ public class SplashActivity extends BaseActivity implements ISplashView {
         presenter.startDelaySplash();
     }
 
-
+    @Override
+    public void onBackPressed() {
+    }
 }

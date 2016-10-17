@@ -50,6 +50,11 @@ public class PictureActivity extends BaseActivity implements PicturesViewPager.O
     private boolean animShowing = true;
 
     @Override
+    protected boolean isSupportSwipeBack() {
+        return true;
+    }
+
+    @Override
     protected int getLayoutId() {
         return R.layout.activity_picture;
     }

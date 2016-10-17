@@ -87,6 +87,11 @@ public class MainActivity extends BaseActivity implements IMainContentView,IMain
     }
 
     @Override
+    protected boolean isSupportSwipeBack() {
+        return false;
+    }
+
+    @Override
     protected void initView() {
         super.initView();
         ButterKnife.bind(MainActivity.this);

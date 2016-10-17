@@ -23,8 +23,9 @@
     <dimen name="item_gallery_progress_margin">10dp</dimen>
 
     <!--menu-->
-    <dimen name="main_menu_self_height">180dp</dimen>
-    <dimen name="main_menu_slef_avatar">120dp</dimen>
+    <dimen name="main_menu_self_height">200dp</dimen>
+    <dimen name="main_menu_self_avatar">120dp</dimen>
+    <dimen name="main_menu_text_size">20sp</dimen>
 
 
 </resources>

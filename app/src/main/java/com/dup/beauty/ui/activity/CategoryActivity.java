@@ -87,6 +87,11 @@ public class CategoryActivity extends BaseActivity implements ICategoryView, Gal
     }
 
     @Override
+    protected boolean isSupportSwipeBack() {
+        return true;
+    }
+
+    @Override
     protected void bindPresenters() {
         super.bindPresenters();
         mPresenter = new CategoryPresenter(this, this);

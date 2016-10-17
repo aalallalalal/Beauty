@@ -1,4 +1,4 @@
-package com.dup.beauty.ui.widget.checkBox;
+package com.dup.beauty.ui.widget;
 
 import android.animation.Animator;
 import android.animation.ArgbEvaluator;

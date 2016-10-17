@@ -55,6 +55,11 @@ public class GalleryActivity extends BaseActivity implements IGalleryView, Pictu
     }
 
     @Override
+    protected boolean isSupportSwipeBack() {
+        return true;
+    }
+
+    @Override
     protected void bindPresenters() {
         mPresenter = new GalleryPresenter(this, this);
     }

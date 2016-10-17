@@ -27,4 +27,7 @@
     <color name="toolbar_textcolor">#fff</color>
 
     <color name="bottom_bar_bg">#aaaa</color>
+    <color name="main_menu_text_color">#666</color>
+
+
 </resources>

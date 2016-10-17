@@ -20,8 +20,8 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/main_menu_self_avatar"
-                android:layout_width="@dimen/main_menu_slef_avatar"
-                android:layout_height="@dimen/main_menu_slef_avatar"
+                android:layout_width="@dimen/main_menu_self_avatar"
+                android:layout_height="@dimen/main_menu_self_avatar"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/icon_def_avatar"
@@ -48,16 +48,12 @@
 
             <Button
                 android:id="@+id/main_menu_self_login"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="15dp"
+                style="@style/menu_self_button"
                 android:text="@string/login" />
 
             <Button
                 android:id="@+id/main_menu_self_register"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                style="@style/menu_self_button"
                 android:text="@string/register" />
 
         </LinearLayout>
@@ -66,10 +62,105 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:paddingTop="10dp">
+
+            <LinearLayout
+                android:id="@+id/main_menu_item_favorite"
+                style="@style/menu_item_layout">
+
+                <ImageView
+                    style="@style/menu_item_icon"
+                    android:src="@drawable/ic_menu_favorite" />
+
+                <TextView
+                    style="@style/menu_textview"
+                    android:text="@string/menu_favorite" />
+            </LinearLayout>
 
 
+            <LinearLayout
+                android:id="@+id/main_menu_item_download"
+                style="@style/menu_item_layout">
+
+                <ImageView
+                    style="@style/menu_item_icon"
+                    android:src="@drawable/ic_menu_download" />
+
+                <TextView
+                    style="@style/menu_textview"
+                    android:text="@string/menu_download" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/main_menu_item_skin"
+                style="@style/menu_item_layout">
+
+                <ImageView
+                    style="@style/menu_item_icon"
+                    android:src="@drawable/ic_menu_skin" />
+
+                <TextView
+                    style="@style/menu_textview"
+                    android:text="@string/menu_skin" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/main_menu_item_setting"
+                style="@style/menu_item_layout">
+
+                <ImageView
+                    style="@style/menu_item_icon"
+                    android:src="@drawable/ic_menu_settings" />
+
+                <TextView
+                    style="@style/menu_textview"
+                    android:text="@string/menu_setting" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/main_menu_item_about"
+                style="@style/menu_item_layout">
+
+                <ImageView
+                    style="@style/menu_item_icon"
+                    android:src="@drawable/ic_menu_about" />
+
+                <TextView
+                    style="@style/menu_textview"
+                    android:text="@string/menu_about" />
+            </LinearLayout>
+        </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:gravity="right|center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="@string/menu_only_wifi"
+            android:textSize="18sp" />
+
+        <com.dup.beauty.ui.widget.FunSwitch
+            android:id="@+id/main_menu_only_wifi_switcher"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+    </LinearLayout>
 
 </LinearLayout>
