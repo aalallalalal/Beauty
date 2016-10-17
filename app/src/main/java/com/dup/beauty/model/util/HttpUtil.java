@@ -26,6 +26,11 @@ import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
  * 网络配置类
+ * <ul>
+ *     <li>实现网络缓存</li>
+ *     <li>实现网络请求拦截</li>
+ *     <li>实现网络log</li>
+ * </ul>
  * Created by DP on 2016/9/18.
  */
 public class HttpUtil {
@@ -141,37 +146,27 @@ public class HttpUtil {
                     //如果 是仅wifi 联网模式。判断白名单。
                     if (!netModeWhiteList.isEmpty() && netModeWhiteList.contains(url)) {
                         //如果此url请求 属于白名单，则继续进行网络请求。
-                        L.e("白名单：" + url + "继续网络请求");
-//                        proceed(response, chain);
+                        L.i("白名单：" + url + "继续网络请求");
                         response = chain.proceed(chain.request());
                         if (!response.isSuccessful()) {
                             L.e("与服务器连接失败" + response.header(Header.RESPONSE_STATUS.toString()));
                         }
                     } else {
                         //如果不属于白名单,则终止请求
-                        L.e(url + "被终止网络请求");
+                        L.i(url + "被终止网络请求");
                         return response;
                     }
                 } else {
                     //如果是非仅wifi联网模式，正常请求
-                    L.e(url + "非仅Wifi模式，继续请求");
-                    proceed(response, chain);
+                    L.i(url + "非仅Wifi模式，继续请求");
+                    response = chain.proceed(chain.request());
+                    if (!response.isSuccessful()) {
+                        L.e("与服务器连接失败" + response.header(Header.RESPONSE_STATUS.toString()));
+                    }
                 }
                 return response;
             }
 
-            /**
-             * 正常进行请求
-             * @param response
-             * @param chain
-             * @throws IOException
-             */
-            private void proceed(Response response, Chain chain) throws IOException {
-                response = chain.proceed(chain.request());
-                if (!response.isSuccessful()) {
-                    L.e("与服务器连接失败" + response.header(Header.RESPONSE_STATUS.toString()));
-                }
-            }
         };
         return i;
     }

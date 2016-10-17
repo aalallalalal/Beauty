@@ -1,8 +1,22 @@
 package com.dup.beauty.util;
 
+import android.app.Activity;
 import android.content.Context;
+import android.util.DisplayMetrics;
 
 public class DisplayUtil {
+
+    /**
+     * 获取屏幕宽带px
+     * @param activity
+     * @return
+     */
+    public static int getScreenWidthPx(Activity activity){
+        DisplayMetrics metric = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(metric);
+        return metric.widthPixels;
+    }
+
     /**
      * 将px值转换为dip或dp值，保证尺寸大小不变
      */

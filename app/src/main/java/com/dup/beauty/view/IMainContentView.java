@@ -10,7 +10,7 @@ import java.util.List;
  * 主界面 MainActivity 的view
  * Created by DP on 2016/9/18.
  */
-public interface IMainView {
+public interface IMainContentView {
 
     void onBannerAndHotImgs(ArrayList<Gallery> listBanner,ArrayList<Gallery> listHot);
 

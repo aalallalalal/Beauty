@@ -3,6 +3,7 @@ package com.dup.beauty.ui.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
@@ -17,17 +18,22 @@ import com.dup.beauty.app.BaseActivity;
 import com.dup.beauty.app.Constant;
 import com.dup.beauty.model.entity.Category;
 import com.dup.beauty.model.entity.Gallery;
-import com.dup.beauty.presenter.contract.IMainPresenter;
-import com.dup.beauty.presenter.impl.MainPresenter;
+import com.dup.beauty.presenter.contract.IMainContentPresenter;
+import com.dup.beauty.presenter.contract.IMainMenuPresenter;
+import com.dup.beauty.presenter.impl.MainContentPresenter;
+import com.dup.beauty.presenter.impl.MainMenuPresenter;
 import com.dup.beauty.ui.adapter.BannerAdapter;
 import com.dup.beauty.ui.adapter.CategoriesAdapter;
 import com.dup.beauty.ui.adapter.GalleriesAdapter;
 import com.dup.beauty.util.Blur;
+import com.dup.beauty.util.DisplayUtil;
 import com.dup.beauty.util.L;
-import com.dup.beauty.view.IMainView;
+import com.dup.beauty.view.IMainContentView;
+import com.dup.beauty.view.IMainMenuView;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,9 +46,9 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
-public class MainActivity extends BaseActivity implements IMainView, BGABanner.OnItemClickListener,
+public class MainActivity extends BaseActivity implements IMainContentView,IMainMenuView, BGABanner.OnItemClickListener,
         GalleriesAdapter.OnItemClickListener, CategoriesAdapter.OnItemClickListener {
-
+    //Content
     @BindView(R.id.main_banner)
     public BGABanner banner;
     @BindView(R.id.main_recyclerview_categories)
@@ -54,8 +60,21 @@ public class MainActivity extends BaseActivity implements IMainView, BGABanner.O
     @BindView(R.id.main_blur_iv)
     public ImageView blurImageView;
 
-    private IMainPresenter mMainPresenter;
+    //Menu
+
+
+    /**
+     * 主界面content的presenter
+     */
+    private IMainContentPresenter mMainContentPresenter;
+
+    /**
+     * 主界面menu的presenter
+     */
+    private IMainMenuPresenter mMainMenuPresenter;
+
     private GalleriesAdapter mGalleriesAdapter;
+
 
     /**
      * 控制banner的停 动
@@ -84,7 +103,6 @@ public class MainActivity extends BaseActivity implements IMainView, BGABanner.O
 
         requestData();
     }
-
 
     @Override
     protected void initAction() {
@@ -118,7 +136,7 @@ public class MainActivity extends BaseActivity implements IMainView, BGABanner.O
 
             @Override
             public void onLoadMore() {
-                mMainPresenter.fetchMoreHotImgs();
+                mMainContentPresenter.fetchMoreHotImgs();
             }
         });
 
@@ -176,9 +194,9 @@ public class MainActivity extends BaseActivity implements IMainView, BGABanner.O
      */
     private void requestData() {
         //请求banner图片数据
-        mMainPresenter.fetchBannerAndHotImgs();
+        mMainContentPresenter.fetchBannerAndHotImgs();
         //请求分类列表
-        mMainPresenter.fetchCatalog();
+        mMainContentPresenter.fetchCatalog();
     }
 
     /**
@@ -186,7 +204,8 @@ public class MainActivity extends BaseActivity implements IMainView, BGABanner.O
      */
     @Override
     protected void bindPresenters() {
-        mMainPresenter = new MainPresenter(this, this);
+        mMainContentPresenter = new MainContentPresenter(this, this);
+        mMainMenuPresenter = new MainMenuPresenter(this, this);
     }
 
     @Override
@@ -217,9 +236,7 @@ public class MainActivity extends BaseActivity implements IMainView, BGABanner.O
         banner.setData(listBanner, tips);
 
         /*2.设置hot*/
-        DisplayMetrics metric = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metric);
-        mGalleriesAdapter = new GalleriesAdapter(MainActivity.this, listHot, metric.widthPixels);
+        mGalleriesAdapter = new GalleriesAdapter(MainActivity.this, listHot, DisplayUtil.getScreenWidthPx(this));
         mGalleriesAdapter.setItemClickListener(this);
         recyclerViewHot.setAdapter(mGalleriesAdapter);
 
@@ -264,6 +281,8 @@ public class MainActivity extends BaseActivity implements IMainView, BGABanner.O
         Gallery gallery = (Gallery) model;
         Intent intent = new Intent();
         intent.putExtra("GALLERY", gallery);
+        intent.putExtra("POSITION", position);
+        intent.putExtra("GALLERIES",  mMainContentPresenter.getBannerGalleries());
         intent.setClass(this, GalleryActivity.class);
         startActivity(intent);
     }
@@ -277,6 +296,8 @@ public class MainActivity extends BaseActivity implements IMainView, BGABanner.O
     public void onItemClick(int position, Gallery gallery) {
         Intent intent = new Intent();
         intent.putExtra("GALLERY", gallery);
+        intent.putExtra("POSITION", position-1);//考虑header
+        intent.putExtra("GALLERIES",  mMainContentPresenter.getHotGalleries());
         intent.setClass(this, GalleryActivity.class);
         startActivity(intent);
     }
@@ -291,7 +312,18 @@ public class MainActivity extends BaseActivity implements IMainView, BGABanner.O
     public void onItemClick(int position, Category category) {
         Intent intent = new Intent();
         intent.putExtra("CATEGORY", category);
+        intent.putExtra("POSITION", position);
+        intent.putExtra("CATEGORIES",  mMainContentPresenter.getCategory());
         intent.setClass(this, CategoryActivity.class);
         startActivity(intent);
+    }
+
+    /**
+     * 网络模式改变回调
+     * @param isWifiMode
+     */
+    @Override
+    public void onNetMode(boolean isWifiMode) {
+
     }
 }

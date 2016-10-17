@@ -21,7 +21,9 @@ public class SPUtil {
      */
     public static final String KEY_FIRST_TIME_USE = "fist_time_use";
 
-    /*********SharePreference KEY************/
+    /*********
+     * SharePreference KEY
+     ************/
     public final static String SP_NAME = "SP_INFO";
     private static SharedPreferences preferences = MyApplication.getInstance()
             .getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
@@ -45,21 +47,18 @@ public class SPUtil {
     public static boolean setInfo(String key, String value) {
         Editor editor = preferences.edit();
         editor.putString(key, value);
-        editor.commit();
-        return true;
+        return editor.commit();
     }
 
     public static boolean setInfo(String key, boolean value) {
         Editor editor = preferences.edit();
         editor.putBoolean(key, value);
-        editor.commit();
-        return true;
+        return editor.commit();
     }
 
     public static boolean setInfo(String key, int value) {
         Editor editor = preferences.edit();
         editor.putInt(key, value);
-        editor.commit();
-        return true;
+        return editor.commit();
     }
 }

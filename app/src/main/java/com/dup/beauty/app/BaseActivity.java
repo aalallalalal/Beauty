@@ -9,6 +9,10 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.dup.beauty.model.util.HttpUtil;
+
+import okhttp3.OkHttpClient;
+
 /**
  * Created by DP on 2016/9/18.
  */

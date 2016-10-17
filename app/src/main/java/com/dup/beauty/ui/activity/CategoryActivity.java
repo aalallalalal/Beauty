@@ -137,6 +137,8 @@ public class CategoryActivity extends BaseActivity implements ICategoryView, Gal
     public void onItemClick(int position, Gallery gallery) {
         Intent intent = new Intent();
         intent.putExtra("GALLERY", gallery);
+        intent.putExtra("POSITION", position-1);//考虑header
+        intent.putExtra("GALLERIES", mPresenter.getGalleries());
         intent.setClass(this, GalleryActivity.class);
         startActivity(intent);
     }

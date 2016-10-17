@@ -10,15 +10,16 @@ import com.dup.beauty.model.entity.Category;
 import com.dup.beauty.model.entity.Galleries;
 import com.dup.beauty.model.entity.Gallery;
 import com.dup.beauty.model.util.DBUtil;
-import com.dup.beauty.presenter.contract.IMainPresenter;
+import com.dup.beauty.presenter.contract.IMainContentPresenter;
 import com.dup.beauty.util.L;
 import com.dup.beauty.util.StringUtil;
-import com.dup.beauty.view.IMainView;
+import com.dup.beauty.view.IMainContentView;
 import com.sdsmdg.tastytoast.TastyToast;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -28,10 +29,10 @@ import rx.schedulers.Schedulers;
 /**
  * Created by DP on 2016/9/18.
  */
-public class MainPresenter implements IMainPresenter {
+public class MainContentPresenter implements IMainContentPresenter {
 
     private Activity mActivity;
-    private IMainView mMainView;
+    private IMainContentView mMainView;
 
     //主界面推荐列表
     private ArrayList<Gallery> hotGalleries;
@@ -42,7 +43,7 @@ public class MainPresenter implements IMainPresenter {
     //记录该加载第几页了
     private int pageNum = 2;
 
-    public MainPresenter(Activity activity, IMainView mainView) {
+    public MainContentPresenter(Activity activity, IMainContentView mainView) {
         this.mActivity = activity;
         this.mMainView = mainView;
     }
@@ -203,4 +204,27 @@ public class MainPresenter implements IMainPresenter {
                 });
     }
 
+    @Override
+    public ArrayList<Gallery> getBannerGalleries() {
+        if (bannerGalleries != null) {
+            return bannerGalleries;
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<Gallery> getHotGalleries() {
+        if (hotGalleries != null) {
+            return hotGalleries;
+        }
+        return null;
+    }
+
+    @Override
+    public ArrayList<Category> getCategory() {
+        if (categoryList != null) {
+            return categoryList;
+        }
+        return null;
+    }
 }

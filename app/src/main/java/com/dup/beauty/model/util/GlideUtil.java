@@ -23,7 +23,10 @@ import rx.functions.Func1;
 
 /**
  * 封装Glide.
- * 最基本配置，进度功能<br>
+ * <ul>
+ * <li>glide基本配置</li>
+ * <li>进度功能</li>
+ * </ul>
  * <b>注意：网络请求下不可以设置thumbnail，加载本地图片可以。因为设置了thumbnail会导致多个线程
  * 去下载网络图片，会导致进度数据时而显示thumbnail进度，时而原图数据进度。
  * 经测试原因可能如上，能力有限，不知道怎么解决...</b>

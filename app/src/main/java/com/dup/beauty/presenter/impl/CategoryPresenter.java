@@ -6,12 +6,15 @@ import com.dup.beauty.R;
 import com.dup.beauty.app.Constant;
 import com.dup.beauty.model.api.ApiClient;
 import com.dup.beauty.model.entity.Galleries;
+import com.dup.beauty.model.entity.Gallery;
 import com.dup.beauty.presenter.contract.ICategoryPresenter;
 import com.dup.beauty.util.DialogUtil;
 import com.dup.beauty.util.L;
 import com.dup.beauty.util.StringUtil;
 import com.dup.beauty.view.ICategoryView;
 import com.sdsmdg.tastytoast.TastyToast;
+
+import java.util.ArrayList;
 
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -28,6 +31,8 @@ public class CategoryPresenter implements ICategoryPresenter {
     private int pageNum = 2;
     //记录分类id
     private long id = 0;
+
+    private ArrayList<Gallery> mData = new ArrayList<>();
 
     public CategoryPresenter(Activity activity, ICategoryView categoryView) {
         this.mActivity = activity;
@@ -55,7 +60,8 @@ public class CategoryPresenter implements ICategoryPresenter {
 
                     @Override
                     public void onNext(Galleries galleries) {
-                        mCategoryView.onGalleriesWithId(galleries.getGalleries(),pageNum,id);
+                        mData.addAll(galleries.getGalleries());
+                        mCategoryView.onGalleriesWithId(mData,pageNum,id);
                     }
                 });
     }
@@ -86,6 +92,11 @@ public class CategoryPresenter implements ICategoryPresenter {
                         DialogUtil.getInstance().dismissDialog();
                     }
                 });
+    }
+
+    @Override
+    public ArrayList<Gallery> getGalleries() {
+        return mData;
     }
 
 }

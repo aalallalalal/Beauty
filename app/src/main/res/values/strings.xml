@@ -20,6 +20,8 @@
     <string name="mobile_safe">当前为离线缓存模式，放心的看美图吧！</string>
 
     <string name="no_net">亲，没有网络...不过还有缓存数据噢！</string>
+    <string name="login">登陆</string>
+    <string name="register">注册</string>
 
-    
+
 </resources>

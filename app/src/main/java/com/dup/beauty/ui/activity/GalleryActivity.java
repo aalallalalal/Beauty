@@ -16,8 +16,12 @@ import com.dup.beauty.model.entity.Picture;
 import com.dup.beauty.presenter.contract.IGalleryPresenter;
 import com.dup.beauty.presenter.impl.GalleryPresenter;
 import com.dup.beauty.ui.adapter.PicturesAdapter;
+import com.dup.beauty.util.DisplayUtil;
+import com.dup.beauty.util.L;
 import com.dup.beauty.view.IGalleryView;
 import com.jaeger.library.StatusBarUtil;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,10 +36,18 @@ public class GalleryActivity extends BaseActivity implements IGalleryView, Pictu
     public TextView titleTv;
     @BindView(R.id.gallery_recyclerview)
     public RecyclerView recyclerView;
+    @BindView(R.id.bottom_bar_pre)
+    public TextView bottomPre;
+    @BindView(R.id.bottom_bar_after)
+    public TextView bottomAfter;
+
 
     private IGalleryPresenter mPresenter;
+
     private Gallery mGallery;
     private PicturesAdapter mAdapter;
+    private ArrayList<Gallery> mGalleries;
+    private int currentPosition = 0;
 
     @Override
     protected int getLayoutId() {
@@ -61,16 +73,73 @@ public class GalleryActivity extends BaseActivity implements IGalleryView, Pictu
         Bundle extras = getIntent().getExtras();
         //这里获取到的gallery没有list图片数据
         mGallery = (Gallery) extras.getSerializable("GALLERY");
+        mGalleries = (ArrayList<Gallery>) extras.getSerializable("GALLERIES");
+        currentPosition = extras.getInt("POSITION");
 
         if (mGallery == null) {
             finish();
             return;
         }
+        //设置上下 bar 标题
+        initBarText();
 
-        //设置标题
-        titleTv.setText(mGallery.getTitle());
         //获取网络数据
         mPresenter.fetchGalleryWithId(mGallery.getId());
+    }
+
+    /**
+     * 初始化 bar
+     */
+    private void initBarText() {
+        titleTv.setText(mGalleries.get(currentPosition).getTitle());
+
+        if (mGalleries == null || mGalleries.size() == 0 || mGalleries.size() == 1) {
+            bottomPre.setVisibility(View.GONE);
+            bottomAfter.setVisibility(View.GONE);
+            return;
+        }
+
+        if (currentPosition == 0) {
+            bottomPre.setVisibility(View.GONE);
+            bottomAfter.setVisibility(View.VISIBLE);
+            bottomAfter.setText(mGalleries.get(currentPosition + 1).getTitle());
+            return;
+        }
+        if (currentPosition == mGalleries.size() - 1) {
+            bottomPre.setVisibility(View.VISIBLE);
+            bottomAfter.setVisibility(View.GONE);
+            bottomPre.setText(mGalleries.get(currentPosition - 1).getTitle());
+            return;
+        }
+
+        bottomPre.setVisibility(View.VISIBLE);
+        bottomAfter.setVisibility(View.VISIBLE);
+        bottomPre.setText(mGalleries.get(currentPosition - 1).getTitle());
+        bottomAfter.setText(mGalleries.get(currentPosition + 1).getTitle());
+    }
+
+    /**
+     * 跳至前一项
+     *
+     * @param view
+     */
+    @OnClick(R.id.bottom_bar_pre)
+    public void onPrePress(View view) {
+        currentPosition--;
+        mPresenter.fetchGalleryWithId(mGalleries.get(currentPosition).getId());
+        initBarText();
+    }
+
+    /**
+     * 跳至后一项
+     *
+     * @param view
+     */
+    @OnClick(R.id.bottom_bar_after)
+    public void onAfterPress(View view) {
+        currentPosition++;
+        mPresenter.fetchGalleryWithId(mGalleries.get(currentPosition).getId());
+        initBarText();
     }
 
     /**
@@ -107,10 +176,9 @@ public class GalleryActivity extends BaseActivity implements IGalleryView, Pictu
         //这里获取到的gallery有list图片数据
         mGallery = gallery;
         //设置adapter
-        DisplayMetrics metric = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metric);
-        mAdapter = new PicturesAdapter(this, gallery.getList(), metric.widthPixels);
+        mAdapter = new PicturesAdapter(this, gallery.getList(), DisplayUtil.getScreenWidthPx(this));
         mAdapter.setItemClickListener(this);
-        recyclerView.setAdapter(mAdapter);
+        recyclerView.swapAdapter(mAdapter,false);
+        mAdapter.notifyDataSetChanged();
     }
 }

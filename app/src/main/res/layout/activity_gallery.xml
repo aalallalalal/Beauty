@@ -24,8 +24,8 @@
             android:ellipsize="middle"
             android:maxLength="20"
             android:maxLines="1"
-            android:textColor="@color/main_top_text"
-            android:textSize="14sp" />
+            android:textColor="@color/toolbar_textcolor"
+            android:textSize="@dimen/toolbar_textsize" />
 
         <CheckBox
             android:id="@+id/toolbar_favorite"
@@ -44,7 +44,12 @@
         android:id="@+id/gallery_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_bar"
         android:layout_below="@+id/toolbar"></android.support.v7.widget.RecyclerView>
 
+
+    <include
+        android:id="@+id/bottom_bar"
+        layout="@layout/bar_bottom" />
 
 </RelativeLayout>

@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/dialog_width"
     android:layout_height="@dimen/dialog_height"
     android:orientation="vertical"
-    app:cardBackgroundColor="@color/dialog_bg"
-    app:cardCornerRadius="@dimen/cardview_radius"
-    app:cardElevation="@dimen/cardview_elevation">
+    android:background="@drawable/dialog_bg">
 
     <ImageView
         android:id="@+id/dialog_iv_big"
@@ -21,4 +18,4 @@
         android:src="@drawable/ic_loading_small" />
 
 
-</android.support.v7.widget.CardView>
+</FrameLayout>
