@@ -2,6 +2,7 @@ package com.dup.beauty.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.DisplayMetrics;
@@ -69,7 +70,6 @@ public class GalleryActivity extends BaseActivity implements IGalleryView, Pictu
         super.initView();
         StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimary));
         ButterKnife.bind(GalleryActivity.this);
-        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
     }
 
     @Override
@@ -183,7 +183,7 @@ public class GalleryActivity extends BaseActivity implements IGalleryView, Pictu
         //设置adapter
         mAdapter = new PicturesAdapter(this, gallery.getList(), DisplayUtil.getScreenWidthPx(this));
         mAdapter.setItemClickListener(this);
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         recyclerView.swapAdapter(mAdapter,false);
-        mAdapter.notifyDataSetChanged();
     }
 }

@@ -35,7 +35,7 @@ public class PicturesAdapter extends RecyclerView.Adapter<PicturesAdapter.MyView
     /**
      * 存放图片数据
      */
-    private ArrayList<Picture> mData;
+    private ArrayList<Picture> mData = new ArrayList<>();
 
     /**
      * 存放加载过的图片大小数据
