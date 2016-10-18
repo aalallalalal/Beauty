@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
@@ -49,6 +51,8 @@ public class GalleryActivity extends BaseActivity implements IGalleryView, Pictu
     private PicturesAdapter mAdapter;
     private ArrayList<Gallery> mGalleries;
     private int currentPosition = 0;
+
+    private int direction = 1;
 
     @Override
     protected int getLayoutId() {
@@ -130,6 +134,7 @@ public class GalleryActivity extends BaseActivity implements IGalleryView, Pictu
      */
     @OnClick(R.id.bottom_bar_pre)
     public void onPrePress(View view) {
+        direction = -1;
         currentPosition--;
         mPresenter.fetchGalleryWithId(mGalleries.get(currentPosition).getId());
         initBarText();
@@ -142,6 +147,7 @@ public class GalleryActivity extends BaseActivity implements IGalleryView, Pictu
      */
     @OnClick(R.id.bottom_bar_after)
     public void onAfterPress(View view) {
+        direction = 1;
         currentPosition++;
         mPresenter.fetchGalleryWithId(mGalleries.get(currentPosition).getId());
         initBarText();
@@ -180,10 +186,19 @@ public class GalleryActivity extends BaseActivity implements IGalleryView, Pictu
     public void onGalleryWithId(Gallery gallery, long id) {
         //这里获取到的gallery有list图片数据
         mGallery = gallery;
-        //设置adapter
+
+        //设置recyclerview 和 adapter
+        LayoutAnimationController lac;
+        if(direction>0){
+            lac = AnimationUtils.loadLayoutAnimation(this,R.anim.layout_slide_in_right);
+        }else {
+            lac = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_slide_in_left);
+        }
+
+        recyclerView.setLayoutAnimation(lac);
         mAdapter = new PicturesAdapter(this, gallery.getList(), DisplayUtil.getScreenWidthPx(this));
         mAdapter.setItemClickListener(this);
-        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));//解决no adapter warning
         recyclerView.swapAdapter(mAdapter,false);
     }
 }

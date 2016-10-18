@@ -55,6 +55,9 @@ public abstract class BaseActivity extends AppCompatActivity implements MySlidin
         initAction();
     }
 
+    /**
+     * 初始化侧滑结束功能
+     */
     private void initSwipeBackFinish() {
         if (isSupportSwipeBack()) {
             MySlidingPaneLayout slidingPaneLayout = new MySlidingPaneLayout(this);
@@ -71,10 +74,12 @@ public abstract class BaseActivity extends AppCompatActivity implements MySlidin
             slidingPaneLayout.setPanelSlideListener(this);
             slidingPaneLayout.setSliderFadeColor(getResources().getColor(android.R.color.transparent));
 
+            //1.将一个透明空的view,当做menu.这样就可以露出下面的activity
             View leftView = new View(this);
-            leftView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            leftView.setLayoutParams( new MySlidingPaneLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             slidingPaneLayout.addView(leftView, 0);
 
+            //2.将当前activity先从decorview中移除掉，后加入slidepane作为content，最后将slidepane加入decorview
             ViewGroup decor = (ViewGroup) getWindow().getDecorView();
             ViewGroup decorChild = (ViewGroup) decor.getChildAt(0);
             decorChild.setBackgroundColor(getResources().getColor(android.R.color.white));
@@ -84,11 +89,19 @@ public abstract class BaseActivity extends AppCompatActivity implements MySlidin
         }
     }
 
+    /**
+     * 此界面是否支持侧滑结束
+     * @return
+     */
     protected abstract boolean isSupportSwipeBack();
 
     protected void bindPresenters() {
     }
 
+    /**
+     * 此activity界面layout
+     * @return
+     */
     @LayoutRes
     protected abstract int getLayoutId();
 
@@ -100,7 +113,6 @@ public abstract class BaseActivity extends AppCompatActivity implements MySlidin
 
     protected void initData() {
     }
-
 
     @Override
     public void onPanelOpened(View view) {

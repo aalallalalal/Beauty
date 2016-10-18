@@ -640,6 +640,9 @@ public class MySlidingPaneLayout extends ViewGroup {
             final LayoutParams lp = (LayoutParams) child.getLayoutParams();
 
             final int childWidth = child.getMeasuredWidth();
+            if (!lp.slideable) {
+                mParallaxBy = childWidth / 2;
+            }
             int offset = 0;
 
             if (lp.slideable) {
@@ -748,7 +751,7 @@ public class MySlidingPaneLayout extends ViewGroup {
                 mInitialMotionX = x;
                 mInitialMotionY = y;
 
-                if(ev.getRawX()>=mSlideableView.getWidth()/10&&!isOpen()){
+                if (ev.getRawX() >= mSlideableView.getWidth() / 10 && !isOpen()) {
                     return false;
                 }
 

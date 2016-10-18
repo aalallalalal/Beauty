@@ -25,6 +25,7 @@ import com.dup.beauty.presenter.impl.MainMenuPresenter;
 import com.dup.beauty.ui.adapter.BannerAdapter;
 import com.dup.beauty.ui.adapter.CategoriesAdapter;
 import com.dup.beauty.ui.adapter.GalleriesAdapter;
+import com.dup.beauty.ui.widget.MySlidingPaneLayout;
 import com.dup.beauty.util.Blur;
 import com.dup.beauty.util.DisplayUtil;
 import com.dup.beauty.util.L;
