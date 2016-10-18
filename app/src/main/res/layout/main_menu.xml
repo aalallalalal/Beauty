@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@color/main_bg"
+    android:orientation="vertical"
+    android:tag="skin:main_bg:background">
 
     <RelativeLayout
         android:id="@+id/main_menu_self_layout"
@@ -25,7 +27,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/icon_def_avatar"
-                app:civ_border_color="@color/colorPrimary_trans"
+                android:tag="skin:circleview_border:civ_border_color"
+                app:civ_border_color="@color/circleview_border"
                 app:civ_border_overlay="true"
                 app:civ_border_width="4dp" />
 
@@ -153,7 +156,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:tag="skin:main_menu_text_color:textColor"
             android:text="@string/menu_only_wifi"
+            android:textColor="@color/main_menu_text_color"
             android:textSize="18sp" />
 
         <com.dup.beauty.ui.widget.FunSwitch

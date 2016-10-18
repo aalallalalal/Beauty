@@ -37,6 +37,9 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 /**
+ * 更改:
+ * 1.menu最小边距
+ * 2.menu偏移效果
  * Created by DP on 2016/9/17.
  */
 public class MySlidingPaneLayout extends ViewGroup {

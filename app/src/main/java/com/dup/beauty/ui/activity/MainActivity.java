@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
@@ -11,8 +13,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.dup.beauty.R;
 import com.dup.beauty.app.BaseActivity;
 import com.dup.beauty.app.Constant;
@@ -31,6 +35,7 @@ import com.dup.beauty.util.DisplayUtil;
 import com.dup.beauty.util.L;
 import com.dup.beauty.view.IMainContentView;
 import com.dup.beauty.view.IMainMenuView;
+import com.dup.changeskin.SkinManager;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
@@ -40,6 +45,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.bingoogolapple.bgabanner.BGABanner;
 import rx.Observable;
 import rx.Subscriber;
@@ -47,8 +53,12 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
-public class MainActivity extends BaseActivity implements IMainContentView,IMainMenuView, BGABanner.OnItemClickListener,
-        GalleriesAdapter.OnItemClickListener, CategoriesAdapter.OnItemClickListener {
+public class MainActivity extends BaseActivity implements IMainContentView, IMainMenuView, BGABanner.OnItemClickListener,
+        GalleriesAdapter.OnItemClickListener, CategoriesAdapter.OnItemClickListener,
+        ColorChooserDialog.ColorCallback {
+
+    @BindView(R.id.sliding_pane)
+    public MySlidingPaneLayout slidingPaneLayout;
     //Content
     @BindView(R.id.main_banner)
     public BGABanner banner;
@@ -62,7 +72,6 @@ public class MainActivity extends BaseActivity implements IMainContentView,IMain
     public ImageView blurImageView;
 
     //Menu
-
 
     /**
      * 主界面content的presenter
@@ -96,7 +105,6 @@ public class MainActivity extends BaseActivity implements IMainContentView,IMain
     protected void initView() {
         super.initView();
         ButterKnife.bind(MainActivity.this);
-
         recyclerViewHot.setPullRefreshEnabled(false);
         recyclerViewHot.setLoadingMoreEnabled(true);
         recyclerViewHot.setLoadingMoreProgressStyle(ProgressStyle.SquareSpin);
@@ -106,7 +114,6 @@ public class MainActivity extends BaseActivity implements IMainContentView,IMain
     @Override
     protected void initData() {
         super.initData();
-
         requestData();
     }
 
@@ -145,6 +152,52 @@ public class MainActivity extends BaseActivity implements IMainContentView,IMain
                 mMainContentPresenter.fetchMoreHotImgs();
             }
         });
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (slidingPaneLayout.isOpen()) {
+            slidingPaneLayout.closePane();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    /**
+     * menu item 点击事件
+     *
+     * @param view
+     */
+    @OnClick({R.id.main_menu_item_setting, R.id.main_menu_item_skin,
+            R.id.main_menu_item_download, R.id.main_menu_item_about
+            , R.id.main_menu_item_favorite})
+    public void clickMenuItem(View view) {
+        switch (view.getId()) {
+            case R.id.main_menu_item_setting:
+
+                break;
+
+            case R.id.main_menu_item_skin:
+                new ColorChooserDialog.Builder(this, R.string.theme_dialog_title)
+                        .customColors(R.array.theme_color, null)
+                        .doneButton(R.string.done)
+                        .cancelButton(R.string.cancel)
+                        .allowUserColorInput(false)
+                        .allowUserColorInputAlpha(false)
+                        .show();
+                break;
+            case R.id.main_menu_item_download:
+
+                break;
+            case R.id.main_menu_item_about:
+
+                break;
+            case R.id.main_menu_item_favorite:
+
+                break;
+        }
+
 
     }
 
@@ -288,7 +341,7 @@ public class MainActivity extends BaseActivity implements IMainContentView,IMain
         Intent intent = new Intent();
         intent.putExtra("GALLERY", gallery);
         intent.putExtra("POSITION", position);
-        intent.putExtra("GALLERIES",  mMainContentPresenter.getBannerGalleries());
+        intent.putExtra("GALLERIES", mMainContentPresenter.getBannerGalleries());
         intent.setClass(this, GalleryActivity.class);
         startActivity(intent);
     }
@@ -302,8 +355,8 @@ public class MainActivity extends BaseActivity implements IMainContentView,IMain
     public void onItemClick(int position, Gallery gallery) {
         Intent intent = new Intent();
         intent.putExtra("GALLERY", gallery);
-        intent.putExtra("POSITION", position-1);//考虑header
-        intent.putExtra("GALLERIES",  mMainContentPresenter.getHotGalleries());
+        intent.putExtra("POSITION", position - 1);//考虑header
+        intent.putExtra("GALLERIES", mMainContentPresenter.getHotGalleries());
         intent.setClass(this, GalleryActivity.class);
         startActivity(intent);
     }
@@ -319,17 +372,43 @@ public class MainActivity extends BaseActivity implements IMainContentView,IMain
         Intent intent = new Intent();
         intent.putExtra("CATEGORY", category);
         intent.putExtra("POSITION", position);
-        intent.putExtra("CATEGORIES",  mMainContentPresenter.getCategory());
+        intent.putExtra("CATEGORIES", mMainContentPresenter.getCategory());
         intent.setClass(this, CategoryActivity.class);
         startActivity(intent);
     }
 
     /**
      * 网络模式改变回调
+     *
      * @param isWifiMode
      */
     @Override
     public void onNetMode(boolean isWifiMode) {
 
+    }
+
+    /**
+     * 选择主题色后 的回调
+     *
+     * @param dialog
+     * @param selectedColor
+     */
+    @Override
+    public void onColorSelection(@NonNull ColorChooserDialog dialog, @ColorInt int selectedColor) {
+
+        if (selectedColor == getResources().getColor(R.color.status_bar_bg)) {
+            SkinManager.getInstance().removeAnySkin();
+        } else if (selectedColor == getResources().getColor(R.color.status_bar_bg_black)) {
+            SkinManager.getInstance().changeSkin("black");
+        } else if (selectedColor == getResources().getColor(R.color.status_bar_bg_green)) {
+            SkinManager.getInstance().changeSkin("green");
+        } else if (selectedColor == getResources().getColor(R.color.status_bar_bg_pink)) {
+            SkinManager.getInstance().changeSkin("pink");
+        } else if (selectedColor == getResources().getColor(R.color.status_bar_bg_purple)) {
+            SkinManager.getInstance().changeSkin("purple");
+        } else if (selectedColor == getResources().getColor(R.color.status_bar_bg_red)) {
+            SkinManager.getInstance().changeSkin("red");
+        }
+        //这里需要清空recyclerview的缓存view，否则缓存的item不会改变颜色。这就不清空了，影响
     }
 }

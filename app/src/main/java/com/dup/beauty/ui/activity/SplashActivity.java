@@ -1,6 +1,5 @@
 package com.dup.beauty.ui.activity;
 
-
 import android.content.Intent;
 
 import com.dup.beauty.R;

@@ -16,7 +16,8 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
-        android:textColor="#777"
+        android:textColor="@color/item_category_text_bar_text"
+        android:tag="skin:item_category_text_bar_text:textColor"
         android:text="@string/recommend"
         android:textSize="16sp" />
 

@@ -12,6 +12,7 @@ import com.dup.beauty.R;
 import com.dup.beauty.model.api.ApiDefine;
 import com.dup.beauty.model.entity.Picture;
 import com.dup.beauty.model.util.GlideUtil;
+import com.dup.changeskin.SkinManager;
 
 import java.util.List;
 
@@ -47,6 +48,8 @@ public class PictureViewPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_viewpager_picture, null);
+
+        SkinManager.getInstance().injectSkin(view);
 
         //添加view佈局
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);

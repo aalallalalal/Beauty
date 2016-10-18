@@ -74,6 +74,7 @@
         <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/main_menu_text_size</item>
         <item name="android:textColor">@color/main_menu_text_color</item>
+        <item name="android:tag">skin:main_menu_text_color:textColor</item>
     </style>
 
     <style name="menu_item_layout">

@@ -19,6 +19,7 @@ import com.dup.beauty.app.Constant;
 import com.dup.beauty.model.api.ApiDefine;
 import com.dup.beauty.model.entity.Picture;
 import com.dup.beauty.model.util.GlideUtil;
+import com.dup.changeskin.SkinManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +66,9 @@ public class PicturesAdapter extends RecyclerView.Adapter<PicturesAdapter.MyView
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_picture, parent, false));
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_picture, parent, false);
+        SkinManager.getInstance().injectSkin(view);
+        return new MyViewHolder(view);
     }
 
     @Override

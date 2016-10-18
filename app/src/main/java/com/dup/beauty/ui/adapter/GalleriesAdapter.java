@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
@@ -20,6 +19,7 @@ import com.dup.beauty.app.Constant;
 import com.dup.beauty.model.api.ApiDefine;
 import com.dup.beauty.model.entity.Gallery;
 import com.dup.beauty.model.util.GlideUtil;
+import com.dup.changeskin.SkinManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +66,9 @@ public class GalleriesAdapter extends RecyclerView.Adapter<GalleriesAdapter.MyVi
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_gallery, parent, false));
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_gallery, parent, false);
+        SkinManager.getInstance().injectSkin(view);
+        return new MyViewHolder(view);
     }
 
     @Override

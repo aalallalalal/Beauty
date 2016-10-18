@@ -16,8 +16,9 @@
         android:layout_height="60dp"
         android:layout_gravity="center_horizontal"
         android:layout_weight="1"
-        app:civ_border_color="@color/colorPrimary_trans"
-        app:civ_border_width="2dp"
+        app:civ_border_color="@color/circleview_border"
+        android:tag="skin:circleview_border:civ_border_color"
+        app:civ_border_width="1dp"
         app:civ_border_overlay="true"
         android:src="@drawable/icon_category_6" />
 
@@ -26,7 +27,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:textColor="@color/text_color_seconds"
+        android:textColor="@color/item_category_text_bar_text"
+        android:tag="skin:item_category_text_bar_text:textColor"
         android:textSize="14sp" />
 
 </LinearLayout>

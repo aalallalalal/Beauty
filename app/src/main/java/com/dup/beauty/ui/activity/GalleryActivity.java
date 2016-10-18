@@ -22,6 +22,7 @@ import com.dup.beauty.ui.adapter.PicturesAdapter;
 import com.dup.beauty.util.DisplayUtil;
 import com.dup.beauty.util.L;
 import com.dup.beauty.view.IGalleryView;
+import com.dup.changeskin.SkinManager;
 import com.jaeger.library.StatusBarUtil;
 
 import java.util.ArrayList;
@@ -52,7 +53,10 @@ public class GalleryActivity extends BaseActivity implements IGalleryView, Pictu
     private ArrayList<Gallery> mGalleries;
     private int currentPosition = 0;
 
-    private int direction = 1;
+    /**
+     * 标示此页是从后而来,还是前面的.1:后面,列表项从右滑入.-1:前面,列表项从左滑入.0:没动画
+     */
+    private int direction = 0;
 
     @Override
     protected int getLayoutId() {
@@ -72,7 +76,7 @@ public class GalleryActivity extends BaseActivity implements IGalleryView, Pictu
     @Override
     protected void initView() {
         super.initView();
-        StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimary));
+        StatusBarUtil.setColor(this, SkinManager.getInstance().getResourceManager().getColor("status_bar_bg"));
         ButterKnife.bind(GalleryActivity.this);
     }
 
@@ -188,17 +192,19 @@ public class GalleryActivity extends BaseActivity implements IGalleryView, Pictu
         mGallery = gallery;
 
         //设置recyclerview 和 adapter
-        LayoutAnimationController lac;
+        LayoutAnimationController lac = null;
         if(direction>0){
             lac = AnimationUtils.loadLayoutAnimation(this,R.anim.layout_slide_in_right);
-        }else {
+        }else if(direction<0){
             lac = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_slide_in_left);
-        }
+        }else{
 
+        }
         recyclerView.setLayoutAnimation(lac);
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));//解决no adapter warning
+
         mAdapter = new PicturesAdapter(this, gallery.getList(), DisplayUtil.getScreenWidthPx(this));
         mAdapter.setItemClickListener(this);
-        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));//解决no adapter warning
         recyclerView.swapAdapter(mAdapter,false);
     }
 }

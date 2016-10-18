@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/main_top_appbar_height"
         android:background="@color/main_bg"
+        android:tag="skin:main_bg:background"
         android:fitsSystemWindows="true"
         android:weightSum="12">
 
@@ -19,6 +20,7 @@
             android:layout_weight="9"
             app:collapsedTitleTextAppearance="@style/toolbar_title_text_collapse"
             app:contentScrim="@color/title_bg"
+            android:tag="skin:title_bg:contentScrim|skin:title_bg:statusBarScrim"
             app:expandedTitleMarginStart="10dp"
             app:expandedTitleTextAppearance="@style/toolbar_title_text_expanded"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
@@ -87,6 +89,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/main_bg"
+        android:tag="skin:main_bg:background"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 

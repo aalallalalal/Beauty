@@ -26,7 +26,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@color/text_bg_color_img_item"
+            android:background="@color/item_gallery_shader_bg"
+            android:tag="skin:item_gallery_shader_bg:background"
             android:padding="3dp">
 
             <TextView
@@ -38,7 +39,8 @@
                 android:maxLength="20"
                 android:maxLines="2"
                 android:padding="5dp"
-                android:textColor="@color/text_color_img_item"
+                android:textColor="@color/item_gallery_text"
+                android:tag="skin:item_gallery_text:textColor"
                 android:textSize="12sp" />
 
             <LinearLayout
@@ -59,7 +61,8 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="middle"
                     android:maxLength="10"
-                    android:textColor="@color/text_color_img_item"
+                    android:textColor="@color/item_gallery_text"
+                    android:tag="skin:item_gallery_text:textColor"
                     android:textSize="10sp" />
 
                 <ImageView
@@ -75,7 +78,8 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="middle"
                     android:maxLength="10"
-                    android:textColor="@color/text_color_img_item"
+                    android:textColor="@color/item_gallery_text"
+                    android:tag="skin:item_gallery_text:textColor"
                     android:textSize="10sp" />
             </LinearLayout>
 
@@ -89,6 +93,7 @@
             android:layout_alignParentTop="true"
             android:layout_margin="@dimen/item_gallery_progress_margin"
             android:textColor="@color/loading_textview"
+            android:tag="skin:loading_textview:textColor"
             android:textSize="@dimen/item_recyclerview_progress_textview" />
     </RelativeLayout>
 </android.support.v7.widget.CardView>

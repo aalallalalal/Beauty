@@ -108,7 +108,7 @@ public class GlideUtil {
      * @return
      */
     public static DrawableRequestBuilder begin(final Context context, String model, final TextView textView) {
-        textView.setTag(model);
+        textView.setTag(R.id.tag_glide_progress,model);
         return Glide.with(context).using(new ProgressModelLoader(new ProgressListener() {
             @Override
             public void update(final String url, long bytesRead, long contentLength, boolean done) {
@@ -129,7 +129,7 @@ public class GlideUtil {
      * @return
      */
     public static DrawableTypeRequest<String> beginAsOther(final Context context, String model, final TextView textView) {
-        textView.setTag(model);
+        textView.setTag(R.id.tag_glide_progress,model);
         return Glide.with(context).using(new ProgressModelLoader(new ProgressListener() {
             @Override
             public void update(final String url, long bytesRead, long contentLength, boolean done) {
@@ -163,7 +163,7 @@ public class GlideUtil {
                     @Override
                     public void call(Float percent) {
                         int i = percent.intValue();
-                        if (url.equals(textView.getTag())) {
+                        if (url.equals(textView.getTag(R.id.tag_glide_progress))) {
                             textView.setText(StringUtil.getFormatStrRes(context, R.string.loading_percent, i + ""));
                             if (percent == 100) {
                                 textView.setVisibility(View.GONE);

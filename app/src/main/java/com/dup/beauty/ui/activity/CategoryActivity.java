@@ -15,6 +15,7 @@ import com.dup.beauty.presenter.contract.ICategoryPresenter;
 import com.dup.beauty.presenter.impl.CategoryPresenter;
 import com.dup.beauty.ui.adapter.GalleriesAdapter;
 import com.dup.beauty.view.ICategoryView;
+import com.dup.changeskin.SkinManager;
 import com.jaeger.library.StatusBarUtil;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -45,7 +46,7 @@ public class CategoryActivity extends BaseActivity implements ICategoryView, Gal
     @Override
     protected void initView() {
         super.initView();
-        StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimary));
+        StatusBarUtil.setColor(this, SkinManager.getInstance().getResourceManager().getColor("status_bar_bg"));
         ButterKnife.bind(CategoryActivity.this);
 
         //设置recyclerview

@@ -12,21 +12,23 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.dup.beauty.R;
-import com.dup.beauty.model.util.HttpUtil;
 import com.dup.beauty.ui.widget.MySlidingPaneLayout;
+import com.dup.changeskin.SkinManager;
+import com.dup.changeskin.attr.SkinAttrType;
 
 import java.lang.reflect.Field;
 
-import okhttp3.OkHttpClient;
 
 /**
+ * 基础activity。
+ * 实现状态栏、侧滑结束功能
  * Created by DP on 2016/9/18.
  */
 public abstract class BaseActivity extends AppCompatActivity implements MySlidingPaneLayout.PanelSlideListener {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
@@ -53,6 +55,13 @@ public abstract class BaseActivity extends AppCompatActivity implements MySlidin
         initView();
         initData();
         initAction();
+        SkinManager.getInstance().register(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SkinManager.getInstance().unregister(this);
     }
 
     /**

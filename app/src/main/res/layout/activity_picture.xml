@@ -15,6 +15,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:tag="skin:title_bg:background"
         android:background="@color/title_bg">
 
         <ImageButton
@@ -31,7 +32,8 @@
             android:ellipsize="middle"
             android:maxLength="20"
             android:maxLines="1"
-            android:textColor="@color/main_top_text"
+            android:textColor="@color/title_text"
+            android:tag="skin:title_text:textColor"
             android:textSize="14sp" />
 
         <ImageButton

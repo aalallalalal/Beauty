@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0099cc"
+    android:background="@color/splash_bg"
+    android:tag="skin:splash_bg:background"
     tools:context="com.dup.beauty.ui.activity.SplashActivity">
 
 

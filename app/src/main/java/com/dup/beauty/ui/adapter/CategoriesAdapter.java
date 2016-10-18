@@ -2,6 +2,7 @@ package com.dup.beauty.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -9,7 +10,7 @@ import android.widget.TextView;
 
 import com.dup.beauty.R;
 import com.dup.beauty.model.entity.Category;
-import com.dup.beauty.model.entity.Gallery;
+import com.dup.changeskin.SkinManager;
 
 import java.util.List;
 
@@ -31,7 +32,9 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.My
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MyViewHolder(View.inflate(parent.getContext(), R.layout.item_main_categories, null));
+        View view = LayoutInflater.from(context).inflate(R.layout.item_main_categories, parent, false);
+        SkinManager.getInstance().injectSkin(view);
+        return new MyViewHolder(view);
     }
 
     @Override

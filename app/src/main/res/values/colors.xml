@@ -1,33 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#4892fa</color>
-    <color name="colorPrimaryDark">#405fe7</color>
-    <color name="colorAccent">#2dfac3</color>
-    <color name="colorPrimary_trans">#444892fa</color>
+    <color name="colorPrimaryDark">#4892fa</color>
+    <color name="colorAccent">#4892fa</color>
 
-    <color name="main_top_bg">#405fe7</color>
-    <color name="main_top_text">#fff</color>
+    <!--默认主题色-->
+    <!--状态栏背景-->
+    <color name="status_bar_bg">#4892fa</color>
+    <!--闪屏页背景-->
+    <color name="splash_bg">#4892fa</color>
+    <!--标题字体颜色-->
+    <color name="title_text">#fff</color>
+    <!--标题背景色-->
+    <color name="title_bg">#b14892fa</color>
+    <!--界面主背景色-->
     <color name="main_bg">#fff</color>
-
-    <color name="text_color_seconds">@android:color/darker_gray</color>
-    <color name="text_color_img_item">@android:color/white</color>
-
-    <!-- <color name="text_bg_color_img_item">#9444</color>-->
-    <color name="text_bg_color_img_item">#7a4892fa</color>
-
-    <color name="title_bg">#aa4892fa</color>
-
-    <color name="dialog_bg">#aacccccc</color>
-
-    <color name="viewpager_bg">#232323</color>
+    <!--分类列表item字体颜色-->
+    <color name="item_category_text_bar_text">@android:color/darker_gray</color>
+    <!--图库item字体颜色-->
+    <color name="item_gallery_text">@android:color/white</color>
+    <!--图库item遮罩颜色-->
+    <color name="item_gallery_shader_bg">#7a4892fa</color>
+    <!--图片加载进度字体颜色-->
     <color name="loading_textview">#aa4892fa</color>
-
-    <color name="black_overlay">#66000000</color>
-    <color name="main_menu_self_text">#fff</color>
-    <color name="toolbar_textcolor">#fff</color>
-
-    <color name="bottom_bar_bg">#aaaa</color>
+    <!--menu字体颜色-->
     <color name="main_menu_text_color">#666</color>
+    <!--圆形imageview边框颜色-->
+    <color name="circleview_border">#664892fa</color>
 
+    <!--黑主题色-->
+    <!--状态栏背景-->
+    <color name="status_bar_bg_black">#333</color>
+    <!--闪屏页背景-->
+    <color name="splash_bg_black">#333</color>
+    <!--标题字体颜色-->
+    <color name="title_text_black">#aaa</color>
+    <!--标题背景色-->
+    <color name="title_bg_black">#b333</color>
+    <!--界面主背景色-->
+    <color name="main_bg_black">#333</color>
+    <!--分类列表item字体颜色-->
+    <color name="item_category_text_bar_text_black">#aaa</color>
+    <!--图库item字体颜色-->
+    <color name="item_gallery_text_black">#aaa</color>
+    <!--图库item遮罩颜色-->
+    <color name="item_gallery_shader_bg_black">#8333</color>
+    <!--图片加载进度字体颜色-->
+    <color name="loading_textview_black">#a222</color>
+    <!--menu字体颜色-->
+    <color name="main_menu_text_color_black">#aaa</color>
+    <!--圆形imageview边框颜色-->
+    <color name="circleview_border_black">#6333</color>
+
+    <!--粉色主题-->
+    <!--状态栏背景-->
+    <color name="status_bar_bg_pink">#ffb5b5</color>
+    <!--闪屏页背景-->
+    <color name="splash_bg_pink">#ffb5b5</color>
+    <!--标题字体颜色-->
+    <color name="title_text_pink">#fff</color>
+    <!--标题背景色-->
+    <color name="title_bg_pink">#b1ffb5b5</color>
+    <!--界面主背景色-->
+    <color name="main_bg_pink">#fff</color>
+    <!--分类列表item字体颜色-->
+    <color name="item_category_text_bar_text_pink">#959596</color>
+    <!--图库item字体颜色-->
+    <color name="item_gallery_text_pink">#fff</color>
+    <!--图库item遮罩颜色-->
+    <color name="item_gallery_shader_bg_pink">#81ffb5b5</color>
+    <!--图片加载进度字体颜色-->
+    <color name="loading_textview_pink">#d48d8d</color>
+    <!--menu字体颜色-->
+    <color name="main_menu_text_color_pink">#959596</color>
+    <!--圆形imageview边框颜色-->
+    <color name="circleview_border_pink">#66ffb5b5</color>
+
+    <!--绿色主题-->
+    <!--状态栏背景-->
+    <color name="status_bar_bg_green">#2eb42e</color>
+    <!--闪屏页背景-->
+    <color name="splash_bg_green">#2eb42e</color>
+    <!--标题字体颜色-->
+    <color name="title_text_green">#fff</color>
+    <!--标题背景色-->
+    <color name="title_bg_green">#b12eb42e</color>
+    <!--界面主背景色-->
+    <color name="main_bg_green">#fff</color>
+    <!--分类列表item字体颜色-->
+    <color name="item_category_text_bar_text_green">#959596</color>
+    <!--图库item字体颜色-->
+    <color name="item_gallery_text_green">#fff</color>
+    <!--图库item遮罩颜色-->
+    <color name="item_gallery_shader_bg_green">#812eb42e</color>
+    <!--图片加载进度字体颜色-->
+    <color name="loading_textview_green">#2eb42e</color>
+    <!--menu字体颜色-->
+    <color name="main_menu_text_color_green">#959596</color>
+    <!--圆形imageview边框颜色-->
+    <color name="circleview_border_green">#662eb42e</color>
+
+
+    <!--紫色主题-->
+    <!--状态栏背景-->
+    <color name="status_bar_bg_purple">#b473ff</color>
+    <!--闪屏页背景-->
+    <color name="splash_bg_purple">#b473ff</color>
+    <!--标题字体颜色-->
+    <color name="title_text_purple">#fff</color>
+    <!--标题背景色-->
+    <color name="title_bg_purple">#b1b473ff</color>
+    <!--界面主背景色-->
+    <color name="main_bg_purple">#fff</color>
+    <!--分类列表item字体颜色-->
+    <color name="item_category_text_bar_text_purple">#959596</color>
+    <!--图库item字体颜色-->
+    <color name="item_gallery_text_purple">#fff</color>
+    <!--图库item遮罩颜色-->
+    <color name="item_gallery_shader_bg_purple">#81b473ff</color>
+    <!--图片加载进度字体颜色-->
+    <color name="loading_textview_purple">#8631e7</color>
+    <!--menu字体颜色-->
+    <color name="main_menu_text_color_purple">#959596</color>
+    <!--圆形imageview边框颜色-->
+    <color name="circleview_border_purple">#66b473ff</color>
+
+    <!--红色主题-->
+    <!--状态栏背景-->
+    <color name="status_bar_bg_red">#ff4747</color>
+    <!--闪屏页背景-->
+    <color name="splash_bg_red">#ff4747</color>
+    <!--标题字体颜色-->
+    <color name="title_text_red">#fff</color>
+    <!--标题背景色-->
+    <color name="title_bg_red">#b1ff4747</color>
+    <!--界面主背景色-->
+    <color name="main_bg_red">#fff</color>
+    <!--分类列表item字体颜色-->
+    <color name="item_category_text_bar_text_red">#959596</color>
+    <!--图库item字体颜色-->
+    <color name="item_gallery_text_red">#fff</color>
+    <!--图库item遮罩颜色-->
+    <color name="item_gallery_shader_bg_red">#81ff4747</color>
+    <!--图片加载进度字体颜色-->
+    <color name="loading_textview_red">#ff4747</color>
+    <!--menu字体颜色-->
+    <color name="main_menu_text_color_red">#959596</color>
+    <!--圆形imageview边框颜色-->
+    <color name="circleview_border_red">#66ff4747</color>
+
+
+
+    <!--以下是不根据皮肤而改变的颜色-->
+
+    <!--等待层背景色-->
+    <color name="dialog_bg">#aacccccc</color>
+    <!--viewpager背景色-->
+    <color name="viewpager_bg">#333</color>
+    <!--menu昵称字体颜色-->
+    <color name="main_menu_self_text">#fff</color>
+    <!--图库底部切换 字体颜色-->
+    <color name="bottom_bar_text">#fff</color>
+    <!--图库底部切换 背景-->
+    <color name="bottom_bar_bg">#aaaa</color>
 
 </resources>
