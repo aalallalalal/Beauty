@@ -29,6 +29,7 @@ import com.dup.beauty.presenter.impl.MainMenuPresenter;
 import com.dup.beauty.ui.adapter.BannerAdapter;
 import com.dup.beauty.ui.adapter.CategoriesAdapter;
 import com.dup.beauty.ui.adapter.GalleriesAdapter;
+import com.dup.beauty.ui.widget.FunSwitch;
 import com.dup.beauty.ui.widget.MySlidingPaneLayout;
 import com.dup.beauty.util.Blur;
 import com.dup.beauty.util.DisplayUtil;
@@ -38,6 +39,7 @@ import com.dup.beauty.view.IMainMenuView;
 import com.dup.changeskin.SkinManager;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+import com.sdsmdg.tastytoast.TastyToast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -72,6 +74,11 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
     public ImageView blurImageView;
 
     //Menu
+    @BindView(R.id.main_menu_only_wifi_switcher)
+    public FunSwitch wifiOnlySwitch;
+    @BindView(R.id.main_menu_offline_switcher)
+    public FunSwitch offlineSwitch;
+
 
     /**
      * 主界面content的presenter
@@ -87,9 +94,14 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
 
 
     /**
-     * 控制banner的停 动
+     * 控制banner轮播 的停 动
      */
     private boolean isPlaying = true;
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_main;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,20 +120,69 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
         recyclerViewHot.setPullRefreshEnabled(false);
         recyclerViewHot.setLoadingMoreEnabled(true);
         recyclerViewHot.setLoadingMoreProgressStyle(ProgressStyle.SquareSpin);
-        recyclerViewHot.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
     }
 
     @Override
     protected void initData() {
         super.initData();
+        boolean netMode = mMainMenuPresenter.getNetMode();//获取网络模式
+        wifiOnlySwitch.setState(netMode);
+        boolean offlineMode = mMainMenuPresenter.getOfflineMode();//获取离线模式
+        offlineSwitch.setState(offlineMode);
+
         requestData();
     }
 
     @Override
     protected void initAction() {
         super.initAction();
+
+        /**
+         * wifionly 开关监听
+         */
+        wifiOnlySwitch.setStateChangeListener(new FunSwitch.OnStateChangeListener() {
+            @Override
+            public void onStateChanged(boolean isOpen) {
+                boolean b = mMainMenuPresenter.changeNetMode(isOpen);
+                if (!b) {
+                    isOpen = !isOpen;
+                    wifiOnlySwitch.setState(!isOpen);
+                }
+
+                if(!isOpen){
+                    //关闭仅wifi联网，重写获取主界面数据
+                    requestData();
+                }
+            }
+        });
+
+        /**
+         * offline 开关监听
+         */
+        offlineSwitch.setStateChangeListener(new FunSwitch.OnStateChangeListener() {
+            @Override
+            public void onStateChanged(boolean isOpen) {
+                boolean b = mMainMenuPresenter.changeOfflineMode(isOpen);
+                if (!b) {
+                    isOpen = !isOpen;
+                    offlineSwitch.setState(!isOpen);
+                }
+
+                if(!isOpen){
+                    //关闭离线模式，重写获取主界面数据
+                    requestData();
+                }
+            }
+        });
+
+        /**
+         * 广告栏item点击监听
+         */
         banner.setOnItemClickListener(this);
 
+        /**
+         * appbar移动距离监听，实现广告图片模糊功能
+         */
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -142,6 +203,9 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
             }
         });
 
+        /**
+         * 推荐图片列表上拉下拉刷新监听
+         */
         recyclerViewHot.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
@@ -171,7 +235,9 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
      */
     @OnClick({R.id.main_menu_item_setting, R.id.main_menu_item_skin,
             R.id.main_menu_item_download, R.id.main_menu_item_about
-            , R.id.main_menu_item_favorite})
+            , R.id.main_menu_item_favorite, R.id.main_menu_self_login
+            , R.id.main_menu_self_register
+    })
     public void clickMenuItem(View view) {
         switch (view.getId()) {
             case R.id.main_menu_item_setting:
@@ -196,6 +262,13 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
             case R.id.main_menu_item_favorite:
 
                 break;
+
+            case R.id.main_menu_self_login:
+                break;
+
+            case R.id.main_menu_self_register:
+                break;
+
         }
 
 
@@ -252,6 +325,7 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
      * 數據请求
      */
     private void requestData() {
+        recyclerViewHot.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         //请求banner图片数据
         mMainContentPresenter.fetchBannerAndHotImgs();
         //请求分类列表
@@ -266,12 +340,6 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
         mMainContentPresenter = new MainContentPresenter(this, this);
         mMainMenuPresenter = new MainMenuPresenter(this, this);
     }
-
-    @Override
-    protected int getLayoutId() {
-        return R.layout.activity_main;
-    }
-
 
     /**
      * 获取到banner图片数据
@@ -378,17 +446,7 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
     }
 
     /**
-     * 网络模式改变回调
-     *
-     * @param isWifiMode
-     */
-    @Override
-    public void onNetMode(boolean isWifiMode) {
-
-    }
-
-    /**
-     * 选择主题色后 的回调
+     * 选择主题色后 dialog的回调
      *
      * @param dialog
      * @param selectedColor
@@ -409,6 +467,6 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
         } else if (selectedColor == getResources().getColor(R.color.status_bar_bg_red)) {
             SkinManager.getInstance().changeSkin("red");
         }
-        //这里需要清空recyclerview的缓存view，否则缓存的item不会改变颜色。这就不清空了，影响
+        //这里需要清空recyclerview的缓存view，否则缓存的item不会改变颜色。这就不清空了，影响性能。
     }
 }

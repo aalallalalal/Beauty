@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="theme_color">
+        <item>@color/status_bar_bg</item>
+        <item>@color/status_bar_bg_black</item>
+        <item>@color/status_bar_bg_green</item>
+        <item>@color/status_bar_bg_pink</item>
+        <item>@color/status_bar_bg_purple</item>
+        <item>@color/status_bar_bg_red</item>
+    </array>
+</resources>

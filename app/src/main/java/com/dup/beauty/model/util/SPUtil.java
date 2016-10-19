@@ -17,6 +17,10 @@ public class SPUtil {
      */
     public static final String KEY_NET_MODE = "net_mode";
     /**
+     * 是否离线模式
+     */
+    public static final String KEY_OFFLINE_MODE = "off_line_mode";
+    /**
      * 是否第一次使用app
      */
     public static final String KEY_FIRST_TIME_USE = "fist_time_use";

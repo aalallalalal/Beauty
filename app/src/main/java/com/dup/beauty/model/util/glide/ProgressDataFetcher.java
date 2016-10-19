@@ -98,6 +98,6 @@ public class ProgressDataFetcher implements DataFetcher<InputStream> {
      * @return
      */
     private OkHttpClient.Builder getBaseHttpClient() {
-        return HttpUtil.getBaseBuilder();
+        return HttpUtil.getGlideBuilder();
     }
 }

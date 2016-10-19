@@ -27,9 +27,9 @@ import okhttp3.logging.HttpLoggingInterceptor;
 /**
  * 网络配置类
  * <ul>
- *     <li>实现网络缓存</li>
- *     <li>实现网络请求拦截</li>
- *     <li>实现网络log</li>
+ * <li>实现网络缓存</li>
+ * <li>实现网络请求拦截</li>
+ * <li>实现网络log</li>
  * </ul>
  * Created by DP on 2016/9/18.
  */
@@ -69,7 +69,7 @@ public class HttpUtil {
     }
 
     /**
-     * 获得基础网络配置。可以用于glide(不将图片请求缓存)。
+     * 获得基础网络配置。
      *
      * @return
      */
@@ -83,6 +83,47 @@ public class HttpUtil {
     }
 
     /**
+     * 获得glide网络配置。用于glide。单独写个builder的原因有二：
+     * <ul>
+     * <li>不希望将图片数据也缓存,所以没加上缓存拦截器</li>
+     * <li>因为glide的httpbuilder中没有加上缓存拦截器，所以图片请求不能强制使用缓存，导致离线模式无效。</li>
+     * </ul>
+     * 所以要单独写一个glidebuidler，加上一个控制离线缓存的拦截器。
+     *
+     * @return
+     */
+    public static OkHttpClient.Builder getGlideBuilder() {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder()
+                .connectTimeout(10000, TimeUnit.MILLISECONDS)
+                .readTimeout(10000, TimeUnit.MILLISECONDS)
+                .addInterceptor(createOffLineInterceptor())
+                .addInterceptor(createHttpLoggingInterceptor())
+                .addInterceptor(createNetModeInterceptor());
+        return builder;
+    }
+
+    /**
+     * glide离线缓存模式控制器
+     *
+     * @return
+     */
+    private static Interceptor createOffLineInterceptor() {
+        Interceptor i = new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                //如果为离线缓存模式，则终止请求。
+                if (SPUtil.getBoolean(SPUtil.KEY_OFFLINE_MODE, false)) {
+                    L.i("Glide加载图片，但为离线模式!终止请求");
+                    return null;
+                }
+                return chain.proceed(chain.request());
+            }
+        };
+        return i;
+    }
+
+
+    /**
      * 日志
      *
      * @return
@@ -92,7 +133,6 @@ public class HttpUtil {
         loggingInterceptor.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
         return loggingInterceptor;
     }
-
 
     /**
      * 缓存
@@ -107,11 +147,12 @@ public class HttpUtil {
             @Override
             public Response intercept(Chain chain) throws IOException {
                 Request request = chain.request();
-                if (!NetUtil.hasNetwork(context)) {
+                //如果没网或者为离线缓存模式，则强制使用缓存。注意：glide图片加载没有经过此拦截器，所以，这里拦截的只是非图片请求。
+                if (!NetUtil.hasNetwork(context) || SPUtil.getBoolean(SPUtil.KEY_OFFLINE_MODE, false)) {
                     request = request.newBuilder()
                             .cacheControl(CacheControl.FORCE_CACHE)
                             .build();
-                    L.w("无网络!");
+                    L.i("无网络或开启离线模式!");
                 }
                 Response originalResponse = chain.proceed(request);
                 if (NetUtil.hasNetwork(context)) {
@@ -132,7 +173,7 @@ public class HttpUtil {
 
     /**
      * 网络模式 拦截器
-     *
+     *<b>如果当前是离线模式，网络模式拦截器失效，请求将全部放行，由缓存拦截器处理。</b>
      * @return
      */
     private static Interceptor createNetModeInterceptor() {
@@ -140,6 +181,11 @@ public class HttpUtil {
             @Override
             public Response intercept(Chain chain) throws IOException {
                 Response response = null;
+
+                //如果当前是离线模式，网络模式拦截器失效，全部放行。
+                if (SPUtil.getBoolean(SPUtil.KEY_OFFLINE_MODE, false)) {
+                    return chain.proceed(chain.request());
+                }
 
                 String url = chain.request().url().toString();
                 if (SPUtil.getBoolean(SPUtil.KEY_NET_MODE, false)) {
@@ -153,7 +199,7 @@ public class HttpUtil {
                         }
                     } else {
                         //如果不属于白名单,则终止请求
-                        L.i(url + "被终止网络请求");
+                        L.i(url + "仅wifi模式，被终止网络请求");
                         return response;
                     }
                 } else {

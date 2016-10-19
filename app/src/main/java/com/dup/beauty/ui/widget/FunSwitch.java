@@ -67,7 +67,6 @@ public class FunSwitch extends View implements ValueAnimator.AnimatorUpdateListe
     private void init(Context context) {
         mPaint = new Paint();
         setState(false);
-        // TODO: View ID 和 setSavedEnable都很重要的。
         setSaveEnabled(true);
     }
 
@@ -82,15 +81,13 @@ public class FunSwitch extends View implements ValueAnimator.AnimatorUpdateListe
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        //TODO：还有padding的问题偶！！！
         float top = 0;
         float left = 0;
-        float bottom = h * 0.8f; //下边预留0.2空间来画阴影
+        float bottom = h;
         float right = w;
 
         RectF backgroundRecf = new RectF(left, top, bottom, bottom);
         mBackgroundPath = new Path();
-        //TODO:???????????
         mBackgroundPath.arcTo(backgroundRecf, 90, 180);
 
         backgroundRecf.left = right - bottom;
@@ -151,7 +148,6 @@ public class FunSwitch extends View implements ValueAnimator.AnimatorUpdateListe
         canvas.clipPath(mFacePath);
 
         float faceTransition;
-        //TODO：合理的转动区间，眼睛出现和消失的时间比为1：1,所以当fraction=0.25时，应该只显示侧脸
         if (fraction >= 0.0f && fraction < 0.5f) {
             faceTransition = fraction * mFaceRadius * 4;
         } else if (fraction <= NORMAL_ANIM_MAX_FRACTION) {
@@ -209,7 +205,6 @@ public class FunSwitch extends View implements ValueAnimator.AnimatorUpdateListe
     }
 
     private void drawMouth(Canvas canvas, float fraction) {
-        //TODO:使用贝塞尔曲线来画嘴
         float eyeRectWidth = mFaceRadius * 0.2f;
         float eyeXOffSet = mFaceRadius * 0.14f;
         float eyeYOffSet = mFaceRadius * 0.21f;
@@ -268,6 +263,9 @@ public class FunSwitch extends View implements ValueAnimator.AnimatorUpdateListe
                 } else {
                     startOpenAnimation();
                     mIsOpen = true;
+                }
+                if (mStateChangeListener != null) {
+                    mStateChangeListener.onStateChanged(mIsOpen);
                 }
                 return true;
         }
@@ -398,4 +396,15 @@ public class FunSwitch extends View implements ValueAnimator.AnimatorUpdateListe
             }
         };
     }
+
+    private OnStateChangeListener mStateChangeListener;
+
+    public void setStateChangeListener(OnStateChangeListener mStateChangeListener) {
+        this.mStateChangeListener = mStateChangeListener;
+    }
+
+    public interface OnStateChangeListener {
+        void onStateChanged(boolean isOpen);
+    }
+
 }

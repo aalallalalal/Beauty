@@ -6,13 +6,25 @@ package com.dup.beauty.presenter.contract;
 public interface IMainMenuPresenter {
 
     /**
-     * 获取网络模式
+     * 是否仅wifi联网。
      */
-    public void getNetMode();
+    boolean getNetMode();
 
     /**
      * 设置网络模式
      * @param isWifiOnly
      */
-    public void changeNetMode(boolean isWifiOnly);
+    boolean changeNetMode(boolean isWifiOnly);
+
+    /**
+     * 是否是离线模式
+     * @return
+     */
+    boolean getOfflineMode();
+
+    /**
+     * 设置是否是离线模式
+     * @return
+     */
+    boolean changeOfflineMode(boolean isOffline);
 }

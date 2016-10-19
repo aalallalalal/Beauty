@@ -19,19 +19,34 @@ public class MainMenuPresenter implements IMainMenuPresenter {
         this.mView = view;
     }
 
+    /**
+     * 是否仅wifi联网
+     *
+     * @return
+     */
     @Override
-    public void getNetMode() {
+    public boolean getNetMode() {
         boolean isWifiMode = SPUtil.getBoolean(SPUtil.KEY_NET_MODE, false);
-        mView.onNetMode(isWifiMode);
+        return isWifiMode;
     }
 
     @Override
-    public void changeNetMode(boolean isWifiOnly) {
+    public boolean changeNetMode(boolean isWifiOnly) {
         boolean b = SPUtil.setInfo(SPUtil.KEY_NET_MODE, isWifiOnly);
-        if (b) {
-            mView.onNetMode(isWifiOnly);
-        }else {
-            mView.onNetMode(!isWifiOnly);
-        }
+        return b;
     }
+
+    @Override
+    public boolean getOfflineMode() {
+        boolean isOfflineMode = SPUtil.getBoolean(SPUtil.KEY_OFFLINE_MODE, false);
+        return isOfflineMode;
+    }
+
+    @Override
+    public boolean changeOfflineMode(boolean isOffline) {
+        boolean b = SPUtil.setInfo(SPUtil.KEY_OFFLINE_MODE, isOffline);
+        return b;
+    }
+
+
 }

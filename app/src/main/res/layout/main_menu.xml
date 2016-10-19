@@ -148,24 +148,53 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:gravity="right|center_vertical"
-        android:orientation="horizontal"
-        android:padding="10dp">
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingRight="20dp">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:tag="skin:main_menu_text_color:textColor"
-            android:text="@string/menu_only_wifi"
-            android:textColor="@color/main_menu_text_color"
-            android:textSize="18sp" />
+            android:layout_margin="4dp"
+            android:gravity="right|center_vertical"
+            android:orientation="horizontal">
 
-        <com.dup.beauty.ui.widget.FunSwitch
-            android:id="@+id/main_menu_only_wifi_switcher"
-            android:layout_width="50dp"
-            android:layout_height="50dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:tag="skin:main_menu_text_color:textColor"
+                android:text="@string/menu_offline"
+                android:textColor="@color/main_menu_text_color"
+                android:textSize="16sp" />
 
+            <com.dup.beauty.ui.widget.FunSwitch
+                android:id="@+id/main_menu_offline_switcher"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:gravity="right|center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:tag="skin:main_menu_text_color:textColor"
+                android:text="@string/menu_only_wifi"
+                android:textColor="@color/main_menu_text_color"
+                android:textSize="16sp" />
+
+            <com.dup.beauty.ui.widget.FunSwitch
+                android:id="@+id/main_menu_only_wifi_switcher"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

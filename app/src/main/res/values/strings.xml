@@ -22,7 +22,7 @@
     <string name="no_net">亲，没有网络...不过还有缓存数据噢！</string>
     <string name="login">登陆</string>
     <string name="register">注册</string>
-    <string name="menu_only_wifi">仅WIFI模式加载网络图片</string>
+    <string name="menu_only_wifi">仅Wifi加载网络图片</string>
     <string name="menu_about">关于</string>
     <string name="menu_setting">设置</string>
     <string name="menu_skin">皮肤</string>
@@ -32,6 +32,7 @@
     <string name="theme_dialog_title">主题色</string>
     <string name="done">完成</string>
     <string name="cancel">取消</string>
+    <string name="menu_offline">离线缓存模式</string>
 
 
 </resources>

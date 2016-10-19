@@ -5,10 +5,5 @@ package com.dup.beauty.view;
  */
 public interface IMainMenuView {
 
-    /**
-     * 网络模式改变回调
-     * @param isWifiMode
-     */
-    void onNetMode(boolean isWifiMode);
 
 }
