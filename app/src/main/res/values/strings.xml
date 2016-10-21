@@ -22,7 +22,7 @@
     <string name="no_net">亲，没有网络...不过还有缓存数据噢！</string>
     <string name="login">登陆</string>
     <string name="register">注册</string>
-    <string name="menu_only_wifi">仅Wifi加载网络图片</string>
+    <string name="menu_only_wifi">仅Wifi联网</string>
     <string name="menu_about">关于</string>
     <string name="menu_setting">设置</string>
     <string name="menu_skin">皮肤</string>
@@ -33,6 +33,32 @@
     <string name="done">完成</string>
     <string name="cancel">取消</string>
     <string name="menu_offline">离线缓存模式</string>
+    <string name="about_title">关于</string>
+    <string name="about_content">这是一款美女图库App。\n图片来源：天狗阅图API(http://www.tngou.net)
+    \n作者：Dup
+    \n邮箱：AimSunshine@163.com
+        \nApp源代码和技术点介绍：https://github.com/aalallalalal/Beauty
+        \n  如果觉得不错的话，欢迎大家的star和fork。最后大家使用愉快！
+    </string>
+    <string name="thirdpart_plantform">第三方平台登陆/注册:</string>
 
 
+    <string name="register_email">邮箱：</string>
+    <string name="register_account">账号：</string>
+    <string name="register_password">密码：</string>
+    <string name="register_confirm_password">确认密码：</string>
+    <string name="form_finish">完成</string>
+    <string name="login_account_email">邮箱：</string>
+    <string name="less_six">最短6位</string>
+    <string name="max_ten">最长10位</string>
+
+    <string name="email_error">邮箱格式不正确</string>
+    <string name="account_error">账号不正确</string>
+    <string name="pwd_error">密码长度过短</string>
+    <string name="pwdconfirm_error">两次输入的密码不匹配</string>
+    <string name="register_success">注册成功！</string>
+    <string name="register_failed">注册失败...</string>
+    <string name="login_success">登陆成功！</string>
+    <string name="login_failed">登陆失败...</string>
+    <string name="login_out">退出登陆</string>
 </resources>

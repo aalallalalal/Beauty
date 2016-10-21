@@ -188,7 +188,7 @@ public class HttpUtil {
                 }
 
                 String url = chain.request().url().toString();
-                if (SPUtil.getBoolean(SPUtil.KEY_NET_MODE, false)) {
+                if (SPUtil.getBoolean(SPUtil.KEY_NET_MODE, false)&&NetUtil.getNetworkType(null)!=NetUtil.NETTYPE_WIFI) {
                     //如果 是仅wifi 联网模式。判断白名单。
                     if (!netModeWhiteList.isEmpty() && netModeWhiteList.contains(url)) {
                         //如果此url请求 属于白名单，则继续进行网络请求。

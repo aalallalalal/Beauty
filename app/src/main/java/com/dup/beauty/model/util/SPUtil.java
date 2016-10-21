@@ -25,6 +25,16 @@ public class SPUtil {
      */
     public static final String KEY_FIRST_TIME_USE = "fist_time_use";
 
+    /**
+     * 用户登陆注册后取得的AccessToken
+     */
+    public static final String KEY_USER_ACCESS_TOKEN = "user_access_token";
+
+    /**
+     * 是否在登陆状态
+     */
+    public static final String KEY_IS_LOGINING = "is_logining";
+
     /*********
      * SharePreference KEY
      ************/

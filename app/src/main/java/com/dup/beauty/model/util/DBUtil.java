@@ -7,6 +7,8 @@ import com.dup.beauty.model.entity.Category;
 import com.dup.beauty.model.entity.CategoryDao;
 import com.dup.beauty.model.entity.DaoMaster;
 import com.dup.beauty.model.entity.DaoSession;
+import com.dup.beauty.model.entity.User;
+import com.dup.beauty.model.entity.UserDao;
 
 import java.util.List;
 
@@ -67,5 +69,37 @@ public class DBUtil {
 
     /****************************************************/
 
+    /*********************User***********************/
 
+    /**
+     * 插入登陆成功或注册成功的用户数据
+     * @param user
+     */
+    public void insertUser(User user) {
+        UserDao userDao = session.getUserDao();
+        userDao.deleteAll();
+        userDao.insert(user);
+    }
+
+    /**
+     * 查询最后一次注册成功或登陆成功的用户数据
+     */
+    public User queryUser() {
+        UserDao userDao = session.getUserDao();
+        List<User> list = userDao.queryBuilder().limit(1).list();
+        if (list != null && !list.isEmpty()) {
+            return list.get(0);
+        }
+        return null;
+    }
+
+    /**
+     * 退出登陆或重新登陆注册后执行
+     */
+    public void deleteUser() {
+        UserDao userDao = session.getUserDao();
+        userDao.deleteAll();
+    }
+
+    /****************************************************/
 }

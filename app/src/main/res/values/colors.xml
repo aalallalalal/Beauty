@@ -163,5 +163,6 @@
     <color name="bottom_bar_text">#fff</color>
     <!--图库底部切换 背景-->
     <color name="bottom_bar_bg">#aaaa</color>
+    <color name="login_register_text">#fff</color>
 
 </resources>

@@ -14,14 +14,19 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import com.dup.beauty.R;
 import com.dup.beauty.app.BaseActivity;
 import com.dup.beauty.app.Constant;
 import com.dup.beauty.model.entity.Category;
 import com.dup.beauty.model.entity.Gallery;
+import com.dup.beauty.model.util.SPUtil;
+import com.dup.beauty.model.util.UserUtil;
 import com.dup.beauty.presenter.contract.IMainContentPresenter;
 import com.dup.beauty.presenter.contract.IMainMenuPresenter;
 import com.dup.beauty.presenter.impl.MainContentPresenter;
@@ -34,12 +39,17 @@ import com.dup.beauty.ui.widget.MySlidingPaneLayout;
 import com.dup.beauty.util.Blur;
 import com.dup.beauty.util.DisplayUtil;
 import com.dup.beauty.util.L;
+import com.dup.beauty.util.StringUtil;
 import com.dup.beauty.view.IMainContentView;
 import com.dup.beauty.view.IMainMenuView;
 import com.dup.changeskin.SkinManager;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.sdsmdg.tastytoast.TastyToast;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -78,7 +88,14 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
     public FunSwitch wifiOnlySwitch;
     @BindView(R.id.main_menu_offline_switcher)
     public FunSwitch offlineSwitch;
-
+    @BindView(R.id.main_menu_self_login_register_layout)
+    public ViewGroup menuRegisterLayout;
+    @BindView(R.id.main_menu_self_logined_layout)
+    public ViewGroup menuLoginedLayout;
+    @BindView(R.id.main_menu_self_name)
+    public TextView menuSelfNameTv;
+    @BindView(R.id.main_menu_self_login_out)
+    public Button menuSelfLoginOut;
 
     /**
      * 主界面content的presenter
@@ -125,12 +142,24 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
     @Override
     protected void initData() {
         super.initData();
+        EventBus.getDefault().register(this);
         boolean netMode = mMainMenuPresenter.getNetMode();//获取网络模式
         wifiOnlySwitch.setState(netMode);
         boolean offlineMode = mMainMenuPresenter.getOfflineMode();//获取离线模式
         offlineSwitch.setState(offlineMode);
 
+        recyclerViewHot.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        mGalleriesAdapter = new GalleriesAdapter(MainActivity.this, DisplayUtil.getScreenWidthPx(this));
+        mGalleriesAdapter.setItemClickListener(this);
+        recyclerViewHot.setAdapter(mGalleriesAdapter);
+
         requestData();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -149,7 +178,7 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
                     wifiOnlySwitch.setState(!isOpen);
                 }
 
-                if(!isOpen){
+                if (!isOpen) {
                     //关闭仅wifi联网，重写获取主界面数据
                     requestData();
                 }
@@ -168,7 +197,7 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
                     offlineSwitch.setState(!isOpen);
                 }
 
-                if(!isOpen){
+                if (!isOpen) {
                     //关闭离线模式，重写获取主界面数据
                     requestData();
                 }
@@ -236,7 +265,7 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
     @OnClick({R.id.main_menu_item_setting, R.id.main_menu_item_skin,
             R.id.main_menu_item_download, R.id.main_menu_item_about
             , R.id.main_menu_item_favorite, R.id.main_menu_self_login
-            , R.id.main_menu_self_register
+            , R.id.main_menu_self_register , R.id.main_menu_self_login_out
     })
     public void clickMenuItem(View view) {
         switch (view.getId()) {
@@ -257,18 +286,30 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
 
                 break;
             case R.id.main_menu_item_about:
-
+                new MaterialDialog.Builder(this)
+                        .title(R.string.about_title)
+                        .content(R.string.about_content)
+                        .positiveText(R.string.done)
+                        .show();
                 break;
             case R.id.main_menu_item_favorite:
 
                 break;
 
             case R.id.main_menu_self_login:
+                Intent intent = new Intent(this, LoginRegisterActivity.class);
+                intent.putExtra("TYPE", 0);
+                startActivity(intent);
                 break;
 
             case R.id.main_menu_self_register:
+                Intent intent1 = new Intent(this, LoginRegisterActivity.class);
+                intent1.putExtra("TYPE", 1);
+                startActivity(intent1);
                 break;
-
+            case R.id.main_menu_self_login_out:
+                UserUtil.loginOut();
+                break;
         }
 
 
@@ -325,7 +366,6 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
      * 數據请求
      */
     private void requestData() {
-        recyclerViewHot.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         //请求banner图片数据
         mMainContentPresenter.fetchBannerAndHotImgs();
         //请求分类列表
@@ -363,10 +403,8 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
         banner.setData(listBanner, tips);
 
         /*2.设置hot*/
-        mGalleriesAdapter = new GalleriesAdapter(MainActivity.this, listHot, DisplayUtil.getScreenWidthPx(this));
-        mGalleriesAdapter.setItemClickListener(this);
-        recyclerViewHot.setAdapter(mGalleriesAdapter);
-
+        mGalleriesAdapter.setData(listHot);
+        mGalleriesAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -468,5 +506,19 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
             SkinManager.getInstance().changeSkin("red");
         }
         //这里需要清空recyclerview的缓存view，否则缓存的item不会改变颜色。这就不清空了，影响性能。
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    public void onUserStateChangedEvent(Boolean isUserLogining){
+        //接收用户登陆状态改变监听
+        if (isUserLogining) {
+            menuLoginedLayout.setVisibility(View.VISIBLE);
+            menuRegisterLayout.setVisibility(View.GONE);
+            menuSelfNameTv.setText(UserUtil.getCurrUser().getName());
+        } else {
+            menuLoginedLayout.setVisibility(View.GONE);
+            menuRegisterLayout.setVisibility(View.VISIBLE);
+        }
     }
 }

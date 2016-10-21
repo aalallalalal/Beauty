@@ -48,6 +48,10 @@ public class GalleriesAdapter extends RecyclerView.Adapter<GalleriesAdapter.MyVi
      */
     private int itemWidth;
 
+    public GalleriesAdapter(Context context,  int width) {
+        this.context = context;
+        this.itemWidth = (width / 2) > Constant.PIC_MAX_WIDTH ? Constant.PIC_MAX_WIDTH : (width / 2);//如果需求值 大于 原图片最大值，图片将不显示。所以这控制一下
+    }
 
     public GalleriesAdapter(Context context, List<Gallery> data, int width) {
         this.mData = (ArrayList<Gallery>) data;
@@ -110,6 +114,8 @@ public class GalleriesAdapter extends RecyclerView.Adapter<GalleriesAdapter.MyVi
 
     @Override
     public int getItemCount() {
+        if(mData==null)
+            return 0;
         return mData.size();
     }
 

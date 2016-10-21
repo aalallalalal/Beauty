@@ -8,6 +8,13 @@ import android.net.NetworkInfo;
  * Created by DP on 2016/9/28.
  */
 public class NetUtil {
+
+    public static Context mContext;
+
+    public static void initContext(Context context) {
+        mContext = context;
+    }
+
     /**
      * 检测网络是否可用
      *
@@ -30,6 +37,10 @@ public class NetUtil {
      * @return 0：没有网络   1：WIFI网络   2：WAP网络    3：NET网络
      */
     public static int getNetworkType(Context context) {
+        if (context == null) {
+            context = mContext;
+        }
+
         int netType = NETTYPE_NONE;
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();

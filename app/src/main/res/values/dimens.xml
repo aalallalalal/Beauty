@@ -7,7 +7,7 @@
     <dimen name="cardview_radius">10dp</dimen>
     <dimen name="cardview_elevation">4dp</dimen>
 
-    <dimen name="toolbar_icon_size">36dp</dimen>
+    <dimen name="toolbar_icon_size">25dp</dimen>
     <dimen name="toolbar_textsize">14sp</dimen>
     <dimen name="bottom_bar_textsize">10sp</dimen>
     <dimen name="bottom_bar_height">40dp</dimen>
@@ -26,6 +26,8 @@
     <dimen name="main_menu_self_height">200dp</dimen>
     <dimen name="main_menu_self_avatar">120dp</dimen>
     <dimen name="main_menu_text_size">16sp</dimen>
+    <dimen name="login_register_text">16sp</dimen>
+    <dimen name="third_part_lr_icon">60dp</dimen>
 
 
 </resources>

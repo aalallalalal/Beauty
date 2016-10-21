@@ -38,14 +38,24 @@
 
         <ImageButton
             android:id="@+id/toolbar_download"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="@dimen/toolbar_icon_size"
+            android:layout_height="@dimen/toolbar_icon_size"
             android:padding="3dp"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_margin="8dp"
-            android:adjustViewBounds="true"
+            android:layout_toLeftOf="@+id/toolbar_share"
             android:background="@drawable/ic_download"
+            />
+
+        <ImageButton
+            android:id="@+id/toolbar_share"
+            android:layout_width="@dimen/toolbar_icon_size"
+            android:layout_height="@dimen/toolbar_icon_size"
+            android:layout_centerVertical="true"
+            android:layout_margin="8dp"
+            android:padding="3dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/ic_share"
             />
 
     </RelativeLayout>

@@ -47,6 +47,11 @@ public class MySlidingPaneLayout extends ViewGroup {
     private static final String TAG = "SlidingPaneLayout";
 
     /**
+     * 当触摸点离边距为 宽度为10分之一时才 认为是侧滑
+     */
+    private static final int CANSCROLL_RATIO = 20;
+
+    /**
      * Default size of the overhang for a pane in the open state.
      * At least this much of a sliding pane will remain visible.
      * This indicates that there is more content available and provides
@@ -754,7 +759,7 @@ public class MySlidingPaneLayout extends ViewGroup {
                 mInitialMotionX = x;
                 mInitialMotionY = y;
 
-                if (ev.getRawX() >= mSlideableView.getWidth() / 10 && !isOpen()) {
+                if (ev.getRawX() >= mSlideableView.getWidth() / CANSCROLL_RATIO && !isOpen()) {
                     return false;
                 }
 

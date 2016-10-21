@@ -15,6 +15,10 @@ public final class ApiDefine {
     public static final String HOST_BASE_IMG_WITH_SIZE = "http://tnfs.tngou.net/image";
     public static final String HOST_BASE_IMG_WITH_NO_SIZE = "http://tnfs.tngou.net/img";
 
+    //图片三方api授权ID
+    public static final String Client_Id = "7503590";
+    //应用授权secret
+    public static final String Client_Secret = "7dd8e8baf7dab4c2d7c3202be3b97d27";
 
     /**
      * 组装imgurl，获取特定大小的图片

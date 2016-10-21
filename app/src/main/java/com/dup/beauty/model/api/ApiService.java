@@ -3,6 +3,7 @@ package com.dup.beauty.model.api;
 import com.dup.beauty.model.entity.Categories;
 import com.dup.beauty.model.entity.Galleries;
 import com.dup.beauty.model.entity.Gallery;
+import com.dup.beauty.model.entity.Oauth;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -65,24 +66,66 @@ public interface ApiService {
     /**
      * 根据gallery.id 获取该图库中的图片们。
      * {
-     "status":true,
-     "count":21,
-     "fcount":0,
-     "galleryclass":3,
-     "id":1,
-     "url":"http://www.tngou.net/tnfs/show/1",
-     "img":"/ext/150714/aeb85cdb34f325ccfb3ae0928f846d2d.jpg",
-     "rcount":0,
-     "size":18,
-     "time":1436874237000,
-     "title":"絕對吸引"，
-     "list":"[
-     {\"gallery\":1,\"id\":1,\"src\":\"/ext/150714/aeb85cdb34f325ccfb3ae0928f846d2d.jpg\"},
-     {……}
-     ]"
-     }
+     * "status":true,
+     * "count":21,
+     * "fcount":0,
+     * "galleryclass":3,
+     * "id":1,
+     * "url":"http://www.tngou.net/tnfs/show/1",
+     * "img":"/ext/150714/aeb85cdb34f325ccfb3ae0928f846d2d.jpg",
+     * "rcount":0,
+     * "size":18,
+     * "time":1436874237000,
+     * "title":"絕對吸引"，
+     * "list":"[
+     * {\"gallery\":1,\"id\":1,\"src\":\"/ext/150714/aeb85cdb34f325ccfb3ae0928f846d2d.jpg\"},
+     * {……}
+     * ]"
+     * }
      */
     @GET("/tnfs/api/show")
     Observable<Gallery> getPictures(@Query("id") long id);
+
+    /**
+     * 己方注册
+     */
+    @GET("/api/oauth2/reg")
+    Observable<Oauth> register(@Query("client_id") String id, @Query("client_secret") String secret, @Query("email") String email,
+                               @Query("account") String account, @Query("password") String pwd);
+
+    /**
+     * 绑定qq注册
+     */
+    @GET("/api/oauth2/reg")
+    Observable<Oauth> registerBindQQ(@Query("client_id") String id, @Query("client_secret") String secret, @Query("email") String email,
+                                     @Query("account") String account, @Query("password") String pwd, @Query("qqid") String qqid);
+
+    /**
+     * 绑定微博注册
+     */
+    @GET("/api/oauth2/reg")
+    Observable<Oauth> registerBindWeibo(@Query("client_id") String id, @Query("client_secret") String secret, @Query("email") String email,
+                                        @Query("account") String account, @Query("password") String pwd, @Query("weiboid") String weiboid);
+
+    /**
+     * 己方登陆
+     */
+    @GET("/api/oauth2/login")
+    Observable<Oauth> login(@Query("client_id") String id, @Query("client_secret") String secret, @Query("name") String name,
+                          @Query("password") String pwd);
+
+    /**
+     * 第三方登陆
+     * @param id
+     * @param secret
+     * @param account 在做用户绑定注册的昵称
+     * @param qqid
+     * @param weiboid 微博第三方认证id
+     * @param type 对应的登录类型 qq/sina (腾讯QQ或者新浪微博)
+     * @return
+     */
+    @GET("/api/oauth2/bind")
+    Observable<Oauth> loginBind(@Query("client_id") String id, @Query("client_secret") String secret, @Query("account") String account,
+                            @Query("qqid") String qqid,@Query("weiboid") String weiboid,@Query("type") String type);
 
 }

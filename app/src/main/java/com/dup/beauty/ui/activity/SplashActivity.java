@@ -4,6 +4,7 @@ import android.content.Intent;
 
 import com.dup.beauty.R;
 import com.dup.beauty.app.BaseActivity;
+import com.dup.beauty.model.util.UserUtil;
 import com.dup.beauty.presenter.contract.ISplashPresenter;
 import com.dup.beauty.presenter.impl.SplashPresenter;
 import com.dup.beauty.util.NetUtil;
@@ -35,6 +36,14 @@ public class SplashActivity extends BaseActivity implements ISplashView {
     protected void initData() {
         super.initData();
         presenter.checkNetStateAndNetMode();
+        UserUtil.autoLogin(this, new UserUtil.OnResultListener() {
+            @Override
+            public void onResult(String message, boolean isSuccess) {
+                if (!isSuccess) {
+                    TastyToast.makeText(SplashActivity.this, StringUtil.getStrRes(SplashActivity.this, R.string.login_failed), TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                }
+            }
+        });
     }
 
     /**
@@ -53,7 +62,7 @@ public class SplashActivity extends BaseActivity implements ISplashView {
 //                    TastyToast.makeText(this, StringUtil.getStrRes(this, R.string.mobile_safe),
 //                            TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
                 } else {
-                    if(isFirstTimeUse){
+                    if (isFirstTimeUse) {
                         //第一次使用，并且还是以流量打开，给提示
                         TastyToast.makeText(this, StringUtil.getStrRes(this, R.string.mobile_warning),
                                 TastyToast.LENGTH_SHORT, TastyToast.WARNING);
@@ -64,7 +73,7 @@ public class SplashActivity extends BaseActivity implements ISplashView {
                 break;
             case NetUtil.NETTYPE_NONE:
                 TastyToast.makeText(this, StringUtil.getStrRes(this, R.string.no_net),
-                            TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
+                        TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
                 break;
 
         }

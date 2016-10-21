@@ -14,11 +14,13 @@
         android:background="@drawable/main_menu_self_bg"
         android:padding="20dp">
 
+        <!--已登陆layout-->
         <RelativeLayout
             android:id="@+id/main_menu_self_logined_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone">
+            android:visibility="gone"
+            >
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/main_menu_self_avatar"
@@ -38,10 +40,23 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/main_menu_self_avatar"
                 android:layout_centerHorizontal="true"
+                android:layout_margin="4dp"
                 android:textColor="@color/main_menu_self_text"
-                android:textSize="20sp" />
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/main_menu_self_login_out"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="5dp"
+                android:background="@drawable/ic_login_out"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                />
+
         </RelativeLayout>
 
+        <!--未登陆layout-->
         <LinearLayout
             android:id="@+id/main_menu_self_login_register_layout"
             android:layout_width="match_parent"
