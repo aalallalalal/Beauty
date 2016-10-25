@@ -34,7 +34,7 @@
     <string name="cancel">取消</string>
     <string name="menu_offline">离线缓存模式</string>
     <string name="about_title">关于</string>
-    <string name="about_content">这是一款美女图库App。\n图片来源：天狗阅图API(http://www.tngou.net)
+    <string name="about_content">这是一款美女图库App。\n图片来源：天狗阅图(http://www.tngou.net)
     \n作者：Dup
     \n邮箱：AimSunshine@163.com
         \nApp源代码和技术点介绍：https://github.com/aalallalalal/Beauty
@@ -61,4 +61,7 @@
     <string name="login_success">登陆成功！</string>
     <string name="login_failed">登陆失败...</string>
     <string name="login_out">退出登陆</string>
+    <string name="download_success">%1$s下载成功</string>
+    <string name="download_failed">%1$s下载失败,请确认App联网模式及手机网络。</string>
+    <string name="start_download">开始下载</string>
 </resources>

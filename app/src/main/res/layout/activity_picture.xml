@@ -30,7 +30,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:ellipsize="middle"
-            android:maxLength="20"
+            android:maxLength="14"
             android:maxLines="1"
             android:textColor="@color/title_text"
             android:tag="skin:title_text:textColor"

@@ -36,4 +36,5 @@ public class Constant {
      */
     public static long SPLASH_DELAY = 1500;
 
+
 }

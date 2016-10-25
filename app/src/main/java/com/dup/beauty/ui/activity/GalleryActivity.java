@@ -2,10 +2,8 @@ package com.dup.beauty.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
@@ -20,7 +18,6 @@ import com.dup.beauty.presenter.contract.IGalleryPresenter;
 import com.dup.beauty.presenter.impl.GalleryPresenter;
 import com.dup.beauty.ui.adapter.PicturesAdapter;
 import com.dup.beauty.util.DisplayUtil;
-import com.dup.beauty.util.L;
 import com.dup.beauty.view.IGalleryView;
 import com.dup.changeskin.SkinManager;
 import com.jaeger.library.StatusBarUtil;
@@ -203,7 +200,7 @@ public class GalleryActivity extends BaseActivity implements IGalleryView, Pictu
         recyclerView.setLayoutAnimation(lac);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));//解决no adapter warning
 
-        mAdapter = new PicturesAdapter(this, gallery.getList(), DisplayUtil.getScreenWidthPx(this));
+        mAdapter = new PicturesAdapter(this, gallery.getList());
         mAdapter.setItemClickListener(this);
         recyclerView.swapAdapter(mAdapter,false);
     }

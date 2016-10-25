@@ -76,7 +76,7 @@ public class HttpUtil {
     public static OkHttpClient.Builder getBaseBuilder() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .connectTimeout(10000, TimeUnit.MILLISECONDS)
-                .readTimeout(10000, TimeUnit.MILLISECONDS)
+                .readTimeout(20000, TimeUnit.MILLISECONDS)
                 .addInterceptor(createHttpLoggingInterceptor())
                 .addInterceptor(createNetModeInterceptor());
         return builder;
@@ -95,7 +95,7 @@ public class HttpUtil {
     public static OkHttpClient.Builder getGlideBuilder() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .connectTimeout(10000, TimeUnit.MILLISECONDS)
-                .readTimeout(10000, TimeUnit.MILLISECONDS)
+                .readTimeout(20000, TimeUnit.MILLISECONDS)
                 .addInterceptor(createOffLineInterceptor())
                 .addInterceptor(createHttpLoggingInterceptor())
                 .addInterceptor(createNetModeInterceptor());
@@ -182,7 +182,7 @@ public class HttpUtil {
             public Response intercept(Chain chain) throws IOException {
                 Response response = null;
 
-                //如果当前是离线模式，网络模式拦截器失效，全部放行。
+                //如果当前是离线模式，网络模式拦截器失效，全部放行。交给离线模式拦截器
                 if (SPUtil.getBoolean(SPUtil.KEY_OFFLINE_MODE, false)) {
                     return chain.proceed(chain.request());
                 }

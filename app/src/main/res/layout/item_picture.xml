@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right|top"
         android:layout_margin="@dimen/item_gallery_progress_margin"
+        android:visibility="gone"
         android:textColor="@color/loading_textview"
         android:tag="skin:loading_textview:textColor"
         android:textSize="@dimen/item_recyclerview_progress_textview" />

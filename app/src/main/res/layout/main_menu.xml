@@ -94,6 +94,7 @@
 
             <LinearLayout
                 android:id="@+id/main_menu_item_favorite"
+                android:visibility="gone"
                 style="@style/menu_item_layout">
 
                 <ImageView

@@ -35,20 +35,9 @@ import rx.functions.Func1;
  */
 public class GlideUtil {
 
-    /**
-     * 基本设置
-     *
-     * @param context
-     * @param model   图片地址
-     * @return
-     */
-    public static DrawableRequestBuilder begin(Context context, String model) {
-        return Glide.with(context).load(model).diskCacheStrategy(DiskCacheStrategy.ALL).
-                priority(Priority.IMMEDIATE);
-    }
 
     /**
-     * 有下载进度 回调 监听(子线程)
+     * 有下载进度回调监听(子线程)
      *
      * @param context
      * @param model
@@ -67,10 +56,9 @@ public class GlideUtil {
      * @param context
      * @param model
      * @param callback 改变回调，在里面实现具体操作进度数据。回调数据为0-100。
-     * @param <T>
      * @return
      */
-    public static <T> DrawableRequestBuilder begin(final Context context, String model, final OnPercentToTarget callback) {
+    public static  DrawableRequestBuilder begin(final Context context, String model, final OnPercentToTarget callback) {
         return Glide.with(context).using(new ProgressModelLoader(new ProgressListener() {
             @Override
             public void update(String url, long bytesRead, long contentLength, boolean done) {
@@ -100,7 +88,7 @@ public class GlideUtil {
 
 
     /**
-     * 传入放图片的ViewGroup和进度textview,会自动将进度textview放在ViewGroup中心.
+     * 传入放图片的ViewGroup和进度textview.
      * <b>根据本项目中需求封装</b>
      *
      * @param context
@@ -120,7 +108,7 @@ public class GlideUtil {
     }
 
     /**
-     * 传入放图片的ViewGroup和进度textview,会自动将进度textview放在ViewGroup中心.
+     * 传入放图片的ViewGroup和进度textview
      * <b>asBitmap etc</b>
      * <b>根据本项目中需求封装</b>
      *
@@ -167,6 +155,9 @@ public class GlideUtil {
                             textView.setText(StringUtil.getFormatStrRes(context, R.string.loading_percent, i + ""));
                             if (percent == 100) {
                                 textView.setVisibility(View.GONE);
+                            }else {
+                                //下面这句，是因为如果图片本地存在，则不会走这个回调。
+                                textView.setVisibility(View.VISIBLE);
                             }
                         } else {
                             L.d("进度view TAG不匹配");

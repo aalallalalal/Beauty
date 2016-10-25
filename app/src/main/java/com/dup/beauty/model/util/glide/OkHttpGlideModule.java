@@ -9,7 +9,7 @@ import com.bumptech.glide.module.GlideModule;
 import java.io.InputStream;
 
 /**
- * 如果glide请求不使用using()，那么默认执行此类方法。
+ * 如果单独使用glide请求时不使用using()，那么默认执行此类方法。
  *
  * A {@link com.bumptech.glide.module.GlideModule} implementation to replace Glide's default
  * {@link java.net.HttpURLConnection} based {@link com.bumptech.glide.load.model.ModelLoader}

@@ -3,7 +3,6 @@ package com.dup.beauty.ui.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -11,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -25,7 +23,6 @@ import com.dup.beauty.app.BaseActivity;
 import com.dup.beauty.app.Constant;
 import com.dup.beauty.model.entity.Category;
 import com.dup.beauty.model.entity.Gallery;
-import com.dup.beauty.model.util.SPUtil;
 import com.dup.beauty.model.util.UserUtil;
 import com.dup.beauty.presenter.contract.IMainContentPresenter;
 import com.dup.beauty.presenter.contract.IMainMenuPresenter;
@@ -39,19 +36,16 @@ import com.dup.beauty.ui.widget.MySlidingPaneLayout;
 import com.dup.beauty.util.Blur;
 import com.dup.beauty.util.DisplayUtil;
 import com.dup.beauty.util.L;
-import com.dup.beauty.util.StringUtil;
 import com.dup.beauty.view.IMainContentView;
 import com.dup.beauty.view.IMainMenuView;
 import com.dup.changeskin.SkinManager;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
-import com.sdsmdg.tastytoast.TastyToast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -265,7 +259,7 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
     @OnClick({R.id.main_menu_item_setting, R.id.main_menu_item_skin,
             R.id.main_menu_item_download, R.id.main_menu_item_about
             , R.id.main_menu_item_favorite, R.id.main_menu_self_login
-            , R.id.main_menu_self_register , R.id.main_menu_self_login_out
+            , R.id.main_menu_self_register, R.id.main_menu_self_login_out
     })
     public void clickMenuItem(View view) {
         switch (view.getId()) {
@@ -283,7 +277,8 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
                         .show();
                 break;
             case R.id.main_menu_item_download:
-
+                Intent intentDownload = new Intent(this, DownloadActivity.class);
+                startActivity(intentDownload);
                 break;
             case R.id.main_menu_item_about:
                 new MaterialDialog.Builder(this)
@@ -509,8 +504,8 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
     }
 
 
-    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
-    public void onUserStateChangedEvent(Boolean isUserLogining){
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onUserStateChangedEvent(Boolean isUserLogining) {
         //接收用户登陆状态改变监听
         if (isUserLogining) {
             menuLoginedLayout.setVisibility(View.VISIBLE);

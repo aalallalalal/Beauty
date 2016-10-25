@@ -8,7 +8,6 @@ import com.dup.beauty.R;
 import com.dup.beauty.app.BaseActivity;
 import com.dup.beauty.presenter.contract.ILoginRegisterPresenter;
 import com.dup.beauty.presenter.impl.LoginRegisterPresenter;
-import com.dup.beauty.util.StringUtil;
 import com.dup.beauty.view.ILoginRegisterView;
 import com.jaeger.library.StatusBarUtil;
 import com.sdsmdg.tastytoast.TastyToast;

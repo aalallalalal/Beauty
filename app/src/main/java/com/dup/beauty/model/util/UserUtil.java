@@ -19,6 +19,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
+ * 原本写登陆注册功能是为了收藏后方便用户使用。写完了才发现只有收藏api，没有获取收藏列表数据的api。先割掉收藏功能，注册登陆可以正常使用。
  * Created by DP on 2016/10/20.
  */
 public class UserUtil {
