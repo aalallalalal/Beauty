@@ -12,14 +12,12 @@ import com.dup.beauty.model.entity.Gallery;
 import com.dup.beauty.model.util.DBUtil;
 import com.dup.beauty.presenter.contract.IMainContentPresenter;
 import com.dup.beauty.util.L;
-import com.dup.beauty.util.StringUtil;
+import com.dup.beauty.util.T;
 import com.dup.beauty.view.IMainContentView;
-import com.sdsmdg.tastytoast.TastyToast;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -113,9 +111,7 @@ public class MainContentPresenter implements IMainContentPresenter {
                     @Override
                     public void onError(Throwable e) {
                         L.e("从网络 获取banner和hot图片数据失败." + e.getMessage());
-                        TastyToast.makeText(mActivity.getApplicationContext(),
-                                StringUtil.getStrRes(mActivity.getApplicationContext(), R.string.img_error)
-                                , TastyToast.LENGTH_SHORT, TastyToast.WARNING);
+                        T.e(mActivity.getApplicationContext(),R.string.img_error);
                     }
 
                     @Override
@@ -162,9 +158,7 @@ public class MainContentPresenter implements IMainContentPresenter {
                     @Override
                     public void onError(Throwable e) {
                         L.e("从网络 获取分类列表数据失败." + e.getMessage());
-                        TastyToast.makeText(mActivity.getApplicationContext(),
-                                StringUtil.getStrRes(mActivity.getApplicationContext(), R.string.category_error)
-                                , TastyToast.LENGTH_SHORT, TastyToast.WARNING);
+                        T.e(mActivity.getApplicationContext(),R.string.category_error);
                     }
 
                     @Override
@@ -192,9 +186,7 @@ public class MainContentPresenter implements IMainContentPresenter {
                     @Override
                     public void onError(Throwable e) {
                         L.e("从网络 获取更多数据失败." + e.getMessage());
-                        TastyToast.makeText(mActivity.getApplicationContext(),
-                                StringUtil.getStrRes(mActivity.getApplicationContext(), R.string.loadmore_error)
-                                , TastyToast.LENGTH_SHORT, TastyToast.WARNING);
+                        T.e(mActivity.getApplicationContext(),R.string.loadmore_error);
                     }
 
                     @Override

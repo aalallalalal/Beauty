@@ -13,14 +13,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.dup.beauty.R;
-import com.dup.beauty.app.Constant;
-import com.dup.beauty.model.api.ApiDefine;
-import com.dup.beauty.model.entity.Picture;
-import com.dup.beauty.model.util.GlideUtil;
 import com.dup.changeskin.SkinManager;
 
 import java.io.File;

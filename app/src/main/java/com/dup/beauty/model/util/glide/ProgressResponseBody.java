@@ -1,7 +1,5 @@
 package com.dup.beauty.model.util.glide;
 
-import com.dup.beauty.util.L;
-
 import java.io.IOException;
 
 import okhttp3.MediaType;

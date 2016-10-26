@@ -24,8 +24,7 @@ import rx.functions.Func1;
 /**
  * 封装Glide.
  * <ul>
- * <li>glide基本配置</li>
- * <li>进度功能</li>
+ * <li>封装网络图片下载进度功能</li>
  * </ul>
  * <b>注意：网络请求下不可以设置thumbnail，加载本地图片可以。因为设置了thumbnail会导致多个线程
  * 去下载网络图片，会导致进度数据时而显示thumbnail进度，时而原图数据进度。
@@ -58,7 +57,7 @@ public class GlideUtil {
      * @param callback 改变回调，在里面实现具体操作进度数据。回调数据为0-100。
      * @return
      */
-    public static  DrawableRequestBuilder begin(final Context context, String model, final OnPercentToTarget callback) {
+    public static DrawableRequestBuilder begin(final Context context, String model, final OnPercentToTarget callback) {
         return Glide.with(context).using(new ProgressModelLoader(new ProgressListener() {
             @Override
             public void update(String url, long bytesRead, long contentLength, boolean done) {
@@ -96,7 +95,7 @@ public class GlideUtil {
      * @return
      */
     public static DrawableRequestBuilder begin(final Context context, String model, final TextView textView) {
-        textView.setTag(R.id.tag_glide_progress,model);
+        textView.setTag(R.id.tag_glide_progress, model);
         return Glide.with(context).using(new ProgressModelLoader(new ProgressListener() {
             @Override
             public void update(final String url, long bytesRead, long contentLength, boolean done) {
@@ -117,7 +116,7 @@ public class GlideUtil {
      * @return
      */
     public static DrawableTypeRequest<String> beginAsOther(final Context context, String model, final TextView textView) {
-        textView.setTag(R.id.tag_glide_progress,model);
+        textView.setTag(R.id.tag_glide_progress, model);
         return Glide.with(context).using(new ProgressModelLoader(new ProgressListener() {
             @Override
             public void update(final String url, long bytesRead, long contentLength, boolean done) {
@@ -155,7 +154,7 @@ public class GlideUtil {
                             textView.setText(StringUtil.getFormatStrRes(context, R.string.loading_percent, i + ""));
                             if (percent == 100) {
                                 textView.setVisibility(View.GONE);
-                            }else {
+                            } else {
                                 //下面这句，是因为如果图片本地存在，则不会走这个回调。
                                 textView.setVisibility(View.VISIBLE);
                             }

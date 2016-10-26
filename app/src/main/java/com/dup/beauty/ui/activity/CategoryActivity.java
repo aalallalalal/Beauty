@@ -12,9 +12,12 @@ import com.dup.beauty.app.BaseActivity;
 import com.dup.beauty.model.entity.Category;
 import com.dup.beauty.model.entity.Gallery;
 import com.dup.beauty.presenter.contract.ICategoryPresenter;
+import com.dup.beauty.presenter.contract.ILoginRegisterPresenter;
 import com.dup.beauty.presenter.impl.CategoryPresenter;
+import com.dup.beauty.presenter.impl.LoginRegisterPresenter;
 import com.dup.beauty.ui.adapter.GalleriesAdapter;
 import com.dup.beauty.view.ICategoryView;
+import com.dup.beauty.view.ILoginRegisterView;
 import com.dup.changeskin.SkinManager;
 import com.jaeger.library.StatusBarUtil;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
@@ -27,7 +30,12 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * 分类 图库列表界面
+ * 一个分类中的图库列表界面
+ * <ul>
+ * <li>{@link ICategoryPresenter}</li>
+ * <li>{@link CategoryPresenter}</li>
+ * <li>{@link ICategoryView}</li>
+ * </ul>
  */
 public class CategoryActivity extends BaseActivity implements ICategoryView, GalleriesAdapter.OnItemClickListener {
     @BindView(R.id.toolbar_title)
@@ -143,7 +151,7 @@ public class CategoryActivity extends BaseActivity implements ICategoryView, Gal
     public void onItemClick(int position, Gallery gallery) {
         Intent intent = new Intent();
         intent.putExtra("GALLERY", gallery);
-        intent.putExtra("POSITION", position-1);//考虑header
+        intent.putExtra("POSITION", position - 1);//考虑header
         intent.putExtra("GALLERIES", mPresenter.getGalleries());
         intent.setClass(this, GalleryActivity.class);
         startActivity(intent);

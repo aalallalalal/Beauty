@@ -17,7 +17,6 @@ import com.dup.beauty.model.entity.Picture;
 import com.dup.beauty.presenter.contract.IGalleryPresenter;
 import com.dup.beauty.presenter.impl.GalleryPresenter;
 import com.dup.beauty.ui.adapter.PicturesAdapter;
-import com.dup.beauty.util.DisplayUtil;
 import com.dup.beauty.view.IGalleryView;
 import com.dup.changeskin.SkinManager;
 import com.jaeger.library.StatusBarUtil;
@@ -30,7 +29,12 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 /**
- * 图库界面，显示图库中图片们
+ * 图库界面，显示一个图库中图片们
+ * <ul>
+ * <li>{@link IGalleryPresenter}</li>
+ * <li>{@link GalleryPresenter}</li>
+ * <li>{@link IGalleryView}</li>
+ * </ul>
  */
 public class GalleryActivity extends BaseActivity implements IGalleryView, PicturesAdapter.OnItemClickListener {
     @BindView(R.id.toolbar_title)
@@ -190,11 +194,11 @@ public class GalleryActivity extends BaseActivity implements IGalleryView, Pictu
 
         //设置recyclerview 和 adapter
         LayoutAnimationController lac = null;
-        if(direction>0){
-            lac = AnimationUtils.loadLayoutAnimation(this,R.anim.layout_slide_in_right);
-        }else if(direction<0){
+        if (direction > 0) {
+            lac = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_slide_in_right);
+        } else if (direction < 0) {
             lac = AnimationUtils.loadLayoutAnimation(this, R.anim.layout_slide_in_left);
-        }else{
+        } else {
 
         }
         recyclerView.setLayoutAnimation(lac);
@@ -202,6 +206,6 @@ public class GalleryActivity extends BaseActivity implements IGalleryView, Pictu
 
         mAdapter = new PicturesAdapter(this, gallery.getList());
         mAdapter.setItemClickListener(this);
-        recyclerView.swapAdapter(mAdapter,false);
+        recyclerView.swapAdapter(mAdapter, false);
     }
 }

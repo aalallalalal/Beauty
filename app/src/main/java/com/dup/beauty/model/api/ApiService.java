@@ -5,12 +5,7 @@ import com.dup.beauty.model.entity.Galleries;
 import com.dup.beauty.model.entity.Gallery;
 import com.dup.beauty.model.entity.Oauth;
 
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.Headers;
-import retrofit2.http.POST;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 

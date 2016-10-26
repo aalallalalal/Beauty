@@ -8,9 +8,8 @@ import com.dup.beauty.model.entity.Gallery;
 import com.dup.beauty.presenter.contract.IGalleryPresenter;
 import com.dup.beauty.util.DialogUtil;
 import com.dup.beauty.util.L;
-import com.dup.beauty.util.StringUtil;
+import com.dup.beauty.util.T;
 import com.dup.beauty.view.IGalleryView;
-import com.sdsmdg.tastytoast.TastyToast;
 
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -46,9 +45,7 @@ public class GalleryPresenter implements IGalleryPresenter {
                     @Override
                     public void onError(Throwable e) {
                         L.e("从网络 获取 图库 " + id + " 失败." + e.getMessage());
-                        TastyToast.makeText(mActivity.getApplicationContext(),
-                                StringUtil.getStrRes(mActivity.getApplicationContext(), R.string.gallery_error)
-                                , TastyToast.LENGTH_SHORT, TastyToast.WARNING);
+                        T.e(mActivity.getApplicationContext(),R.string.gallery_error);
                     }
 
                     @Override

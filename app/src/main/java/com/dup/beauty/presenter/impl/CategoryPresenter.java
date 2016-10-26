@@ -10,9 +10,8 @@ import com.dup.beauty.model.entity.Gallery;
 import com.dup.beauty.presenter.contract.ICategoryPresenter;
 import com.dup.beauty.util.DialogUtil;
 import com.dup.beauty.util.L;
-import com.dup.beauty.util.StringUtil;
+import com.dup.beauty.util.T;
 import com.dup.beauty.view.ICategoryView;
-import com.sdsmdg.tastytoast.TastyToast;
 
 import java.util.ArrayList;
 
@@ -53,9 +52,7 @@ public class CategoryPresenter implements ICategoryPresenter {
                     @Override
                     public void onError(Throwable e) {
                         L.e("从网络 获取该分类 图库数据失败." + e.getMessage());
-                        TastyToast.makeText(mActivity.getApplicationContext(),
-                                StringUtil.getStrRes(mActivity.getApplicationContext(), R.string.loadmore_error)
-                                , TastyToast.LENGTH_SHORT, TastyToast.WARNING);
+                        T.e(mActivity.getApplicationContext(),R.string.loadmore_error);
                     }
 
                     @Override
@@ -81,9 +78,7 @@ public class CategoryPresenter implements ICategoryPresenter {
                     @Override
                     public void onError(Throwable e) {
                         L.e("从网络 获取该分类 更多图库数据失败." + e.getMessage());
-                        TastyToast.makeText(mActivity.getApplicationContext(),
-                                StringUtil.getStrRes(mActivity.getApplicationContext(), R.string.loadmore_error)
-                                , TastyToast.LENGTH_SHORT, TastyToast.WARNING);
+                        T.e(mActivity.getApplicationContext(),R.string.loadmore_error);
                     }
 
                     @Override

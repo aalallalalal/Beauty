@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
-import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import android.view.WindowManager;
 import com.dup.beauty.R;
 import com.dup.beauty.ui.widget.MySlidingPaneLayout;
 import com.dup.changeskin.SkinManager;
-import com.dup.changeskin.attr.SkinAttrType;
 
 import java.lang.reflect.Field;
 

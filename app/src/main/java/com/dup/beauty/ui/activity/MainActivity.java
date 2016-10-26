@@ -59,6 +59,17 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
+/**
+ * 主界面
+ * <ul>
+ * <li>{@link IMainContentPresenter}</li>
+ * <li>{@link MainContentPresenter}</li>
+ * <li>{@link IMainContentView}</li>
+ * <li>{@link IMainMenuPresenter}</li>
+ * <li>{@link MainMenuPresenter}</li>
+ * <li>{@link IMainMenuView}</li>
+ * </ul>
+ */
 public class MainActivity extends BaseActivity implements IMainContentView, IMainMenuView, BGABanner.OnItemClickListener,
         GalleriesAdapter.OnItemClickListener, CategoriesAdapter.OnItemClickListener,
         ColorChooserDialog.ColorCallback {
@@ -264,9 +275,9 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
     public void clickMenuItem(View view) {
         switch (view.getId()) {
             case R.id.main_menu_item_setting:
-
+                Intent intentSetting = new Intent(this, SettingActivity.class);
+                startActivity(intentSetting);
                 break;
-
             case R.id.main_menu_item_skin:
                 new ColorChooserDialog.Builder(this, R.string.theme_dialog_title)
                         .customColors(R.array.theme_color, null)

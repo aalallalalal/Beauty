@@ -8,14 +8,22 @@ import com.dup.beauty.R;
 import com.dup.beauty.app.BaseActivity;
 import com.dup.beauty.presenter.contract.ILoginRegisterPresenter;
 import com.dup.beauty.presenter.impl.LoginRegisterPresenter;
+import com.dup.beauty.util.T;
 import com.dup.beauty.view.ILoginRegisterView;
 import com.jaeger.library.StatusBarUtil;
-import com.sdsmdg.tastytoast.TastyToast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 登陆注册 界面
+ * <ul>
+ * <li>{@link ILoginRegisterPresenter}</li>
+ * <li>{@link LoginRegisterPresenter}</li>
+ * <li>{@link ILoginRegisterView}</li>
+ * </ul>
+ */
 public class LoginRegisterActivity extends BaseActivity implements ILoginRegisterView {
     @BindView(R.id.toolbar)
     public ViewGroup toolbar;
@@ -113,10 +121,10 @@ public class LoginRegisterActivity extends BaseActivity implements ILoginRegiste
     @Override
     public void onSendFormResult(String message, boolean isSuccess) {
         if (isSuccess) {
-            TastyToast.makeText(this, message, TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
+            T.s(this,message);
             finish();
         } else {
-            TastyToast.makeText(this, message, TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+            T.e(this,message);
         }
     }
 }

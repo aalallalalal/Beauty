@@ -3,35 +3,38 @@ package com.dup.beauty.ui.activity;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dup.beauty.R;
 import com.dup.beauty.app.BaseActivity;
-import com.dup.beauty.model.api.ApiDefine;
 import com.dup.beauty.model.entity.Gallery;
-import com.dup.beauty.model.util.DownLoadUtil;
-import com.dup.beauty.model.util.SPUtil;
+import com.dup.beauty.presenter.contract.IPicturePresenter;
+import com.dup.beauty.presenter.impl.PicturePresenter;
 import com.dup.beauty.ui.adapter.PictureViewPagerAdapter;
 import com.dup.beauty.ui.widget.PicturesViewPager;
 import com.dup.beauty.util.StringUtil;
-import com.sdsmdg.tastytoast.TastyToast;
+import com.dup.beauty.util.T;
+import com.dup.beauty.view.IPictureView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * 大图查看界面
+ * 网络图片 大图查看界面
+ * <ul>
+ * <li>{@link IPicturePresenter}</li>
+ * <li>{@link PicturePresenter}</li>
+ * <li>{@link IPictureView}</li>
+ * </ul>
  */
 public class PictureActivity extends BaseActivity implements PicturesViewPager.OnPageSingleTapListener
-        , ViewPager.OnPageChangeListener {
+        , ViewPager.OnPageChangeListener, IPictureView {
     @BindView(R.id.picture_viewpager)
     public PicturesViewPager viewPager;
     @BindView(R.id.toolbar)
@@ -42,6 +45,8 @@ public class PictureActivity extends BaseActivity implements PicturesViewPager.O
     private Gallery mGallery;
     private int mPosition;
     private PictureViewPagerAdapter mAdapter;
+
+    private IPicturePresenter mPresenter;
 
     /**
      * toolbar高度,用来显示隐藏toolbar
@@ -82,6 +87,12 @@ public class PictureActivity extends BaseActivity implements PicturesViewPager.O
     }
 
     @Override
+    protected void bindPresenters() {
+        super.bindPresenters();
+        mPresenter = new PicturePresenter(this, this);
+    }
+
+    @Override
     protected void initView() {
         super.initView();
         ButterKnife.bind(this);
@@ -94,7 +105,7 @@ public class PictureActivity extends BaseActivity implements PicturesViewPager.O
         mGallery = (Gallery) bundle.getSerializable("GALLERY");
         mPosition = bundle.getInt("POSITION", 0);
         if (mGallery == null || mGallery.getList() == null || mGallery.getList().isEmpty()) {
-            TastyToast.makeText(this, StringUtil.getStrRes(this, R.string.gallery_error), TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+            T.e(this,R.string.gallery_error);
             finish();
             return;
         }
@@ -192,24 +203,26 @@ public class PictureActivity extends BaseActivity implements PicturesViewPager.O
             anim.start();
         }
 
-        TastyToast.makeText(this, StringUtil.getStrRes(this, R.string.start_download), TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
-        final String fileName = mGallery.getTitle() + "(" + (mPosition + 1) + ").jpg";
-        String url = ApiDefine.getImageUrlWithNoSize(mGallery.getList().get(mPosition).getSrc());
-        DownLoadUtil.getInstance().downloadImage(this.getApplicationContext(), url,
-                fileName, new DownLoadUtil.OnImageDownLoadListener() {
-                    @Override
-                    public void onDownLoadSuccess() {
-                        TastyToast.makeText(PictureActivity.this, StringUtil.getFormatStrRes(PictureActivity.this, R.string.download_success, fileName)
-                                , TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
-                    }
+        mPresenter.downloadImage(mGallery, mPosition);
 
-                    @Override
-                    public void onDownLoadFailed() {
-                        TastyToast.makeText(PictureActivity.this, StringUtil.getFormatStrRes(PictureActivity.this, R.string.download_failed, fileName)
-                                , TastyToast.LENGTH_SHORT, TastyToast.ERROR);
-                    }
-                }
-        );
+    }
+
+    /**
+     * 分享按钮点击事件
+     *
+     * @param view
+     */
+    @OnClick(R.id.toolbar_share)
+    public void onSharePress(View view) {
+        if (anim == null) {
+            return;
+        }
+        if (anim.isRunning()) {
+            return;
+        } else {
+            anim.start();
+        }
+        mPresenter.shareNetImage(mGallery, mPosition);
     }
 
     /**
@@ -261,4 +274,12 @@ public class PictureActivity extends BaseActivity implements PicturesViewPager.O
     }
 
 
+    @Override
+    public void onDownloadResult(boolean isSuccess, String fileName) {
+        if (isSuccess) {
+            T.s(this,R.string.download_success,fileName);
+        } else {
+            T.e(this,R.string.download_failed,fileName);
+        }
+    }
 }

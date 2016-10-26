@@ -4,7 +4,6 @@ import com.dup.beauty.model.entity.Category;
 import com.dup.beauty.model.entity.Gallery;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 主界面MainActivity 的presenter

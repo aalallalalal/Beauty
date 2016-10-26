@@ -1,6 +1,5 @@
 package com.dup.beauty.view;
 
-import com.dup.beauty.model.entity.Galleries;
 import com.dup.beauty.model.entity.Gallery;
 
 import java.util.List;

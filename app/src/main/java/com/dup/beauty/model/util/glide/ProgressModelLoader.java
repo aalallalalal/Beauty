@@ -1,21 +1,15 @@
 package com.dup.beauty.model.util.glide;
 
 import android.content.Context;
-import android.os.Handler;
 
 import com.bumptech.glide.load.data.DataFetcher;
 import com.bumptech.glide.load.model.GenericLoaderFactory;
-import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.ModelCache;
 import com.bumptech.glide.load.model.ModelLoader;
 import com.bumptech.glide.load.model.ModelLoaderFactory;
 import com.bumptech.glide.load.model.stream.StreamModelLoader;
-import com.dup.beauty.model.util.HttpUtil;
 
 import java.io.InputStream;
-
-import okhttp3.Call;
-import okhttp3.OkHttpClient;
 
 /**
  *

@@ -13,12 +13,10 @@ import android.widget.TextView;
 
 import com.dup.beauty.R;
 import com.dup.beauty.app.BaseActivity;
-import com.dup.beauty.model.entity.Gallery;
 import com.dup.beauty.ui.adapter.DownloadPictureViewPagerAdapter;
-import com.dup.beauty.ui.adapter.PictureViewPagerAdapter;
 import com.dup.beauty.ui.widget.PicturesViewPager;
-import com.dup.beauty.util.StringUtil;
-import com.sdsmdg.tastytoast.TastyToast;
+import com.dup.beauty.util.T;
+import com.dup.beauty.util.UMShareUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -28,7 +26,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * 下载的图片大图查看界面
+ * 下载的图片大图查看界面<br>
+ * 没有写presenter和view
  */
 public class DownloadPicturesActivity extends BaseActivity implements PicturesViewPager.OnPageSingleTapListener
         , ViewPager.OnPageChangeListener {
@@ -97,7 +96,7 @@ public class DownloadPicturesActivity extends BaseActivity implements PicturesVi
         mData = (ArrayList<File>) bundle.getSerializable("DATA");
         mPosition = bundle.getInt("POSITION", 0);
         if (mData == null || mData.isEmpty()) {
-            TastyToast.makeText(this, StringUtil.getStrRes(this, R.string.gallery_error), TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+            T.e(this,R.string.gallery_error);
             finish();
             return;
         }
@@ -179,6 +178,14 @@ public class DownloadPicturesActivity extends BaseActivity implements PicturesVi
         finish();
     }
 
+    /**
+     * 分享按钮点击事件
+     * @param view
+     */
+    @OnClick(R.id.toolbar_share)
+    public void onSharePress(View view) {
+        UMShareUtil.getInstance().openSharePane(this,mData.get(mPosition));
+    }
 
     /**
      * 点击viewpager事件.隐藏显示bar
@@ -210,6 +217,7 @@ public class DownloadPicturesActivity extends BaseActivity implements PicturesVi
 
     @Override
     public void onPageSelected(int position) {
+        mPosition = position;
         setToolBarTitle(position);
     }
 

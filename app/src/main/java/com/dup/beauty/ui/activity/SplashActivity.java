@@ -8,10 +8,17 @@ import com.dup.beauty.model.util.UserUtil;
 import com.dup.beauty.presenter.contract.ISplashPresenter;
 import com.dup.beauty.presenter.impl.SplashPresenter;
 import com.dup.beauty.util.NetUtil;
-import com.dup.beauty.util.StringUtil;
+import com.dup.beauty.util.T;
 import com.dup.beauty.view.ISplashView;
-import com.sdsmdg.tastytoast.TastyToast;
 
+/**
+ * 闪屏页
+ * <ul>
+ *  <li>{@link ISplashPresenter}</li>
+ *  <li>{@link SplashPresenter}</li>
+ *  <li>{@link ISplashView}</li>
+ * </ul>
+ */
 public class SplashActivity extends BaseActivity implements ISplashView {
 
     private ISplashPresenter presenter;
@@ -40,7 +47,7 @@ public class SplashActivity extends BaseActivity implements ISplashView {
             @Override
             public void onResult(String message, boolean isSuccess) {
                 if (!isSuccess) {
-                    TastyToast.makeText(SplashActivity.this, StringUtil.getStrRes(SplashActivity.this, R.string.login_failed), TastyToast.LENGTH_SHORT, TastyToast.ERROR);
+                    T.e(SplashActivity.this,R.string.login_failed);
                 }
             }
         });
@@ -59,21 +66,18 @@ public class SplashActivity extends BaseActivity implements ISplashView {
             case NetUtil.NETTYPE_CMNET:
             case NetUtil.NETTYPE_CMWAP:
                 if (onlyWifi) {
-//                    TastyToast.makeText(this, StringUtil.getStrRes(this, R.string.mobile_safe),
-//                            TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
+//                    T.s(this,R.string.mobile_safe);
                 } else {
                     if (isFirstTimeUse) {
                         //第一次使用，并且还是以流量打开，给提示
-                        TastyToast.makeText(this, StringUtil.getStrRes(this, R.string.mobile_warning),
-                                TastyToast.LENGTH_SHORT, TastyToast.WARNING);
+                        T.w(SplashActivity.this,R.string.mobile_warning);
                     }
                 }
                 break;
             case NetUtil.NETTYPE_WIFI:
                 break;
             case NetUtil.NETTYPE_NONE:
-                TastyToast.makeText(this, StringUtil.getStrRes(this, R.string.no_net),
-                        TastyToast.LENGTH_SHORT, TastyToast.SUCCESS);
+                T.s(SplashActivity.this,R.string.no_net);
                 break;
 
         }

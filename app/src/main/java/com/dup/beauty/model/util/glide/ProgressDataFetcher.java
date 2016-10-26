@@ -2,7 +2,6 @@ package com.dup.beauty.model.util.glide;
 
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.data.DataFetcher;
-import com.bumptech.glide.load.model.GlideUrl;
 import com.dup.beauty.model.util.HttpUtil;
 
 import java.io.IOException;

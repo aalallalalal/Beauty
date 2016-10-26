@@ -5,9 +5,6 @@ import android.content.pm.PackageManager;
 import android.os.Environment;
 
 import java.io.File;
-import java.io.IOException;
-import java.security.Permission;
-import java.util.EventListener;
 
 /**
  * Created by DP on 2016/10/14.
