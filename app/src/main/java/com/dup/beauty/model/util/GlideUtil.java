@@ -128,7 +128,7 @@ public class GlideUtil {
 
     /**
      * 处理获取到的进度数据，并转到主线程，设置到textview上
-     *
+     * 如果图片本地存在，则不会走这个回调。
      * @param context
      * @param textView
      * @param url
@@ -155,7 +155,6 @@ public class GlideUtil {
                             if (percent == 100) {
                                 textView.setVisibility(View.GONE);
                             } else {
-                                //下面这句，是因为如果图片本地存在，则不会走这个回调。
                                 textView.setVisibility(View.VISIBLE);
                             }
                         } else {

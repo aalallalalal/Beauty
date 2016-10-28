@@ -12,6 +12,10 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+        ndk {
+            // 设置支持的SO库架构
+            abiFilters 'armeabi' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+        }
     }
     buildTypes {
         release {
@@ -35,7 +39,6 @@ android {
             keyPassword "android"
         }
     }
-
 }
 
 
@@ -70,7 +73,9 @@ dependencies {
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.android.support:support-v4:24.2.1'
     compile project(path: ':changeskin')
-
     compile 'com.afollestad.material-dialogs:core:0.9.0.2'
     compile 'com.afollestad.material-dialogs:commons:0.9.0.2'
+
+    compile 'com.tencent.bugly:crashreport:2.3.1' //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.1.5
+    compile 'com.tencent.bugly:nativecrashreport:3.0' //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
 }

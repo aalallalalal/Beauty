@@ -1,7 +1,12 @@
 package com.dup.beauty.presenter.impl;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.dup.beauty.R;
 import com.dup.beauty.model.api.ApiDefine;
 import com.dup.beauty.model.entity.Gallery;
@@ -27,7 +32,13 @@ public class PicturePresenter implements IPicturePresenter {
     @Override
     public void shareNetImage(Gallery gallery, int position) {
         String url = ApiDefine.getImageUrlWithNoSize(gallery.getList().get(position).getSrc());
-        UMShareUtil.getInstance().openSharePane(mActivity, url);
+        T.i(mActivity,R.string.waiting_load_share);
+        Glide.with(mActivity).load(url).asBitmap().priority(Priority.IMMEDIATE).into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                UMShareUtil.getInstance().openSharePane(mActivity,resource);
+            }
+        });
     }
 
     @Override

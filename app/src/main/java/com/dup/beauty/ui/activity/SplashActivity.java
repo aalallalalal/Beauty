@@ -4,6 +4,7 @@ import android.content.Intent;
 
 import com.dup.beauty.R;
 import com.dup.beauty.app.BaseActivity;
+import com.dup.beauty.model.entity.User;
 import com.dup.beauty.model.util.UserUtil;
 import com.dup.beauty.presenter.contract.ISplashPresenter;
 import com.dup.beauty.presenter.impl.SplashPresenter;
@@ -43,14 +44,13 @@ public class SplashActivity extends BaseActivity implements ISplashView {
     protected void initData() {
         super.initData();
         presenter.checkNetStateAndNetMode();
-        UserUtil.autoLogin(this, new UserUtil.OnResultListener() {
-            @Override
-            public void onResult(String message, boolean isSuccess) {
-                if (!isSuccess) {
-                    T.e(SplashActivity.this,R.string.login_failed);
-                }
-            }
-        });
+        presenter.autoLogin();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.cancelLogin();
     }
 
     /**

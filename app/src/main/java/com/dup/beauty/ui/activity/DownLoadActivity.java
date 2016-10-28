@@ -1,15 +1,21 @@
 package com.dup.beauty.ui.activity;
 
 import android.content.Intent;
+import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.dup.beauty.R;
 import com.dup.beauty.app.BaseActivity;
+import com.dup.beauty.model.util.DownLoadUtil;
 import com.dup.beauty.presenter.contract.IDownloadPresenter;
 import com.dup.beauty.presenter.impl.DownloadPresenter;
 import com.dup.beauty.ui.adapter.DownloadImagesAdapter;
+import com.dup.beauty.util.FileUtil;
 import com.dup.beauty.view.IDownloadView;
 import com.dup.changeskin.SkinManager;
 import com.jaeger.library.StatusBarUtil;
@@ -69,6 +75,13 @@ public class DownloadActivity extends BaseActivity implements IDownloadView, Dow
         mDownloadImagesAdapter.setItemClickListener(this);
         recyclerView.setAdapter(mDownloadImagesAdapter);
         mPresenter.fetchDownloadImages();
+    }
+
+    @OnClick(R.id.toolbar_info)
+    public void onInfoPress(View view) {
+        new MaterialDialog.Builder(this).title(R.string.download_info)
+                .content(FileUtil.getDownLoadFolder(this, DownLoadUtil.PIC_PATH).getAbsolutePath())
+                .positiveText(R.string.done).show();
     }
 
     /**

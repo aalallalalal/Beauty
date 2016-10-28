@@ -92,6 +92,7 @@ public class PicturesAdapter extends RecyclerView.Adapter<PicturesAdapter.MyView
 
         //设置点击监听
         holder.setItemClickListener(holder.getLayoutPosition());
+        holder.progress.setVisibility(View.GONE);//防止item复用，导致本地图片的item出现复用的进度textview
     }
 
     @Override

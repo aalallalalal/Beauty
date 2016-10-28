@@ -18,8 +18,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -32,15 +30,10 @@ import rx.schedulers.Schedulers;
  * Created by DP on 2016/10/24.
  */
 public class DownLoadUtil {
-    private static final String PIC_PATH = "Beauty";
+    public static final String PIC_PATH = "Beauty";
 
-    private Executor executor;
 
     public static DownLoadUtil INSTANCE;
-
-    public DownLoadUtil() {
-        executor = Executors.newFixedThreadPool(5);
-    }
 
     public static DownLoadUtil getInstance() {
         if (INSTANCE == null) {

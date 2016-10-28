@@ -2,6 +2,7 @@ package com.dup.beauty.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import com.dup.beauty.R;
 import com.umeng.socialize.ShareAction;
@@ -58,7 +59,22 @@ public class UMShareUtil {
                 .open();
     }
 
-    private class CustomUMShareListener implements UMShareListener {
+    /**
+     * 分享网络图片
+     *
+     * @param activity
+     * @param resource
+     *  通过glide加载出来的bitmap
+     */
+    public void openSharePane(Activity activity, Bitmap resource) {
+        new ShareAction(activity).setDisplayList(SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN,
+                SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE, SHARE_MEDIA.MORE)
+                .withMedia(new UMImage(activity, resource))
+                .setCallback(new CustomUMShareListener(activity.getApplicationContext()))
+                .open();
+    }
+
+    private static class CustomUMShareListener implements UMShareListener {
         private Context context;
 
         public CustomUMShareListener(Context context) {

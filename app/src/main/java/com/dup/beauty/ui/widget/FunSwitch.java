@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -351,50 +352,21 @@ public class FunSwitch extends View implements ValueAnimator.AnimatorUpdateListe
 
     @Override
     protected Parcelable onSaveInstanceState() {
-        Parcelable superState = super.onSaveInstanceState();
-        SavedState ss = new SavedState(superState);
-        ss.isOpen = mIsOpen ? 1 : 0;
-        return ss;
+        Parcelable su = super.onSaveInstanceState();
+        Bundle b = new Bundle();
+        b.putParcelable("SUPER",su);
+        b.putBoolean("IS_OPEN",mIsOpen);
+        return b;
     }
 
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
-        SavedState ss = (SavedState) state;
+        if (state instanceof Bundle) {
+            setState(((Bundle) state).getBoolean("IS_OPEN"));
+            super.onRestoreInstanceState(((Bundle) state).getParcelable("SUPER"));
+            return;
+        }
         super.onRestoreInstanceState(state);
-        boolean result = ss.isOpen == 1;
-        setState(result);
-    }
-
-    static class SavedState extends BaseSavedState {
-        int isOpen;
-
-        public SavedState(Parcel source) {
-            super(source);
-            isOpen = source.readInt();
-        }
-
-        public SavedState(Parcelable superState) {
-            super(superState);
-        }
-
-        @Override
-        public void writeToParcel(Parcel out, int flags) {
-            super.writeToParcel(out, flags);
-            out.writeInt(isOpen);
-        }
-
-        public static final Parcelable.Creator<SavedState> CREATOR
-                = new Parcelable.Creator<SavedState>() {
-            @Override
-            public SavedState createFromParcel(Parcel source) {
-                return new SavedState(source);
-            }
-
-            @Override
-            public SavedState[] newArray(int size) {
-                return new SavedState[0];
-            }
-        };
     }
 
     private OnStateChangeListener mStateChangeListener;

@@ -10,6 +10,7 @@ import com.dup.beauty.model.api.ApiDefine;
 import com.dup.beauty.model.entity.Oauth;
 import com.dup.beauty.model.entity.User;
 import com.dup.beauty.util.StringUtil;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -24,6 +25,24 @@ import rx.schedulers.Schedulers;
  */
 public class UserUtil {
 
+    private static UserUtil INSTANCE;
+
+    /**
+     * 登陆,注册回调监听
+     */
+    private OnResultListener mListener;
+
+    public static UserUtil getInstance() {
+        if (INSTANCE == null) {
+            synchronized (UserUtil.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new UserUtil();
+                }
+            }
+        }
+        return INSTANCE;
+    }
+
     /**
      * 用户登陆/注册成功后,将状态设置为已登录,存储accesstoken,保存用户数据.
      *
@@ -32,7 +51,8 @@ public class UserUtil {
      * @param account
      * @param pwd
      */
-    private static void userLoginSuccess(Oauth oauth, String name, @Nullable String account, String pwd) {
+    private void userLoginSuccess(Oauth oauth, String name, @Nullable String account, String pwd) {
+        CrashReport.setUserId(name);//如果登陆成功，设置崩溃反馈 用户注册邮箱。方便记录。
         SPUtil.setInfo(SPUtil.KEY_IS_LOGINING, true);
         SPUtil.setInfo(SPUtil.KEY_USER_ACCESS_TOKEN, oauth.getAccessToken());
         User user = new User(0, name, name, account, pwd, "", "", "");
@@ -45,15 +65,15 @@ public class UserUtil {
      *
      * @return
      */
-    public static String getAccToken() {
+    public String getAccToken() {
         return SPUtil.getString(SPUtil.KEY_USER_ACCESS_TOKEN, "");
     }
 
-    public static boolean isLogined() {
+    public boolean isLogined() {
         return SPUtil.getBoolean(SPUtil.KEY_IS_LOGINING, false);
     }
 
-    public static User getCurrUser() {
+    public User getCurrUser() {
         return DBUtil.getInstance().queryUser();
     }
 
@@ -65,7 +85,8 @@ public class UserUtil {
      * <li>3.清除登陆的用户数据</li>
      * </ul>
      */
-    public static void loginOut() {
+    public void loginOut() {
+        CrashReport.setUserId("");//如果退出登陆，重置崩溃反馈 用户注册邮箱。
         SPUtil.setInfo(SPUtil.KEY_USER_ACCESS_TOKEN, "");
         SPUtil.setInfo(SPUtil.KEY_IS_LOGINING, false);
         DBUtil.getInstance().deleteUser();
@@ -75,10 +96,11 @@ public class UserUtil {
     /**
      * 自动登陆
      */
-    public static void autoLogin(Context context, OnResultListener listener) {
+    public void autoLogin(Context context, OnResultListener listener) {
+        mListener = listener;
         User currUser = getCurrUser();
         if (currUser != null) {
-            login(context, currUser.getName(), currUser.getPwd(), listener);
+            login(context, currUser.getName(), currUser.getPwd(), mListener);
         }
     }
 
@@ -92,8 +114,9 @@ public class UserUtil {
      * @param confirmPwd
      * @param listener
      */
-    public static void register(final Context context, @NonNull final String email, @Nullable final String account, @NonNull final String pwd, @Nullable String confirmPwd, final OnResultListener listener) {
-        if (judgeRegisterParams(context, email, account, pwd, confirmPwd, listener)) {
+    public void register(final Context context, @NonNull final String email, @Nullable final String account, @NonNull final String pwd, @Nullable String confirmPwd, final OnResultListener listener) {
+        mListener = listener;
+        if (judgeRegisterParams(context, email, account, pwd, confirmPwd)) {
             // 注册返回结果
             Observable<Oauth> register = ApiClient.getApiService(context).register(ApiDefine.Client_Id, ApiDefine.Client_Secret,
                     email, account, pwd);
@@ -101,20 +124,22 @@ public class UserUtil {
                     .unsubscribeOn(Schedulers.io()).subscribe(new Observer<Oauth>() {
                 @Override
                 public void onCompleted() {
+                    mListener = null;
                 }
 
                 @Override
                 public void onError(Throwable e) {
-                    sendResult(listener, StringUtil.getStrRes(context, R.string.register_failed), false);
+                    sendResult(StringUtil.getStrRes(context, R.string.register_failed), false);
+                    mListener = null;
                 }
 
                 @Override
                 public void onNext(Oauth oauth) {
                     if (oauth != null && oauth.isStatus()) {
-                        UserUtil.userLoginSuccess(oauth, email, account, pwd);
-                        sendResult(listener, StringUtil.getStrRes(context, R.string.register_success), true);
+                        userLoginSuccess(oauth, email, account, pwd);
+                        sendResult(StringUtil.getStrRes(context, R.string.register_success), true);
                     } else {
-                        sendResult(listener,oauth.getMsg(), false);
+                        sendResult(oauth.getMsg(), false);
                     }
                 }
             });
@@ -129,8 +154,9 @@ public class UserUtil {
      * @param pwd
      * @param listener
      */
-    public static void login(final Context context, @NonNull final String name, @NonNull final String pwd, final OnResultListener listener) {
-        if (judgeLoginParams(context, name, pwd, listener)) {
+    public void login(final Context context, @NonNull final String name, @NonNull final String pwd, final OnResultListener listener) {
+        mListener = listener;
+        if (judgeLoginParams(context, name, pwd)) {
             //登陆返回结果
             Observable<Oauth> login = ApiClient.getApiService(context).login(ApiDefine.Client_Id, ApiDefine.Client_Secret, name, pwd);
             login.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
@@ -138,20 +164,23 @@ public class UserUtil {
                     new Observer<Oauth>() {
                         @Override
                         public void onCompleted() {
+                            //防止内存泄露
+                            mListener = null;
                         }
 
                         @Override
                         public void onError(Throwable e) {
-                            sendResult(listener, StringUtil.getStrRes(context, R.string.login_failed), false);
+                            sendResult(StringUtil.getStrRes(context, R.string.login_failed), false);
+                            mListener = null;
                         }
 
                         @Override
                         public void onNext(Oauth oauth) {
                             if (oauth != null && oauth.isStatus()) {
-                                UserUtil.userLoginSuccess(oauth, name, name, pwd);
-                                sendResult(listener, StringUtil.getStrRes(context, R.string.login_success), true);
+                                userLoginSuccess(oauth, name, name, pwd);
+                                sendResult(StringUtil.getStrRes(context, R.string.login_success), true);
                             } else {
-                                sendResult(listener,oauth.getMsg(), false);
+                                sendResult(oauth.getMsg(), false);
                             }
                         }
                     });
@@ -166,7 +195,7 @@ public class UserUtil {
      * @param pwd
      * @param confirmPwd
      */
-    private static boolean judgeRegisterParams(Context context, String email, String account, String pwd, String confirmPwd, OnResultListener listener) {
+    private boolean judgeRegisterParams(Context context, String email, String account, String pwd, String confirmPwd) {
         boolean isRight;
         if (StringUtil.isEmail(email)) {
             if (account.length() > 0) {
@@ -174,19 +203,19 @@ public class UserUtil {
                     if (pwd.equals(confirmPwd)) {
                         isRight = true;
                     } else {
-                        sendResult(listener, StringUtil.getStrRes(context, R.string.pwdconfirm_error), false);
+                        sendResult(StringUtil.getStrRes(context, R.string.pwdconfirm_error), false);
                         isRight = false;
                     }
                 } else {
-                    sendResult(listener, StringUtil.getStrRes(context, R.string.pwd_error), false);
+                    sendResult(StringUtil.getStrRes(context, R.string.pwd_error), false);
                     isRight = false;
                 }
             } else {
-                sendResult(listener, StringUtil.getStrRes(context, R.string.account_error), false);
+                sendResult(StringUtil.getStrRes(context, R.string.account_error), false);
                 isRight = false;
             }
         } else {
-            sendResult(listener, StringUtil.getStrRes(context, R.string.email_error), false);
+            sendResult(StringUtil.getStrRes(context, R.string.email_error), false);
             isRight = false;
         }
         return isRight;
@@ -198,17 +227,17 @@ public class UserUtil {
      * @param account
      * @param pwd
      */
-    private static boolean judgeLoginParams(Context context, String account, String pwd, OnResultListener listener) {
+    private boolean judgeLoginParams(Context context, String account, String pwd) {
         boolean isRight;
         if (!StringUtil.isEmpty(account)) {
             if (pwd.length() >= 6) {
                 isRight = true;
             } else {
-                sendResult(listener, StringUtil.getStrRes(context, R.string.pwd_error), false);
+                sendResult(StringUtil.getStrRes(context, R.string.pwd_error), false);
                 isRight = false;
             }
         } else {
-            sendResult(listener, StringUtil.getStrRes(context, R.string.account_error), false);
+            sendResult(StringUtil.getStrRes(context, R.string.account_error), false);
             isRight = false;
         }
         return isRight;
@@ -217,14 +246,22 @@ public class UserUtil {
     /**
      * 调用listener。主要用来统一判断非null
      *
-     * @param listener
      * @param msg
      * @param isSuccess
      */
-    private static void sendResult(OnResultListener listener, String msg, boolean isSuccess) {
-        if (listener != null) {
-            listener.onResult(msg, isSuccess);
+    private void sendResult(String msg, boolean isSuccess) {
+        if (mListener != null) {
+            mListener.onResult(msg, isSuccess);
         }
+    }
+
+    /**
+     * 如果在调用回调接口之前，结束了界面，要调用此方法，防止回调接口导致界面内存泄露。
+     * <br>
+     *  如果成功调用回调接口，在回调接口调用完成后，将回调设为null，防内存泄露。
+     */
+    public void removeResultListener() {
+        this.mListener = null;
     }
 
     public interface OnResultListener {

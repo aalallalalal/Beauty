@@ -92,6 +92,16 @@ public class SettingActivity extends BaseActivity implements ISettingView {
         EventBus.getDefault().unregister(this);
     }
 
+    /**
+     * 退回按钮点击事件
+     *
+     * @param view
+     */
+    @OnClick(R.id.toolbar_back)
+    public void onBackPress(View view) {
+        finish();
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onImageClearedEvent(String s) {
         if ("IMAGE_CACHE_CLEAR".equals(s)) {

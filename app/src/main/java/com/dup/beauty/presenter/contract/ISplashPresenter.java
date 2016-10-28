@@ -11,4 +11,8 @@ public interface ISplashPresenter {
     void checkNetStateAndNetMode();
 
     void startDelaySplash();
+
+    void autoLogin();
+
+    void cancelLogin();
 }

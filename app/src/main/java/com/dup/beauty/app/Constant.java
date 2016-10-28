@@ -36,5 +36,11 @@ public class Constant {
      */
     public static long SPLASH_DELAY = 1500;
 
+    /**
+     * 发送crash邮件
+     */
+    public static String MAIL_ACCOUNT = "aimsunshine@163.com";
+
+
 
 }

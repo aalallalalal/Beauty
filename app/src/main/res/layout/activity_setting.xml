@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_bg"
-    android:fitsSystemWindows="true"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:background="@color/main_bg"
     android:tag="skin:main_bg:background"
     tools:context="com.dup.beauty.ui.activity.SettingActivity">
 
@@ -39,16 +39,17 @@
         android:id="@+id/setting_clear_img"
         android:layout_width="match_parent"
         android:layout_height="@dimen/setting_item_height"
+        android:orientation="horizontal"
         android:gravity="center"
-        android:orientation="horizontal">
-
+        >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tag="skin:title_text:textColor"
             android:text="@string/clear_cache_img"
-            android:textColor="@color/title_text"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textColor="@color/main_menu_text_color"
+            android:tag="skin:main_menu_text_color:textColor"
+            />
 
     </LinearLayout>
 
@@ -56,22 +57,24 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="@color/divider"
-        android:tag="skin:divider:background" />
+        android:tag="skin:divider:background"
+        />
 
     <LinearLayout
         android:id="@+id/setting_clear_net"
         android:layout_width="match_parent"
         android:layout_height="@dimen/setting_item_height"
+        android:orientation="horizontal"
         android:gravity="center"
-        android:orientation="horizontal">
-
+        >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tag="skin:title_text:textColor"
             android:text="@string/clear_cache_net"
-            android:textColor="@color/title_text"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textColor="@color/main_menu_text_color"
+            android:tag="skin:main_menu_text_color:textColor"
+            />
 
     </LinearLayout>
 

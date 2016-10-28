@@ -147,6 +147,7 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
     @Override
     protected void initData() {
         super.initData();
+
         EventBus.getDefault().register(this);
         boolean netMode = mMainMenuPresenter.getNetMode();//获取网络模式
         wifiOnlySwitch.setState(netMode);
@@ -314,7 +315,7 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
                 startActivity(intent1);
                 break;
             case R.id.main_menu_self_login_out:
-                UserUtil.loginOut();
+                UserUtil.getInstance().loginOut();
                 break;
         }
 
@@ -521,7 +522,7 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
         if (isUserLogining) {
             menuLoginedLayout.setVisibility(View.VISIBLE);
             menuRegisterLayout.setVisibility(View.GONE);
-            menuSelfNameTv.setText(UserUtil.getCurrUser().getName());
+            menuSelfNameTv.setText(UserUtil.getInstance().getCurrUser().getName());
         } else {
             menuLoginedLayout.setVisibility(View.GONE);
             menuRegisterLayout.setVisibility(View.VISIBLE);

@@ -126,6 +126,40 @@ public class FileUtil {
         return cache;
     }
 
+    /**
+     * 获取到crash存放文件夹
+     *
+     * @param context
+     * @return
+     */
+    public static File getCrashFolder(Context context) {
+        File crash = null;
+        String state;
+        try {
+            state = Environment.getExternalStorageState();
+        } catch (NullPointerException e) {
+            state = "";
+        } catch (IncompatibleClassChangeError e) {
+            state = "";
+        }
+        if (Environment.MEDIA_MOUNTED.equals(state) && hasPermission(context)) {
+            crash = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
+        }
+        if (crash == null) {
+            crash = context.getFilesDir();
+        }
+        if (crash == null) {
+            L.w("无法创建crash文件夹！");
+        }
+
+        if (crash != null) {
+            crash = new File(crash, "crash");
+            if (!crash.exists()) {
+                crash.mkdirs();
+            }
+        }
+        return crash;
+    }
 
     private static boolean hasPermission(Context context) {
         int perm = context.checkCallingOrSelfPermission("android.permission.WRITE_EXTERNAL_STORAGE");

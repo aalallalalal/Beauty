@@ -107,6 +107,7 @@ public class GalleriesAdapter extends RecyclerView.Adapter<GalleriesAdapter.MyVi
         holder.tvTitle.setText(gallery.getTitle() + "");
         holder.tvCount.setText(count);
         holder.tvSize.setText(size);
+        holder.tvProgress.setVisibility(View.GONE);//防止item复用，导致本地图片的item出现复用的进度textview
 
         //设置点击监听
         holder.setItemClickListener(holder.getLayoutPosition());

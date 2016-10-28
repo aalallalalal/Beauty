@@ -33,7 +33,7 @@ public class LoginRegisterPresenter implements ILoginRegisterPresenter {
     public void formCommit(@NonNull final String email, @Nullable final String account, @NonNull final String pwd, @Nullable String confirmPwd, @NonNull final int type) {
         if (type == 1) {
             //注册
-            UserUtil.register(mActivity, email, account, pwd, confirmPwd, new UserUtil.OnResultListener() {
+            UserUtil.getInstance().register(mActivity, email, account, pwd, confirmPwd, new UserUtil.OnResultListener() {
                 @Override
                 public void onResult(String message, boolean isSuccess) {
                     mView.onSendFormResult(message, isSuccess);
@@ -41,7 +41,7 @@ public class LoginRegisterPresenter implements ILoginRegisterPresenter {
             });
         } else {
             //登录
-            UserUtil.login(mActivity, email, pwd, new UserUtil.OnResultListener() {
+            UserUtil.getInstance().login(mActivity, email, pwd, new UserUtil.OnResultListener() {
                 @Override
                 public void onResult(String message, boolean isSuccess) {
                     mView.onSendFormResult(message, isSuccess);

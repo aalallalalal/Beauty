@@ -10,7 +10,7 @@
     <!--闪屏页背景-->
     <color name="splash_bg">#4892fa</color>
     <!--分割线颜色-->
-    <color name="divider">#fff</color>
+    <color name="divider">#b14892fa</color>
     <!--标题字体颜色-->
     <color name="title_text">#fff</color>
     <!--标题背景色-->

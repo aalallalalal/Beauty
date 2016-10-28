@@ -7,10 +7,10 @@
     <string name="imgs_size">%1$s张</string>
     <string name="imgs_visitor_count">浏览%1$s次</string>
 
-    <string name="loadmore_error">加载更多失败...</string>
-    <string name="category_error">图片分类获取失败...</string>
-    <string name="img_error">图片加载失败...</string>
-    <string name="gallery_error">图库加载失败...</string>
+    <string name="loadmore_error">加载更多妹纸失败...</string>
+    <string name="category_error">妹纸分类获取失败...</string>
+    <string name="img_error">妹纸加载失败...</string>
+    <string name="gallery_error">妹纸加载失败...</string>
 
     <string name="picture_index">第%1$s张</string>
 
@@ -34,7 +34,7 @@
     <string name="cancel">取消</string>
     <string name="menu_offline">离线缓存模式</string>
     <string name="about_title">关于</string>
-    <string name="about_content">这是一款美女图库App。\n图片来源：天狗阅图(http://www.tngou.net)
+    <string name="about_content">这是一款妹纸图库App。\n图片来源：天狗阅图(http://www.tngou.net)
     \n作者：Dup
     \n邮箱：AimSunshine@163.com
         \nApp源代码和技术点介绍：https://github.com/aalallalalal/Beauty
@@ -63,13 +63,16 @@
     <string name="login_out">退出登陆</string>
     <string name="download_success">%1$s下载成功</string>
     <string name="download_failed">%1$s下载失败,请确认App联网模式及手机网络。</string>
-    <string name="start_download">开始下载</string>
-    <string name="share_failed">分享失败...</string>
-    <string name="share_canceled">分享取消</string>
-    <string name="clear_cache_img">清空图片缓存</string>
+    <string name="start_download">开始下载妹纸...</string>
+    <string name="share_failed">分享妹纸失败...</string>
+    <string name="share_canceled">分享妹纸取消...</string>
+    <string name="clear_cache_img">清空妹纸缓存</string>
     <string name="clear_cache_net">清空离线网络缓存</string>
-    <string name="image_cache_cleared">图片缓存成功清空！</string>
+    <string name="image_cache_cleared">妹纸缓存成功清空！</string>
     <string name="net_cache_cleared">网络缓存数据成功清空！</string>
-    <string name="clear_cache_img_warning">清空图片缓存会释放一定的手机储存空间，但所有图片会重新从网络加载。</string>
+    <string name="clear_cache_img_warning">清空妹纸缓存会释放一定的手机储存空间，但所有妹纸会重新从网络加载。</string>
     <string name="clear_cache_net_warning">清除网络请求缓存后会导致离线模式失效。</string>
+    <string name="download_info">妹纸存放地址</string>
+    <string name="waiting_load_share">正在准备妹纸，请稍等...</string>
+    <string name="crash_toast">妹纸生病了...症状信息作者已收集，妹纸会尽快痊愈!</string>
 </resources>

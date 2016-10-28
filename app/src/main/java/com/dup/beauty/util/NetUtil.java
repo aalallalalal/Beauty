@@ -20,8 +20,8 @@ public class NetUtil {
      *
      * @return
      */
-    public static boolean hasNetwork(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+    public static boolean hasNetwork() {
+        ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
         return ni != null && ni.isConnectedOrConnecting();
     }
@@ -36,13 +36,10 @@ public class NetUtil {
      *
      * @return 0：没有网络   1：WIFI网络   2：WAP网络    3：NET网络
      */
-    public static int getNetworkType(Context context) {
-        if (context == null) {
-            context = mContext;
-        }
+    public static int getNetworkType() {
 
         int netType = NETTYPE_NONE;
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo == null) {
             return netType;

@@ -31,6 +31,18 @@
             android:tag="skin:title_text:textColor"
             android:textSize="@dimen/toolbar_textsize" />
 
+        <ImageButton
+            android:id="@+id/toolbar_info"
+            android:layout_width="@dimen/toolbar_icon_size"
+            android:layout_height="@dimen/toolbar_icon_size"
+            android:padding="2dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="8dp"
+            android:background="@drawable/ic_info"
+            />
+
+
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView

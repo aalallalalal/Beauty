@@ -54,7 +54,7 @@ public class HttpUtil {
                     if (cacheFile != null) {
                         builder = getBaseBuilder()
                                 .cache(new Cache(cacheFile, 1024 * 1024 * size))
-                                .addInterceptor(createCacheInterceptor(context));
+                                .addInterceptor(createCacheInterceptor());
                     } else {
                         builder = getBaseBuilder();
                     }
@@ -137,23 +137,22 @@ public class HttpUtil {
      * <b>注意，这里只能缓存GET.下面链接是缓存POST方法</b><br>
      * <link>http://blog.csdn.net/iamzgx/article/details/51764848<link/>
      *
-     * @param context
      * @return
      */
-    private static Interceptor createCacheInterceptor(final Context context) {
+    private static Interceptor createCacheInterceptor() {
         Interceptor i = new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
                 Request request = chain.request();
                 //如果没网或者为离线缓存模式，则强制使用缓存。注意：glide图片加载没有经过此拦截器，所以，这里拦截的只是非图片请求。
-                if (!NetUtil.hasNetwork(context) || SPUtil.getBoolean(SPUtil.KEY_OFFLINE_MODE, false)) {
+                if (!NetUtil.hasNetwork() || SPUtil.getBoolean(SPUtil.KEY_OFFLINE_MODE, false)) {
                     request = request.newBuilder()
                             .cacheControl(CacheControl.FORCE_CACHE)
                             .build();
                     L.i("无网络或开启离线模式!");
                 }
                 Response originalResponse = chain.proceed(request);
-                if (NetUtil.hasNetwork(context)) {
+                if (NetUtil.hasNetwork()) {
                     return originalResponse.newBuilder()
                             .header("Cache-Control", "public, max-age=" + AGE + ",max-stale=" + STALE)//设置缓存超时时间
                             .removeHeader("Pragma")
@@ -186,7 +185,7 @@ public class HttpUtil {
                 }
 
                 String url = chain.request().url().toString();
-                if (SPUtil.getBoolean(SPUtil.KEY_NET_MODE, false)&&NetUtil.getNetworkType(null)!=NetUtil.NETTYPE_WIFI) {
+                if (SPUtil.getBoolean(SPUtil.KEY_NET_MODE, false)&&NetUtil.getNetworkType()!=NetUtil.NETTYPE_WIFI) {
                     //如果 是仅wifi 联网模式。判断白名单。
                     if (!netModeWhiteList.isEmpty() && netModeWhiteList.contains(url)) {
                         //如果此url请求 属于白名单，则继续进行网络请求。

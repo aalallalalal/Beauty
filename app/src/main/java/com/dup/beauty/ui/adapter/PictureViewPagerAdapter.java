@@ -65,6 +65,7 @@ public class PictureViewPagerAdapter extends PagerAdapter {
                 .crossFade()
                 .error(R.drawable.icon_photo_error)
                 .into(iv);
+        tvProgress.setVisibility(View.GONE);//防止item复用，导致本地图片的item出现复用的进度textview
 
         return view;
     }
