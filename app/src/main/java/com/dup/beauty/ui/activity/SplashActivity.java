@@ -1,6 +1,7 @@
 package com.dup.beauty.ui.activity;
 
 import android.content.Intent;
+import android.widget.TextView;
 
 import com.dup.beauty.R;
 import com.dup.beauty.app.BaseActivity;
@@ -9,18 +10,24 @@ import com.dup.beauty.model.util.UserUtil;
 import com.dup.beauty.presenter.contract.ISplashPresenter;
 import com.dup.beauty.presenter.impl.SplashPresenter;
 import com.dup.beauty.util.NetUtil;
+import com.dup.beauty.util.StringUtil;
 import com.dup.beauty.util.T;
 import com.dup.beauty.view.ISplashView;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * 闪屏页
  * <ul>
- *  <li>{@link ISplashPresenter}</li>
- *  <li>{@link SplashPresenter}</li>
- *  <li>{@link ISplashView}</li>
+ * <li>{@link ISplashPresenter}</li>
+ * <li>{@link SplashPresenter}</li>
+ * <li>{@link ISplashView}</li>
  * </ul>
  */
 public class SplashActivity extends BaseActivity implements ISplashView {
+    @BindView(R.id.splash_version)
+    public TextView versionTv;
 
     private ISplashPresenter presenter;
 
@@ -43,6 +50,9 @@ public class SplashActivity extends BaseActivity implements ISplashView {
     @Override
     protected void initData() {
         super.initData();
+        ButterKnife.bind(this);
+        String versionName = presenter.getAppVersion();
+        versionTv.setText(StringUtil.getFormatStrRes(this,R.string.version,versionName));
         presenter.checkNetStateAndNetMode();
         presenter.autoLogin();
     }
@@ -70,14 +80,14 @@ public class SplashActivity extends BaseActivity implements ISplashView {
                 } else {
                     if (isFirstTimeUse) {
                         //第一次使用，并且还是以流量打开，给提示
-                        T.w(SplashActivity.this,R.string.mobile_warning);
+                        T.w(SplashActivity.this, R.string.mobile_warning);
                     }
                 }
                 break;
             case NetUtil.NETTYPE_WIFI:
                 break;
             case NetUtil.NETTYPE_NONE:
-                T.s(SplashActivity.this,R.string.no_net);
+                T.s(SplashActivity.this, R.string.no_net);
                 break;
 
         }

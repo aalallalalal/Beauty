@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Beauty</string>
+    <string name="app_name">悦妹纸</string>
 
     <string name="catalog">分类</string>
     <string name="recommend">推荐</string>
@@ -75,4 +75,5 @@
     <string name="download_info">妹纸存放地址</string>
     <string name="waiting_load_share">正在准备妹纸，请稍等...</string>
     <string name="crash_toast">妹纸生病了...症状信息作者已收集，妹纸会尽快痊愈!</string>
+    <string name="version">Version:%1$s</string>
 </resources>

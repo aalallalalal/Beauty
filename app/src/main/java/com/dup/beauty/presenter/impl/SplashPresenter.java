@@ -1,6 +1,8 @@
 package com.dup.beauty.presenter.impl;
 
 import android.app.Activity;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 
 import com.dup.beauty.R;
 import com.dup.beauty.app.Constant;
@@ -65,5 +67,19 @@ public class SplashPresenter implements ISplashPresenter {
     @Override
     public void cancelLogin() {
         UserUtil.getInstance().removeResultListener();
+    }
+
+    @Override
+    public String getAppVersion() {
+        PackageManager manager;
+        PackageInfo info = null;
+        manager = activity.getPackageManager();
+
+        try {
+            info = manager.getPackageInfo(activity.getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return info.versionName;
     }
 }

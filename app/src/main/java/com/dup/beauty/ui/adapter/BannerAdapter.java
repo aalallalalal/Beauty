@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.dup.beauty.R;
+import com.dup.beauty.app.Constant;
 import com.dup.beauty.model.api.ApiDefine;
 import com.dup.beauty.model.entity.Gallery;
 
@@ -38,7 +39,7 @@ public class BannerAdapter implements BGABanner.Adapter {
         Glide.with(context).load(url).
                 priority(Priority.IMMEDIATE).placeholder(R.drawable.icon_photo_empty)
                 .error(R.drawable.icon_photo_error)
-                .thumbnail(0.6f)
+                .thumbnail(Constant.THUMBNAIL)
                 .centerCrop().crossFade().into((ImageView) view);
     }
 }

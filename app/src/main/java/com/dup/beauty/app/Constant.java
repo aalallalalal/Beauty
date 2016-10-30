@@ -41,6 +41,13 @@ public class Constant {
      */
     public static String MAIL_ACCOUNT = "aimsunshine@163.com";
 
+    /**
+     * 图片缩略图默认
+     */
+    public static float THUMBNAIL = 0.05f;
 
-
+    /**
+     * 网络下载缩略图默认宽度
+     */
+    public static int THUMBNAIL_WIDTH = 80;
 }

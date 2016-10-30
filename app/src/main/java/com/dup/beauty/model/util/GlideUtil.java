@@ -1,15 +1,19 @@
 package com.dup.beauty.model.util;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.TextView;
 
+import com.bumptech.glide.BitmapRequestBuilder;
+import com.bumptech.glide.BitmapTypeRequest;
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dup.beauty.R;
+import com.dup.beauty.app.Constant;
 import com.dup.beauty.model.util.glide.OnPercentToTarget;
 import com.dup.beauty.model.util.glide.ProgressListener;
 import com.dup.beauty.model.util.glide.ProgressModelLoader;
@@ -26,14 +30,13 @@ import rx.functions.Func1;
  * <ul>
  * <li>封装网络图片下载进度功能</li>
  * </ul>
- * <b>注意：网络请求下不可以设置thumbnail，加载本地图片可以。因为设置了thumbnail会导致多个线程
- * 去下载网络图片，会导致进度数据时而显示thumbnail进度，时而原图数据进度。
- * 经测试原因可能如上，能力有限，不知道怎么解决...</b>
+ * <b>注意：网络请求下设置了thumbnail(float)会导致有一个全图请求和缩略图请求，
+ * 去下载网络图片，会导致进度数据时而显示thumbnail进度，时而原图数据进度。<br>
+ * 经测试原因可能如上，目前解决办法是thumbnail（新请求）这个方法。这样原图和缩略图成为了两个不关联的请求。进度是原图下载进度.</b>
  * <p/>
  * Created by DP on 2016/10/13.
  */
 public class GlideUtil {
-
 
     /**
      * 有下载进度回调监听(子线程)
@@ -87,56 +90,105 @@ public class GlideUtil {
 
 
     /**
-     * 传入放图片的ViewGroup和进度textview.
-     * <b>根据本项目中需求封装</b>
+     * 非独立请求缩略图，不带进度。
      *
      * @param context
      * @param model
      * @return
      */
-    public static DrawableRequestBuilder begin(final Context context, String model, final TextView textView) {
+    public static DrawableRequestBuilder beginNoProgress(final Context context, String model) {
+        return Glide.with(context)
+                .load(model).diskCacheStrategy(DiskCacheStrategy.ALL).
+                        priority(Priority.IMMEDIATE).thumbnail(Constant.THUMBNAIL);
+    }
+
+
+    /**
+     * 无请求缩略图，带进度。
+     * <b>注意：如果加载的是本地图片，不会有进度回调</b>
+     *
+     * @param context
+     * @param model
+     * @return
+     */
+    public static DrawableRequestBuilder<String> beginProgress(final Context context, String model, final TextView textView) {
         textView.setTag(R.id.tag_glide_progress, model);
+
         return Glide.with(context).using(new ProgressModelLoader(new ProgressListener() {
             @Override
             public void update(final String url, long bytesRead, long contentLength, boolean done) {
                 handlerProgress(context, textView, url, bytesRead, contentLength, done);
             }
         }))
-                .load(model).diskCacheStrategy(DiskCacheStrategy.ALL).
-                        priority(Priority.IMMEDIATE);
+                .load(model).diskCacheStrategy(DiskCacheStrategy.ALL)
+                .priority(Priority.IMMEDIATE)
+                ;
     }
 
     /**
-     * 传入放图片的ViewGroup和进度textview
-     * <b>asBitmap etc</b>
-     * <b>根据本项目中需求封装</b>
+     * 无请求缩略图，带进度。
+     * <b>注意：如果加载的是本地图片，不会有进度回调</b>
      *
      * @param context
      * @param model
+     * @param textView 进度view
+     *@param tagSuffix tag后缀：主要用来防止两个相同的请求，进度view 的tag还相同，导致的混乱。
      * @return
      */
-    public static DrawableTypeRequest<String> beginAsOther(final Context context, String model, final TextView textView) {
+    public static DrawableRequestBuilder<String> beginProgress(final Context context, String model, final TextView textView, final String tagSuffix) {
+        textView.setTag(R.id.tag_glide_progress, model+tagSuffix);
+
+        return Glide.with(context).using(new ProgressModelLoader(new ProgressListener() {
+            @Override
+            public void update(final String url, long bytesRead, long contentLength, boolean done) {
+                handlerProgress(context, textView, url+tagSuffix, bytesRead, contentLength, done);
+            }
+        }))
+                .load(model).diskCacheStrategy(DiskCacheStrategy.ALL)
+                .priority(Priority.IMMEDIATE)
+                ;
+    }
+
+    /**
+     * 独立请求缩略图，带进度。
+     * <b>注意：如果加载的是本地图片，不会有进度回调</b>
+     *
+     * @param context
+     * @param model
+     * @param urlThumbnail
+     * @return
+     */
+    public static BitmapRequestBuilder<String, Bitmap> beginAsBitmap(final Context context, String model, String urlThumbnail, final TextView textView) {
         textView.setTag(R.id.tag_glide_progress, model);
+        //缩略图采用 可设置图片大小的接口请求。
+        BitmapRequestBuilder<String, Bitmap> thumbnailRequest = Glide
+                .with(context)
+                .load(urlThumbnail).asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
+                .priority(Priority.IMMEDIATE);
+
         return Glide.with(context).using(new ProgressModelLoader(new ProgressListener() {
             @Override
             public void update(final String url, long bytesRead, long contentLength, boolean done) {
                 handlerProgress(context, textView, url, bytesRead, contentLength, done);
             }
         }))
-                .load(model);
+                .load(model).asBitmap().diskCacheStrategy(DiskCacheStrategy.ALL)
+                .priority(Priority.IMMEDIATE)
+                .thumbnail(thumbnailRequest);
     }
 
     /**
      * 处理获取到的进度数据，并转到主线程，设置到textview上
      * 如果图片本地存在，则不会走这个回调。
+     *
      * @param context
      * @param textView
-     * @param url
+     * @param tag
      * @param bytesRead
      * @param contentLength
      * @param done
      */
-    private static void handlerProgress(final Context context, final TextView textView, final String url, long bytesRead, long contentLength, boolean done) {
+    private static void handlerProgress(final Context context, final TextView textView, final String tag, long bytesRead, long contentLength, boolean done) {
         final float percent = (float) bytesRead / contentLength;
         Observable.just(percent)
                 .map(new Func1<Float, Float>() {
@@ -150,13 +202,16 @@ public class GlideUtil {
                     @Override
                     public void call(Float percent) {
                         int i = percent.intValue();
-                        if (url.equals(textView.getTag(R.id.tag_glide_progress))) {
-                            textView.setText(StringUtil.getFormatStrRes(context, R.string.loading_percent, i + ""));
-                            if (percent == 100) {
+                        if (tag.equals(textView.getTag(R.id.tag_glide_progress))) {
+
+                            if (i == 100) {
                                 textView.setVisibility(View.GONE);
                             } else {
                                 textView.setVisibility(View.VISIBLE);
                             }
+
+                            textView.setText(StringUtil.getFormatStrRes(context, R.string.loading_percent, i + ""));
+
                         } else {
                             L.d("进度view TAG不匹配");
                         }

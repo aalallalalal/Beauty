@@ -15,4 +15,6 @@ public interface ISplashPresenter {
     void autoLogin();
 
     void cancelLogin();
+
+    String getAppVersion();
 }

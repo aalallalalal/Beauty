@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Priority;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.dup.beauty.R;
@@ -79,23 +77,21 @@ public class GalleriesAdapter extends RecyclerView.Adapter<GalleriesAdapter.MyVi
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
         Gallery gallery = mData.get(position);
-        //这里设置图片宽度 为屏幕一半除1.8 宽
-        String url = ApiDefine.getImageUrlWithSize(gallery.getImg(), (int) (itemWidth / Constant.PIC_WIDTH_RATIO), 0);
+        String url = ApiDefine.getImageUrlWithNoSize(gallery.getImg());
 
         if (sizeMap.containsKey(url) && !sizeMap.get(url).isNull()) {
             /*当图片大小数据已得到,先改变item大小,后加载图片*/
             setItemSize(sizeMap.get(url), holder.iv);
-            GlideUtil.begin(context, url, holder.tvProgress)
-                    .thumbnail(0.2f).placeholder(R.drawable.icon_photo_empty)
+            GlideUtil.beginNoProgress(context, url)
+                    .placeholder(R.drawable.icon_photo_empty)
                     .crossFade()
                     .error(R.drawable.icon_photo_error)
                     .into(holder.iv);
         } else {
+            //缩略图url
+            String urlThumbnail = ApiDefine.getImageUrlWithSize(gallery.getImg(), Constant.THUMBNAIL_WIDTH,0);
              /*当图片大小数据没得到,通过target回调,根据图片大小改变item大小*/
-            GlideUtil.beginAsOther(context, url, holder.tvProgress)
-                    .asBitmap()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .priority(Priority.IMMEDIATE)
+            GlideUtil.beginAsBitmap(context, url,urlThumbnail, holder.tvProgress)
                     .placeholder(R.drawable.icon_photo_empty)
                     .error(R.drawable.icon_photo_error)
                     .into(new ImageViewTarget(holder, url));

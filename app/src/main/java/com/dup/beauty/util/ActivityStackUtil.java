@@ -6,18 +6,19 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * activity管理
  * Created by DP on 2016/10/28.
  */
-public class ActivityTrackUtil {
+public class ActivityStackUtil {
     public List<Activity> activityList = new LinkedList<>();
 
-    public static ActivityTrackUtil INSTANCE;
+    public static ActivityStackUtil INSTANCE;
 
-    public static ActivityTrackUtil getInstance() {
+    public static ActivityStackUtil getInstance() {
         if (INSTANCE == null) {
-            synchronized (ActivityTrackUtil.class) {
+            synchronized (ActivityStackUtil.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new ActivityTrackUtil();
+                    INSTANCE = new ActivityStackUtil();
                 }
             }
         }

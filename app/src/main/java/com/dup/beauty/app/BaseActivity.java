@@ -12,7 +12,7 @@ import android.view.WindowManager;
 
 import com.dup.beauty.R;
 import com.dup.beauty.ui.widget.MySlidingPaneLayout;
-import com.dup.beauty.util.ActivityTrackUtil;
+import com.dup.beauty.util.ActivityStackUtil;
 import com.dup.changeskin.SkinManager;
 
 import java.lang.reflect.Field;
@@ -27,7 +27,7 @@ public abstract class BaseActivity extends AppCompatActivity implements MySlidin
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ActivityTrackUtil.getInstance().addActivity(this);
+        ActivityStackUtil.getInstance().addActivity(this);
 
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         if (getSupportActionBar() != null) {
@@ -62,7 +62,7 @@ public abstract class BaseActivity extends AppCompatActivity implements MySlidin
     protected void onDestroy() {
         super.onDestroy();
         SkinManager.getInstance().unregister(this);
-        ActivityTrackUtil.getInstance().removeActivity(this);
+        ActivityStackUtil.getInstance().removeActivity(this);
     }
 
     /**

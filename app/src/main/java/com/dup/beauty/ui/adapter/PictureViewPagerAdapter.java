@@ -61,7 +61,7 @@ public class PictureViewPagerAdapter extends PagerAdapter {
         String url = ApiDefine.getImageUrlWithNoSize(mData.get(position).getSrc());
 
         //添加Textview指示下载进度
-        GlideUtil.begin(mContext, url, tvProgress)
+        GlideUtil.beginProgress(mContext, url, tvProgress,"viewpager")
                 .crossFade()
                 .error(R.drawable.icon_photo_error)
                 .into(iv);

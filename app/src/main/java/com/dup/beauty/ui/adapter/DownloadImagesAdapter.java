@@ -16,6 +16,7 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.dup.beauty.R;
+import com.dup.beauty.app.Constant;
 import com.dup.changeskin.SkinManager;
 
 import java.io.File;
@@ -73,7 +74,7 @@ public class DownloadImagesAdapter extends RecyclerView.Adapter<DownloadImagesAd
             /*当图片大小数据已得到,先改变item大小,后加载图片*/
             setItemSize(sizeMap.get(uri), holder.iv);
             Glide.with(context).load(uri)
-                    .thumbnail(0.2f).placeholder(R.drawable.icon_photo_empty)
+                    .thumbnail(Constant.THUMBNAIL).placeholder(R.drawable.icon_photo_empty)
                     .crossFade()
                     .error(R.drawable.icon_photo_error)
                     .into(holder.iv);
