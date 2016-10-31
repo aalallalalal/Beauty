@@ -26,10 +26,12 @@ public class DownloadPresenter implements IDownloadPresenter {
      */
     @Override
     public void fetchDownloadImages() {
+        mView.onDataLoad(false);
         DownLoadUtil.getInstance().fetchDownloadImages(mActivity.getApplicationContext(), new DownLoadUtil.OnDownloadImagesFetchListener() {
             @Override
             public void onFetchImages(ArrayList<File> list) {
                 mView.onFetchDownloadImages(list);
+                mView.onDataLoad(true);
             }
         });
     }

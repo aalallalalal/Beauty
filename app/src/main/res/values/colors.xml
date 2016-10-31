@@ -137,15 +137,15 @@
 
     <!--红色主题-->
     <!--状态栏背景-->
-    <color name="status_bar_bg_red">#ff4747</color>
+    <color name="status_bar_bg_red">#ff5757</color>
     <!--闪屏页背景-->
-    <color name="splash_bg_red">#ff4747</color>
+    <color name="splash_bg_red">#ff5757</color>
     <!--分割线颜色-->
     <color name="divider_red">#fff</color>
     <!--标题字体颜色-->
     <color name="title_text_red">#fff</color>
     <!--标题背景色-->
-    <color name="title_bg_red">#b1ff4747</color>
+    <color name="title_bg_red">#b1ff5757</color>
     <!--界面主背景色-->
     <color name="main_bg_red">#fff</color>
     <!--分类列表item字体颜色-->
@@ -160,6 +160,33 @@
     <color name="main_menu_text_color_red">#959596</color>
     <!--圆形imageview边框颜色-->
     <color name="circleview_border_red">#66ff4747</color>
+
+
+    <!--黄色主题-->
+    <!--状态栏背景-->
+    <color name="status_bar_bg_yellow">#bbbf49</color>
+    <!--闪屏页背景-->
+    <color name="splash_bg_yellow">#bbbf49</color>
+    <!--分割线颜色-->
+    <color name="divider_yellow">#fff</color>
+    <!--标题字体颜色-->
+    <color name="title_text_yellow">#fff</color>
+    <!--标题背景色-->
+    <color name="title_bg_yellow">#b1bbbf49</color>
+    <!--界面主背景色-->
+    <color name="main_bg_yellow">#fff</color>
+    <!--分类列表item字体颜色-->
+    <color name="item_category_text_bar_text_yellow">#959596</color>
+    <!--图库item字体颜色-->
+    <color name="item_gallery_text_yellow">#fff</color>
+    <!--图库item遮罩颜色-->
+    <color name="item_gallery_shader_bg_yellow">#81bbbf49</color>
+    <!--图片加载进度字体颜色-->
+    <color name="loading_textview_yellow">#bbbf49</color>
+    <!--menu字体颜色-->
+    <color name="main_menu_text_color_yellow">#959596</color>
+    <!--圆形imageview边框颜色-->
+    <color name="circleview_border_yellow">#66bbbf49</color>
 
 
 

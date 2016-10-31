@@ -68,24 +68,27 @@ public class DownloadImagesAdapter extends RecyclerView.Adapter<DownloadImagesAd
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-        String uri = Uri.fromFile(mData.get(position)).toString();
+        String path = mData.get(position).toString();
 
-        if (sizeMap.containsKey(uri) && !sizeMap.get(uri).isNull()) {
+        if (sizeMap.containsKey(path) && !sizeMap.get(path).isNull()) {
             /*当图片大小数据已得到,先改变item大小,后加载图片*/
-            setItemSize(sizeMap.get(uri), holder.iv);
-            Glide.with(context).load(uri)
-                    .thumbnail(Constant.THUMBNAIL).placeholder(R.drawable.icon_photo_empty)
+            setItemSize(sizeMap.get(path), holder.iv);
+            Glide.with(context).load(mData.get(position))
+                    .priority(Priority.IMMEDIATE)
+                    .thumbnail(Constant.THUMBNAIL)
+                    .placeholder(R.drawable.icon_photo_empty)
                     .crossFade()
                     .error(R.drawable.icon_photo_error)
                     .into(holder.iv);
         } else {
             /*当图片大小数据没得到,通过target回调,根据图片大小改变item大小*/
-            Glide.with(context).load(uri)
+            Glide.with(context).load(mData.get(position))
                     .asBitmap()
                     .priority(Priority.IMMEDIATE)
+                    .thumbnail(Constant.THUMBNAIL)
                     .placeholder(R.drawable.icon_photo_empty)
                     .error(R.drawable.icon_photo_error)
-                    .into(new ImageViewTarget(holder, uri));
+                    .into(new ImageViewTarget(holder, path));
         }
 
         //设置点击监听

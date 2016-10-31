@@ -3,6 +3,7 @@ package com.dup.beauty.ui.activity;
 import android.content.Intent;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.dup.beauty.model.util.DownLoadUtil;
 import com.dup.beauty.presenter.contract.IDownloadPresenter;
 import com.dup.beauty.presenter.impl.DownloadPresenter;
 import com.dup.beauty.ui.adapter.DownloadImagesAdapter;
+import com.dup.beauty.ui.widget.ColorSwipeRefreshLayout;
 import com.dup.beauty.util.FileUtil;
 import com.dup.beauty.view.IDownloadView;
 import com.dup.changeskin.SkinManager;
@@ -38,6 +40,8 @@ import butterknife.OnClick;
 public class DownloadActivity extends BaseActivity implements IDownloadView, DownloadImagesAdapter.OnItemClickListener {
     @BindView(R.id.download_recyclerview)
     public RecyclerView recyclerView;
+    @BindView(R.id.swipe_refresh)
+    public ColorSwipeRefreshLayout refreshLayout;
 
     private IDownloadPresenter mPresenter;
 
@@ -77,6 +81,17 @@ public class DownloadActivity extends BaseActivity implements IDownloadView, Dow
         mPresenter.fetchDownloadImages();
     }
 
+    @Override
+    protected void initAction() {
+        super.initAction();
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mPresenter.fetchDownloadImages();
+            }
+        });
+    }
+
     @OnClick(R.id.toolbar_info)
     public void onInfoPress(View view) {
         new MaterialDialog.Builder(this).title(R.string.download_info)
@@ -99,8 +114,11 @@ public class DownloadActivity extends BaseActivity implements IDownloadView, Dow
      */
     @Override
     public void onFetchDownloadImages(ArrayList<File> list) {
-        mData.addAll(list);
-        mDownloadImagesAdapter.notifyDataSetChanged();
+        if (list != null) {
+            mData.clear();
+            mData.addAll(list);
+            mDownloadImagesAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -109,6 +127,11 @@ public class DownloadActivity extends BaseActivity implements IDownloadView, Dow
         intent.putExtra("DATA", mData);
         intent.putExtra("POSITION", position);
         startActivity(intent);
+    }
+
+    @Override
+    public void onDataLoad(boolean isFinish) {
+        refreshLayout.setRefreshing(!isFinish);
     }
 }
 

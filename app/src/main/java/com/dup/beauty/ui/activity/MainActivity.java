@@ -2,6 +2,7 @@ package com.dup.beauty.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
@@ -31,7 +32,7 @@ import com.dup.beauty.presenter.impl.MainMenuPresenter;
 import com.dup.beauty.ui.adapter.BannerAdapter;
 import com.dup.beauty.ui.adapter.CategoriesAdapter;
 import com.dup.beauty.ui.adapter.GalleriesAdapter;
-import com.dup.beauty.ui.widget.FunSwitch;
+import com.dup.beauty.ui.widget.ColorFunSwitch;
 import com.dup.beauty.ui.widget.MySlidingPaneLayout;
 import com.dup.beauty.util.Blur;
 import com.dup.beauty.util.DisplayUtil;
@@ -39,6 +40,7 @@ import com.dup.beauty.util.L;
 import com.dup.beauty.view.IMainContentView;
 import com.dup.beauty.view.IMainMenuView;
 import com.dup.changeskin.SkinManager;
+import com.jaeger.library.StatusBarUtil;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
@@ -90,9 +92,9 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
 
     //Menu
     @BindView(R.id.main_menu_only_wifi_switcher)
-    public FunSwitch wifiOnlySwitch;
+    public ColorFunSwitch wifiOnlySwitch;
     @BindView(R.id.main_menu_offline_switcher)
-    public FunSwitch offlineSwitch;
+    public ColorFunSwitch offlineSwitch;
     @BindView(R.id.main_menu_self_login_register_layout)
     public ViewGroup menuRegisterLayout;
     @BindView(R.id.main_menu_self_logined_layout)
@@ -139,6 +141,11 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
     protected void initView() {
         super.initView();
         ButterKnife.bind(MainActivity.this);
+
+        if (Build.VERSION.SDK_INT <Build.VERSION_CODES.LOLLIPOP) {
+            StatusBarUtil.setColor(this, SkinManager.getInstance().getResourceManager().getColor("status_bar_bg"));
+        }
+
         recyclerViewHot.setPullRefreshEnabled(false);
         recyclerViewHot.setLoadingMoreEnabled(true);
         recyclerViewHot.setLoadingMoreProgressStyle(ProgressStyle.SquareSpin);
@@ -175,12 +182,12 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
         /**
          * wifionly 开关监听
          */
-        wifiOnlySwitch.setStateChangeListener(new FunSwitch.OnStateChangeListener() {
+        wifiOnlySwitch.setStateChangeListener(new ColorFunSwitch.OnStateChangeListener() {
             @Override
             public void onStateChanged(boolean isOpen) {
                 boolean b = mMainMenuPresenter.changeNetMode(isOpen);
                 if (!b) {
-                    isOpen = !isOpen;
+                    //设置模式失败
                     wifiOnlySwitch.setState(!isOpen);
                 }
 
@@ -194,12 +201,11 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
         /**
          * offline 开关监听
          */
-        offlineSwitch.setStateChangeListener(new FunSwitch.OnStateChangeListener() {
+        offlineSwitch.setStateChangeListener(new ColorFunSwitch.OnStateChangeListener() {
             @Override
             public void onStateChanged(boolean isOpen) {
                 boolean b = mMainMenuPresenter.changeOfflineMode(isOpen);
                 if (!b) {
-                    isOpen = !isOpen;
                     offlineSwitch.setState(!isOpen);
                 }
 
@@ -244,6 +250,7 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
         recyclerViewHot.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
+                requestData();
             }
 
             @Override
@@ -396,6 +403,7 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
      */
     @Override
     public void onBannerAndHotImgs(ArrayList<Gallery> listBanner, ArrayList<Gallery> listHot) {
+        recyclerViewHot.refreshComplete();
         if (listBanner == null || listHot == null) {
             return;
         }
@@ -511,8 +519,14 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
             SkinManager.getInstance().changeSkin("purple");
         } else if (selectedColor == getResources().getColor(R.color.status_bar_bg_red)) {
             SkinManager.getInstance().changeSkin("red");
+        } else if(selectedColor == getResources().getColor(R.color.status_bar_bg_yellow)) {
+            SkinManager.getInstance().changeSkin("yellow");
         }
         //这里需要清空recyclerview的缓存view，否则缓存的item不会改变颜色。这就不清空了，影响性能。
+
+        //实时改变两个switch
+        wifiOnlySwitch.refreshState();
+        offlineSwitch.refreshState();
     }
 
 

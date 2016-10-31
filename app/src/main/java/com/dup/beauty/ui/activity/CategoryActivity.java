@@ -2,6 +2,7 @@ package com.dup.beauty.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.dup.beauty.presenter.contract.ILoginRegisterPresenter;
 import com.dup.beauty.presenter.impl.CategoryPresenter;
 import com.dup.beauty.presenter.impl.LoginRegisterPresenter;
 import com.dup.beauty.ui.adapter.GalleriesAdapter;
+import com.dup.beauty.ui.widget.ColorSwipeRefreshLayout;
 import com.dup.beauty.view.ICategoryView;
 import com.dup.beauty.view.ILoginRegisterView;
 import com.dup.changeskin.SkinManager;
@@ -42,9 +44,12 @@ public class CategoryActivity extends BaseActivity implements ICategoryView, Gal
     public TextView titleTv;
     @BindView(R.id.category_gallery_recyclerview)
     public XRecyclerView recyclerView;
+    @BindView(R.id.swipe_refresh)
+    public ColorSwipeRefreshLayout refreshLayout;
 
     private ICategoryPresenter mPresenter;
     private GalleriesAdapter mAdapter;
+    private Category category;
 
     @Override
     protected int getLayoutId() {
@@ -68,7 +73,7 @@ public class CategoryActivity extends BaseActivity implements ICategoryView, Gal
     protected void initData() {
         super.initData();
         Bundle bundle = getIntent().getExtras();
-        Category category = (Category) bundle.getSerializable("CATEGORY");
+        category = (Category) bundle.getSerializable("CATEGORY");
         if (category == null) {
             finish();
             return;
@@ -91,6 +96,12 @@ public class CategoryActivity extends BaseActivity implements ICategoryView, Gal
             @Override
             public void onLoadMore() {
                 mPresenter.fetchMoreGalleriesWithId();
+            }
+        });
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshLayout.setRefreshing(false);
             }
         });
     }
@@ -155,5 +166,10 @@ public class CategoryActivity extends BaseActivity implements ICategoryView, Gal
         intent.putExtra("GALLERIES", mPresenter.getGalleries());
         intent.setClass(this, GalleryActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onDataLoad(boolean isFinish) {
+        refreshLayout.setRefreshing(!isFinish);
     }
 }

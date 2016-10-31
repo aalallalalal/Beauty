@@ -13,6 +13,8 @@ import com.dup.beauty.util.NetUtil;
 import com.dup.beauty.util.StringUtil;
 import com.dup.beauty.util.T;
 import com.dup.beauty.view.ISplashView;
+import com.dup.changeskin.SkinManager;
+import com.jaeger.library.StatusBarUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,6 +53,7 @@ public class SplashActivity extends BaseActivity implements ISplashView {
     protected void initData() {
         super.initData();
         ButterKnife.bind(this);
+        StatusBarUtil.setColor(this, SkinManager.getInstance().getResourceManager().getColor("status_bar_bg"),0);
         String versionName = presenter.getAppVersion();
         versionTv.setText(StringUtil.getFormatStrRes(this,R.string.version,versionName));
         presenter.checkNetStateAndNetMode();

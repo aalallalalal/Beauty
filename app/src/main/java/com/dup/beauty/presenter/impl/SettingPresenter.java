@@ -29,11 +29,4 @@ public class SettingPresenter implements ISettingPresenter {
         CacheUtil.clearImageCache(mActivity);
     }
 
-    /**
-     * 清空网络缓存
-     */
-    @Override
-    public void clearNetCache() {
-        CacheUtil.clearNetCache(mActivity);
-    }
 }

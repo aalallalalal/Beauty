@@ -1,5 +1,7 @@
 package com.dup.beauty.model.util.glide;
 
+import com.dup.beauty.util.L;
+
 import java.io.IOException;
 
 import okhttp3.MediaType;
@@ -51,13 +53,18 @@ class ProgressResponseBody extends ResponseBody {
 
             @Override
             public long read(Buffer sink, long byteCount) throws IOException {
-                long bytesRead = super.read(sink, byteCount);
-                if (responseBody.contentLength() > 0) {
-                    // read() returns the number of bytes read, or -1 if this source is exhausted.
-                    totalBytesRead += bytesRead != -1 ? bytesRead : 0;
-                    progressListener.update(url, totalBytesRead, responseBody.contentLength(), bytesRead == -1);
-                } else {
-                    progressListener.update(url, 0, -1, bytesRead == -1);
+                long bytesRead=0;
+                try {
+                    bytesRead = super.read(sink, byteCount);
+                    if (responseBody.contentLength() > 0) {
+                        // read() returns the number of bytes read, or -1 if this source is exhausted.
+                        totalBytesRead += bytesRead != -1 ? bytesRead : 0;
+                        progressListener.update(url, totalBytesRead, responseBody.contentLength(), bytesRead == -1);
+                    } else {
+                        progressListener.update(url, 0, -1, bytesRead == -1);
+                    }
+                } catch (IOException e) {
+                    L.e("处理进度流时IoException");
                 }
                 return bytesRead;
             }

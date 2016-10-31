@@ -26,4 +26,12 @@ public interface ICategoryView {
      */
     void onMoreGalleriesWithId(List<Gallery> galleries, int page);
 
+    /**
+     * 数据加载提示
+     * @param isFinish
+     * true:关闭等待层
+     * false:打开等待层
+     */
+    void onDataLoad(boolean isFinish);
+
 }

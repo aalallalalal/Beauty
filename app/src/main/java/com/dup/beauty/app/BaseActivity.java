@@ -14,6 +14,7 @@ import com.dup.beauty.R;
 import com.dup.beauty.ui.widget.MySlidingPaneLayout;
 import com.dup.beauty.util.ActivityStackUtil;
 import com.dup.changeskin.SkinManager;
+import com.jaeger.library.StatusBarUtil;
 
 import java.lang.reflect.Field;
 

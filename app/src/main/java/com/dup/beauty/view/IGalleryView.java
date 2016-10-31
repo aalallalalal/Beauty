@@ -13,4 +13,12 @@ public interface IGalleryView {
      * @param id
      */
     void onGalleryWithId(Gallery gallery, long id);
+
+    /**
+     * 数据加载提示
+     * @param isFinish
+     * true:关闭等待层
+     * false:打开等待层
+     */
+    void onDataLoad(boolean isFinish);
 }

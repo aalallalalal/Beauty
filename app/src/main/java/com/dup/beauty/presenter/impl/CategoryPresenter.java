@@ -40,6 +40,7 @@ public class CategoryPresenter implements ICategoryPresenter {
 
     @Override
     public void fetchGalleriesWithId(final long id) {
+        mCategoryView.onDataLoad(false);
         ApiClient.getApiService(mActivity).getGalleries(1, Constant.PAGE_COUNT, id)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
@@ -52,20 +53,21 @@ public class CategoryPresenter implements ICategoryPresenter {
                     @Override
                     public void onError(Throwable e) {
                         L.e("从网络 获取该分类 图库数据失败." + e.getMessage());
-                        T.e(mActivity.getApplicationContext(),R.string.loadmore_error);
+                        T.e(mActivity.getApplicationContext(),R.string.gallery_error);
+                        mCategoryView.onDataLoad(true);
                     }
 
                     @Override
                     public void onNext(Galleries galleries) {
                         mData.addAll(galleries.getGalleries());
                         mCategoryView.onGalleriesWithId(mData,pageNum,id);
+                        mCategoryView.onDataLoad(true);
                     }
                 });
     }
 
     @Override
     public void fetchMoreGalleriesWithId() {
-        DialogUtil.getInstance().showDialog(mActivity);
         ApiClient.getApiService(mActivity).getGalleries(pageNum, Constant.PAGE_COUNT, 0).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .unsubscribeOn(Schedulers.io())
@@ -84,7 +86,6 @@ public class CategoryPresenter implements ICategoryPresenter {
                     @Override
                     public void onNext(Galleries galleries) {
                         mCategoryView.onMoreGalleriesWithId(galleries.getGalleries(),pageNum);
-                        DialogUtil.getInstance().dismissDialog();
                     }
                 });
     }

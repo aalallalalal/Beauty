@@ -3,8 +3,12 @@ package com.dup.beauty.app;
 import android.app.Application;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.MemoryCategory;
+import com.bumptech.glide.load.DecodeFormat;
+import com.bumptech.glide.load.model.GlideUrl;
 import com.dup.beauty.model.util.DBUtil;
+import com.dup.beauty.model.util.GlideUtil;
 import com.dup.beauty.model.util.HttpUtil;
 import com.dup.beauty.util.CrashHandler;
 import com.dup.beauty.util.L;
@@ -35,7 +39,7 @@ public class MyApplication extends Application {
 
         DBUtil.getInstance().init(getApplicationContext());
 
-        Glide.get(getApplicationContext()).setMemoryCategory(MemoryCategory.HIGH);
+        GlideUtil.init(getApplicationContext());
 
         HttpUtil.addNetModeWhiteList("/tnfs/api/classify");//设置网络模式拦截 白名单
 

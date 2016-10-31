@@ -32,35 +32,20 @@ import butterknife.OnClick;
 public class SettingActivity extends BaseActivity implements ISettingView {
     private ISettingPresenter mPresenter;
 
-    @OnClick({R.id.setting_clear_img, R.id.setting_clear_net})
+    @OnClick(R.id.setting_clear_img)
     public void onItemClick(View view) {
-        switch (view.getId()) {
-            case R.id.setting_clear_img:
-                new MaterialDialog.Builder(this).title(R.string.clear_cache_img)
-                        .content(R.string.clear_cache_img_warning).negativeText(R.string.cancel)
-                        .positiveText(R.string.done).onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        if (which == DialogAction.POSITIVE) {
-                            mPresenter.clearImageCache();
-                        }
-                    }
-                }).show();
-                break;
-            case R.id.setting_clear_net:
-                new MaterialDialog.Builder(this).title(R.string.clear_cache_net)
-                        .content(R.string.clear_cache_net_warning).negativeText(R.string.cancel)
-                        .positiveText(R.string.done).onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        if (which == DialogAction.POSITIVE) {
-                            mPresenter.clearNetCache();
-                        }
-                    }
-                }).show();
-                break;
-        }
+        new MaterialDialog.Builder(this).title(R.string.clear_cache_img)
+                .content(R.string.clear_cache_img_warning).negativeText(R.string.cancel)
+                .positiveText(R.string.done).onPositive(new MaterialDialog.SingleButtonCallback() {
+            @Override
+            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                if (which == DialogAction.POSITIVE) {
+                    mPresenter.clearImageCache();
+                }
+            }
+        }).show();
     }
+
 
     @Override
     protected boolean isSupportSwipeBack() {
@@ -106,9 +91,6 @@ public class SettingActivity extends BaseActivity implements ISettingView {
     public void onImageClearedEvent(String s) {
         if ("IMAGE_CACHE_CLEAR".equals(s)) {
             T.s(this, R.string.image_cache_cleared);
-        } else if ("NET_CACHE_CLEAR".equals(s)) {
-            T.s(this, R.string.net_cache_cleared);
         }
     }
-
 }

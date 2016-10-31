@@ -10,7 +10,10 @@ import com.bumptech.glide.BitmapTypeRequest;
 import com.bumptech.glide.DrawableRequestBuilder;
 import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideBuilder;
+import com.bumptech.glide.MemoryCategory;
 import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dup.beauty.R;
 import com.dup.beauty.app.Constant;
@@ -37,6 +40,16 @@ import rx.functions.Func1;
  * Created by DP on 2016/10/13.
  */
 public class GlideUtil {
+
+    /**
+     * 初始化glide一些参数
+     * @param applicationContext
+     */
+    public static void init(Context applicationContext) {
+        Glide.get(applicationContext).setMemoryCategory(MemoryCategory.HIGH);
+        GlideBuilder builder = new GlideBuilder(applicationContext);
+        builder.setDecodeFormat(DecodeFormat.PREFER_ARGB_8888);
+    }
 
     /**
      * 有下载进度回调监听(子线程)
@@ -132,7 +145,7 @@ public class GlideUtil {
      * @param context
      * @param model
      * @param textView 进度view
-     *@param tagSuffix tag后缀：主要用来防止两个相同的请求，进度view 的tag还相同，导致的混乱。
+     *@param tagSuffix tag后缀：主要用来防止两个相同的请求，进度view 的tag也相同，导致的混乱。
      * @return
      */
     public static DrawableRequestBuilder<String> beginProgress(final Context context, String model, final TextView textView, final String tagSuffix) {
@@ -156,6 +169,7 @@ public class GlideUtil {
      * @param context
      * @param model
      * @param urlThumbnail
+     * @param textView 进度view
      * @return
      */
     public static BitmapRequestBuilder<String, Bitmap> beginAsBitmap(final Context context, String model, String urlThumbnail, final TextView textView) {
@@ -164,6 +178,7 @@ public class GlideUtil {
         BitmapRequestBuilder<String, Bitmap> thumbnailRequest = Glide
                 .with(context)
                 .load(urlThumbnail).asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(false)
                 .priority(Priority.IMMEDIATE);
 
         return Glide.with(context).using(new ProgressModelLoader(new ProgressListener() {

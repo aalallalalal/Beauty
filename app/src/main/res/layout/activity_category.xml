@@ -4,8 +4,8 @@
     android:id="@+id/slidingfinishlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:background="@color/main_bg"
+    android:fitsSystemWindows="true"
     android:tag="skin:main_bg:background"
     tools:context="com.dup.beauty.ui.activity.CategoryActivity">
 
@@ -13,8 +13,8 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:tag="skin:title_bg:background"
-        android:background="@color/title_bg">
+        android:background="@color/title_bg"
+        android:tag="skin:title_bg:background">
 
         <ImageButton
             android:id="@+id/toolbar_back"
@@ -29,16 +29,23 @@
             android:ellipsize="middle"
             android:maxLength="20"
             android:maxLines="1"
-            android:textColor="@color/title_text"
             android:tag="skin:title_text:textColor"
+            android:textColor="@color/title_text"
             android:textSize="14sp" />
 
     </RelativeLayout>
 
-    <com.jcodecraeer.xrecyclerview.XRecyclerView
-        android:id="@+id/category_gallery_recyclerview"
+    <com.dup.beauty.ui.widget.ColorSwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"></com.jcodecraeer.xrecyclerview.XRecyclerView>
+        android:layout_below="@+id/toolbar">
+
+        <com.jcodecraeer.xrecyclerview.XRecyclerView
+            android:id="@+id/category_gallery_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+           ></com.jcodecraeer.xrecyclerview.XRecyclerView>
+    </com.dup.beauty.ui.widget.ColorSwipeRefreshLayout>
 
 </RelativeLayout>

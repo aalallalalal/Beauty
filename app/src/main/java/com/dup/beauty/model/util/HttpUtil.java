@@ -29,6 +29,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
  * <li>实现网络请求拦截</li>
  * <li>实现网络log</li>
  * </ul>
+ *
  * Created by DP on 2016/9/18.
  */
 public class HttpUtil {
@@ -111,7 +112,7 @@ public class HttpUtil {
             public Response intercept(Chain chain) throws IOException {
                 //如果为离线缓存模式，则终止请求。
                 if (SPUtil.getBoolean(SPUtil.KEY_OFFLINE_MODE, false)) {
-                    L.i("Glide加载图片，但为离线模式!终止请求");
+                    L.i("Glide加载网络图片，但为离线模式!终止请求");
                     return null;
                 }
                 return chain.proceed(chain.request());
@@ -179,7 +180,7 @@ public class HttpUtil {
             public Response intercept(Chain chain) throws IOException {
                 Response response = null;
 
-                //如果当前是离线模式，网络模式拦截器失效，全部放行。交给离线模式拦截器
+                //如果当前是离线模式，网络模式拦截器失效，全部放行。交给缓存模式拦截器
                 if (SPUtil.getBoolean(SPUtil.KEY_OFFLINE_MODE, false)) {
                     return chain.proceed(chain.request());
                 }

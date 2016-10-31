@@ -17,10 +17,13 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 
+import com.dup.changeskin.SkinManager;
+
 /**
+ * 更改FunSwitch，增加了改变主题色功能
  * Created by homer on 16-6-11.
  */
-public class FunSwitch extends View implements ValueAnimator.AnimatorUpdateListener, ValueAnimator.AnimatorListener {
+public class ColorFunSwitch extends View implements ValueAnimator.AnimatorUpdateListener, ValueAnimator.AnimatorListener {
     private final static float DEFAULT_WIDTH_HEIGHT_PERCENT = 0.65f;
     private final static float FACE_ANIM_MAX_FRACTION = 1.4f;
     private final static float NORMAL_ANIM_MAX_FRACTION = 1.0f;
@@ -50,17 +53,17 @@ public class FunSwitch extends View implements ValueAnimator.AnimatorUpdateListe
     private long mOnAnimationDuration = 650L;
     private long mOffAnimationDuration = (long) (mOnAnimationDuration * NORMAL_ANIM_MAX_FRACTION / FACE_ANIM_MAX_FRACTION);
 
-    public FunSwitch(Context context) {
+    public ColorFunSwitch(Context context) {
         super(context);
         init(context);
     }
 
-    public FunSwitch(Context context, AttributeSet attrs) {
+    public ColorFunSwitch(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public FunSwitch(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ColorFunSwitch(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
@@ -346,6 +349,8 @@ public class FunSwitch extends View implements ValueAnimator.AnimatorUpdateListe
     }
 
     public void refreshState() {
+        //增加了颜色主题功能
+        mOnBackgroundColor = SkinManager.getInstance().getResourceManager().getColor("status_bar_bg");
         mCurrentColor = mIsOpen ? mOnBackgroundColor : mOffBackgroundColor;
         invalidate();
     }

@@ -7,5 +7,6 @@
         <item>@color/status_bar_bg_pink</item>
         <item>@color/status_bar_bg_purple</item>
         <item>@color/status_bar_bg_red</item>
+        <item>@color/status_bar_bg_yellow</item>
     </array>
 </resources>

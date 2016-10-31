@@ -7,5 +7,4 @@ package com.dup.beauty.presenter.contract;
 public interface ISettingPresenter {
     void clearImageCache();
 
-    void clearNetCache();
 }

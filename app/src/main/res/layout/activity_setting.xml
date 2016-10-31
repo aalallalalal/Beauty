@@ -60,23 +60,4 @@
         android:tag="skin:divider:background"
         />
 
-    <LinearLayout
-        android:id="@+id/setting_clear_net"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/setting_item_height"
-        android:orientation="horizontal"
-        android:gravity="center"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/clear_cache_net"
-            android:textSize="16sp"
-            android:textColor="@color/main_menu_text_color"
-            android:tag="skin:main_menu_text_color:textColor"
-            />
-
-    </LinearLayout>
-
-
 </LinearLayout>

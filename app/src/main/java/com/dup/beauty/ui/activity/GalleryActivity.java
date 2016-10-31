@@ -2,6 +2,7 @@ package com.dup.beauty.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.dup.beauty.model.entity.Picture;
 import com.dup.beauty.presenter.contract.IGalleryPresenter;
 import com.dup.beauty.presenter.impl.GalleryPresenter;
 import com.dup.beauty.ui.adapter.PicturesAdapter;
+import com.dup.beauty.ui.widget.ColorSwipeRefreshLayout;
 import com.dup.beauty.view.IGalleryView;
 import com.dup.changeskin.SkinManager;
 import com.jaeger.library.StatusBarUtil;
@@ -45,9 +47,11 @@ public class GalleryActivity extends BaseActivity implements IGalleryView, Pictu
     public TextView bottomPre;
     @BindView(R.id.bottom_bar_after)
     public TextView bottomAfter;
-
+    @BindView(R.id.swipe_refresh)
+    public ColorSwipeRefreshLayout refreshLayout;
 
     private IGalleryPresenter mPresenter;
+
 
     private Gallery mGallery;
     private PicturesAdapter mAdapter;
@@ -176,6 +180,13 @@ public class GalleryActivity extends BaseActivity implements IGalleryView, Pictu
     @Override
     protected void initAction() {
         super.initAction();
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                direction = 0;
+                mPresenter.fetchGalleryWithId(mGalleries.get(currentPosition).getId());
+            }
+        });
     }
 
     @Override
@@ -207,5 +218,10 @@ public class GalleryActivity extends BaseActivity implements IGalleryView, Pictu
         mAdapter = new PicturesAdapter(this, gallery.getList());
         mAdapter.setItemClickListener(this);
         recyclerView.swapAdapter(mAdapter, false);
+    }
+
+    @Override
+    public void onDataLoad(boolean isFinish) {
+        refreshLayout.setRefreshing(!isFinish);
     }
 }

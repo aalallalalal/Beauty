@@ -17,9 +17,9 @@
     <string name="loading_percent">%1$s%%</string>
 
     <string name="mobile_warning">当前网络状态为数据流量，请注意流量使用！</string>
-    <string name="mobile_safe">当前为离线缓存模式，放心的看美图吧！</string>
+    <string name="mobile_safe">当前为离线缓存模式，放心的使用吧！</string>
 
-    <string name="no_net">亲，没有网络...不过还有缓存数据噢！</string>
+    <string name="no_net">亲，没有网络...不过还有缓存的妹纸噢！</string>
     <string name="login">登陆</string>
     <string name="register">注册</string>
     <string name="menu_only_wifi">仅Wifi联网</string>
@@ -34,11 +34,24 @@
     <string name="cancel">取消</string>
     <string name="menu_offline">离线缓存模式</string>
     <string name="about_title">关于</string>
-    <string name="about_content">这是一款妹纸图库App。\n图片来源：天狗阅图(http://www.tngou.net)
-    \n作者：Dup
-    \n邮箱：AimSunshine@163.com
-        \nApp源代码和技术点介绍：https://github.com/aalallalalal/Beauty
-        \n  如果觉得不错的话，欢迎大家的star和fork。最后大家使用愉快！
+    <string name="about_content">
+        这是一款欣赏妹纸图片的App。
+        \n
+        \n &#160;❤联网控制、离线缓存模式和图片下载功能，保证您的流量安全。
+        \n &#160;❤拥有清新的界面和多款皮肤。
+        \n &#160;❤第三方分享功能，直接将妹纸图片分享给自己的朋友。
+        \n &#160;❤强大的Bug反馈功能，App出现bug后作者会马上收到崩溃信息，并会尽力在下一版本中得到解决。
+        \n &#160;❤大量优质的图片资源，并保持每日更新。
+        \n
+        \n★作者：Dup
+        \n★邮箱：AimSunshine@163.com
+        \n★App源代码和技术点介绍：<a href="https://github.com/aalallalalal/Beauty">https://github.com/aalallalalal/Beauty</a>
+        \n
+        \n&#160;&#160;如果大家觉得不错的话，欢迎大家去上方Github网址点个star，或提出你宝贵的意见或代码，一起来完善她吧！
+        \n
+        \n&#160;&#160;最后，祝大家使用愉快！
+        \n
+        \n&#160;&#160;附：图片来源：<a href="http://www.tngou.net">天狗阅图(http://www.tngou.net)</a>
     </string>
     <string name="thirdpart_plantform">第三方平台登陆/注册:</string>
 
@@ -75,5 +88,5 @@
     <string name="download_info">妹纸存放地址</string>
     <string name="waiting_load_share">正在准备妹纸，请稍等...</string>
     <string name="crash_toast">妹纸生病了...症状信息作者已收集，妹纸会尽快痊愈!</string>
-    <string name="version">Version:%1$s</string>
+    <string name="version">版本号:%1$s</string>
 </resources>
