@@ -6,6 +6,7 @@ import com.dup.beauty.ui.widget.LoadingDialog;
 
 /**
  * 等待层工具
+ * @deprecated
  * Created by DP on 2016/10/11.
  */
 public class DialogUtil {

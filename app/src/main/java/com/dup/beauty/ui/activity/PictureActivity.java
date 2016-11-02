@@ -2,6 +2,7 @@ package com.dup.beauty.ui.activity;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.dup.beauty.ui.widget.PicturesViewPager;
 import com.dup.beauty.util.StringUtil;
 import com.dup.beauty.util.T;
 import com.dup.beauty.view.IPictureView;
+import com.umeng.socialize.UMShareAPI;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -84,6 +86,13 @@ public class PictureActivity extends BaseActivity implements PicturesViewPager.O
                             | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
+    }
+
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        /** attention to this below ,must add this **/
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

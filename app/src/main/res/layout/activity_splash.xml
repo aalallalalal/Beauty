@@ -12,8 +12,17 @@
         android:layout_gravity="center"
         android:tag="skin:title_text:textColor"
         android:text="悦妹纸"
+        android:visibility="gone"
         android:textColor="@color/title_text"
         android:textSize="40sp" />
+
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:src="@drawable/icon_splash"
+        android:layout_marginTop="40dp"
+        android:layout_gravity="center"
+        />
 
     <TextView
         android:id="@+id/splash_version"

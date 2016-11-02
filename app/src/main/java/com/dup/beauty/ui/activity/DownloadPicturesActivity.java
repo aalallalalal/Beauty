@@ -2,6 +2,7 @@ package com.dup.beauty.ui.activity;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.dup.beauty.ui.adapter.DownloadPictureViewPagerAdapter;
 import com.dup.beauty.ui.widget.PicturesViewPager;
 import com.dup.beauty.util.T;
 import com.dup.beauty.util.UMShareUtil;
+import com.umeng.socialize.UMShareAPI;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -232,6 +234,12 @@ public class DownloadPicturesActivity extends BaseActivity implements PicturesVi
 
     @Override
     public void onPageScrollStateChanged(int state) {
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        /** attention to this below ,must add this **/
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 
 

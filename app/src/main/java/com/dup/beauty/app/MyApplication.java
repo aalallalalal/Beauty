@@ -55,8 +55,8 @@ public class MyApplication extends Application {
     }
 
     private void initUmeng() {
-        //PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");
-        PlatformConfig.setSinaWeibo("3452036421", "1839045677f9f25ff7438ad520bb473b");
+        PlatformConfig.setWeixin("wx5d6354a5c9abf5b8", "cb78277c5982700758a7de000314c41f");
+//        PlatformConfig.setSinaWeibo("3452036421", "1839045677f9f25ff7438ad520bb473b");
         PlatformConfig.setQQZone("1105694481", "scQnufgdjQ39ZDJv");
     }
 

@@ -38,7 +38,7 @@ public class UMShareUtil {
      * @param url
      */
     public void openSharePane(Activity activity, String url) {
-        new ShareAction(activity).setDisplayList(SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN,
+        new ShareAction(activity).setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN,
                 SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE, SHARE_MEDIA.MORE)
                 .withMedia(new UMImage(activity, url))
                 .setCallback(new CustomUMShareListener(activity.getApplicationContext()))
@@ -52,7 +52,7 @@ public class UMShareUtil {
      * @param imgFile
      */
     public void openSharePane(Activity activity, File imgFile) {
-        new ShareAction(activity).setDisplayList(SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN,
+        new ShareAction(activity).setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN,
                 SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE, SHARE_MEDIA.MORE)
                 .withMedia(new UMImage(activity, imgFile))
                 .setCallback(new CustomUMShareListener(activity.getApplicationContext()))
@@ -63,11 +63,10 @@ public class UMShareUtil {
      * 分享网络图片
      *
      * @param activity
-     * @param resource
-     *  通过glide加载出来的bitmap
+     * @param resource 通过glide加载出来的bitmap
      */
     public void openSharePane(Activity activity, Bitmap resource) {
-        new ShareAction(activity).setDisplayList(SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN,
+        new ShareAction(activity).setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN,
                 SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE, SHARE_MEDIA.MORE)
                 .withMedia(new UMImage(activity, resource))
                 .setCallback(new CustomUMShareListener(activity.getApplicationContext()))
@@ -88,7 +87,7 @@ public class UMShareUtil {
 
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            T.e(context,R.string.share_failed);
+            T.e(context, R.string.share_failed);
             if (t != null) {
                 L.e("分享错误信息：" + t.getMessage());
             }
@@ -96,7 +95,7 @@ public class UMShareUtil {
 
         @Override
         public void onCancel(SHARE_MEDIA platform) {
-            T.i(context,R.string.share_canceled);
+            T.i(context, R.string.share_canceled);
         }
     }
 
