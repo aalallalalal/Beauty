@@ -68,7 +68,7 @@ public class DownloadActivity extends BaseActivity implements IDownloadView, Dow
     @Override
     protected void initView() {
         super.initView();
-        StatusBarUtil.setColor(this, SkinManager.getInstance().getResourceManager().getColor("status_bar_bg"));
+        StatusBarUtil.setColor(this, SkinManager.getInstance().getResourceManager().getColor("status_bar_bg"),0);
         ButterKnife.bind(DownloadActivity.this);
     }
 

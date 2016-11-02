@@ -3,7 +3,9 @@ package com.dup.beauty.util;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
+import com.bumptech.glide.load.resource.bitmap.BitmapDecoder;
 import com.dup.beauty.R;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
@@ -47,16 +49,13 @@ public class UMShareUtil {
 
     /**
      * 分享图片本地file
-     *
+     *这里使用bitmap分享是因为友盟sdk上传file时压缩有问题，经常不成功
      * @param activity
      * @param imgFile
      */
     public void openSharePane(Activity activity, File imgFile) {
-        new ShareAction(activity).setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN,
-                SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE, SHARE_MEDIA.MORE)
-                .withMedia(new UMImage(activity, imgFile))
-                .setCallback(new CustomUMShareListener(activity.getApplicationContext()))
-                .open();
+        Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+        openSharePane(activity,bitmap);
     }
 
     /**

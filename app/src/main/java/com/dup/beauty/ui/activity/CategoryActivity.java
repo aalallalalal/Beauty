@@ -59,7 +59,7 @@ public class CategoryActivity extends BaseActivity implements ICategoryView, Gal
     @Override
     protected void initView() {
         super.initView();
-        StatusBarUtil.setColor(this, SkinManager.getInstance().getResourceManager().getColor("status_bar_bg"));
+        StatusBarUtil.setColor(this, SkinManager.getInstance().getResourceManager().getColor("status_bar_bg"),0);
         ButterKnife.bind(CategoryActivity.this);
 
         //设置recyclerview

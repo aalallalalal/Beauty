@@ -66,7 +66,7 @@ public class SettingActivity extends BaseActivity implements ISettingView {
     @Override
     protected void initData() {
         super.initData();
-        StatusBarUtil.setColor(this, SkinManager.getInstance().getResourceManager().getColor("status_bar_bg"));
+        StatusBarUtil.setColor(this, SkinManager.getInstance().getResourceManager().getColor("status_bar_bg"),0);
         ButterKnife.bind(SettingActivity.this);
         EventBus.getDefault().register(this);
     }

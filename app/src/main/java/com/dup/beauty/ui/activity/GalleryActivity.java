@@ -81,7 +81,7 @@ public class GalleryActivity extends BaseActivity implements IGalleryView, Pictu
     @Override
     protected void initView() {
         super.initView();
-        StatusBarUtil.setColor(this, SkinManager.getInstance().getResourceManager().getColor("status_bar_bg"));
+        StatusBarUtil.setColor(this, SkinManager.getInstance().getResourceManager().getColor("status_bar_bg"),0);
         ButterKnife.bind(GalleryActivity.this);
     }
 
