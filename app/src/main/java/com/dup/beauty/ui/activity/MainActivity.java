@@ -35,6 +35,7 @@ import com.dup.beauty.ui.adapter.GalleriesAdapter;
 import com.dup.beauty.ui.widget.ColorFunSwitch;
 import com.dup.beauty.ui.widget.MySlidingPaneLayout;
 import com.dup.beauty.util.Blur;
+import com.dup.beauty.util.DialogUtil;
 import com.dup.beauty.util.DisplayUtil;
 import com.dup.beauty.util.L;
 import com.dup.beauty.view.IMainContentView;
@@ -50,6 +51,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -122,6 +124,11 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
      */
     private boolean isPlaying = true;
 
+    /**
+     * 控制分类和图片列表请求。当两者都完成时，再将等待层消失
+     */
+    private volatile int mSemaphore = -2;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
@@ -155,6 +162,8 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
     protected void initData() {
         super.initData();
 
+        DialogUtil.getInstance().showDialog(this);
+
         EventBus.getDefault().register(this);
         boolean netMode = mMainMenuPresenter.getNetMode();//获取网络模式
         wifiOnlySwitch.setState(netMode);
@@ -167,6 +176,7 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
         recyclerViewHot.setAdapter(mGalleriesAdapter);
 
         requestData();
+
     }
 
     @Override
@@ -296,7 +306,7 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
                         .show();
                 break;
             case R.id.main_menu_item_download:
-                Intent intentDownload = new Intent(this, DownloadActivity.class);
+                Intent intentDownload = new Intent(this, DownLoadActivity.class);
                 startActivity(intentDownload);
                 break;
             case R.id.main_menu_item_about:
@@ -403,6 +413,11 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
      */
     @Override
     public void onBannerAndHotImgs(ArrayList<Gallery> listBanner, ArrayList<Gallery> listHot) {
+        mSemaphore ++;
+        if (mSemaphore == 0) {
+            DialogUtil.getInstance().dismissDialog();
+        }
+
         recyclerViewHot.refreshComplete();
         if (listBanner == null || listHot == null) {
             return;
@@ -429,6 +444,11 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
      */
     @Override
     public void onCategories(List<Category> list) {
+        mSemaphore ++;
+        if (mSemaphore == 0) {
+            DialogUtil.getInstance().dismissDialog();
+        }
+
         CategoriesAdapter categoriesAdapter = new CategoriesAdapter(this, list);
         categoriesAdapter.setItemClickListener(this);
         recyclerViewCategories.setLayoutManager(new LinearLayoutManager(MainActivity.this, OrientationHelper.HORIZONTAL, false));

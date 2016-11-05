@@ -6,15 +6,15 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bumptech.glide.BitmapRequestBuilder;
-import com.bumptech.glide.BitmapTypeRequest;
 import com.bumptech.glide.DrawableRequestBuilder;
-import com.bumptech.glide.DrawableTypeRequest;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.MemoryCategory;
-import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.dup.beauty.R;
 import com.dup.beauty.app.Constant;
 import com.dup.beauty.model.util.glide.OnPercentToTarget;
@@ -43,6 +43,7 @@ public class GlideUtil {
 
     /**
      * 初始化glide一些参数
+     *
      * @param applicationContext
      */
     public static void init(Context applicationContext) {
@@ -61,8 +62,7 @@ public class GlideUtil {
      */
     public static DrawableRequestBuilder begin(Context context, String model, ProgressListener listener) {
         return Glide.with(context).using(new ProgressModelLoader(listener))
-                .load(model).diskCacheStrategy(DiskCacheStrategy.ALL).
-                        priority(Priority.IMMEDIATE);
+                .load(model).diskCacheStrategy(DiskCacheStrategy.ALL);
     }
 
     /**
@@ -97,8 +97,7 @@ public class GlideUtil {
                         });
             }
         }))
-                .load(model).diskCacheStrategy(DiskCacheStrategy.ALL).
-                        priority(Priority.IMMEDIATE);
+                .load(model).diskCacheStrategy(DiskCacheStrategy.ALL);
     }
 
 
@@ -111,8 +110,7 @@ public class GlideUtil {
      */
     public static DrawableRequestBuilder beginNoProgress(final Context context, String model) {
         return Glide.with(context)
-                .load(model).diskCacheStrategy(DiskCacheStrategy.ALL).
-                        priority(Priority.IMMEDIATE).thumbnail(Constant.THUMBNAIL);
+                .load(model).diskCacheStrategy(DiskCacheStrategy.ALL).thumbnail(Constant.THUMBNAIL);
     }
 
 
@@ -126,7 +124,8 @@ public class GlideUtil {
      */
     public static DrawableRequestBuilder<String> beginProgress(final Context context, String model, final TextView textView) {
         textView.setTag(R.id.tag_glide_progress, model);
-
+        textView.setVisibility(View.VISIBLE);
+        textView.setText(StringUtil.getStrRes(context, R.string.image_loading));
         return Glide.with(context).using(new ProgressModelLoader(new ProgressListener() {
             @Override
             public void update(final String url, long bytesRead, long contentLength, boolean done) {
@@ -134,32 +133,66 @@ public class GlideUtil {
             }
         }))
                 .load(model).diskCacheStrategy(DiskCacheStrategy.ALL)
-                .priority(Priority.IMMEDIATE)
-                ;
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        if (model.equals(textView.getTag(R.id.tag_glide_progress))) {
+                            textView.setText(StringUtil.getStrRes(context, R.string.image_loading_error));
+                        }
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        if (model.equals(textView.getTag(R.id.tag_glide_progress))) {
+                            textView.setVisibility(View.GONE);
+                        }
+                        return false;
+                    }
+                });
     }
 
     /**
-     * 无请求缩略图，带进度。
+     * 无请求缩略图，带进度。viewpager用。
      * <b>注意：如果加载的是本地图片，不会有进度回调</b>
      *
      * @param context
      * @param model
-     * @param textView 进度view
-     *@param tagSuffix tag后缀：主要用来防止两个相同的请求，进度view 的tag也相同，导致的混乱。
+     * @param textView  进度view
+     * @param tagSuffix tag后缀：主要用来防止两个相同的请求，进度view 的tag也相同，导致的混乱。
      * @return
      */
-    public static DrawableRequestBuilder<String> beginProgress(final Context context, String model, final TextView textView, final String tagSuffix) {
-        textView.setTag(R.id.tag_glide_progress, model+tagSuffix);
-
+    public static DrawableRequestBuilder<String> beginViewpagerLoad(final Context context, String model, final TextView textView, final String tagSuffix) {
+        textView.setTag(R.id.tag_glide_progress, model + tagSuffix);
+        textView.setVisibility(View.VISIBLE);
+        textView.setText(StringUtil.getStrRes(context, R.string.image_loading));
         return Glide.with(context).using(new ProgressModelLoader(new ProgressListener() {
             @Override
             public void update(final String url, long bytesRead, long contentLength, boolean done) {
-                handlerProgress(context, textView, url+tagSuffix, bytesRead, contentLength, done);
+                handlerProgress(context, textView, url + tagSuffix, bytesRead, contentLength, done);
             }
         }))
                 .load(model).diskCacheStrategy(DiskCacheStrategy.ALL)
-                .priority(Priority.IMMEDIATE)
-                ;
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        if ((model + tagSuffix).equals(textView.getTag(R.id.tag_glide_progress))) {
+                            textView.setText(StringUtil.getStrRes(context, R.string.image_loading_error));
+                        }
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        if(!isFirstResource) {
+                            //缩略图加载成功时忽略，当全图成功时再隐藏。
+                            if ((model + tagSuffix).equals(textView.getTag(R.id.tag_glide_progress))) {
+                                textView.setVisibility(View.GONE);
+                            }
+                        }
+                        return false;
+                    }
+                });
     }
 
     /**
@@ -169,17 +202,18 @@ public class GlideUtil {
      * @param context
      * @param model
      * @param urlThumbnail
-     * @param textView 进度view
+     * @param textView     进度view
      * @return
      */
     public static BitmapRequestBuilder<String, Bitmap> beginAsBitmap(final Context context, String model, String urlThumbnail, final TextView textView) {
         textView.setTag(R.id.tag_glide_progress, model);
+        textView.setVisibility(View.VISIBLE);
+        textView.setText(StringUtil.getStrRes(context, R.string.image_loading));
         //缩略图采用 可设置图片大小的接口请求。
         BitmapRequestBuilder<String, Bitmap> thumbnailRequest = Glide
                 .with(context)
                 .load(urlThumbnail).asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(false)
-                .priority(Priority.IMMEDIATE);
+                .skipMemoryCache(false);
 
         return Glide.with(context).using(new ProgressModelLoader(new ProgressListener() {
             @Override
@@ -188,8 +222,27 @@ public class GlideUtil {
             }
         }))
                 .load(model).asBitmap().diskCacheStrategy(DiskCacheStrategy.ALL)
-                .priority(Priority.IMMEDIATE)
-                .thumbnail(thumbnailRequest);
+                .thumbnail(thumbnailRequest)
+                .listener(new RequestListener<String, Bitmap>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<Bitmap> target, boolean isFirstResource) {
+                        if (model.equals(textView.getTag(R.id.tag_glide_progress))) {
+                            textView.setText(StringUtil.getStrRes(context, R.string.image_loading_error));
+                        }
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Bitmap resource, String model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        if(!isFirstResource){
+                            //缩略图加载成功时忽略，当全图成功时再隐藏。
+                            if (model.equals(textView.getTag(R.id.tag_glide_progress))) {
+                                textView.setVisibility(View.GONE);
+                            }
+                        }
+                        return false;
+                    }
+                });
     }
 
     /**

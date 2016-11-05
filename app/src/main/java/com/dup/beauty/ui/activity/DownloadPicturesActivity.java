@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.dup.beauty.R;
 import com.dup.beauty.app.BaseActivity;
-import com.dup.beauty.ui.adapter.DownloadPictureViewPagerAdapter;
+import com.dup.beauty.ui.adapter.DownLoadPictureViewPagerAdapter;
 import com.dup.beauty.ui.widget.PicturesViewPager;
 import com.dup.beauty.util.T;
 import com.dup.beauty.util.UMShareUtil;
@@ -44,7 +44,7 @@ public class DownloadPicturesActivity extends BaseActivity implements PicturesVi
 
     private ArrayList<File> mData;
     private int mPosition;
-    private DownloadPictureViewPagerAdapter mAdapter;
+    private DownLoadPictureViewPagerAdapter mAdapter;
 
     /**
      * toolbar高度,用来显示隐藏toolbar
@@ -103,7 +103,7 @@ public class DownloadPicturesActivity extends BaseActivity implements PicturesVi
             return;
         }
         //初始化adpater
-        mAdapter = new DownloadPictureViewPagerAdapter(this, mData);
+        mAdapter = new DownLoadPictureViewPagerAdapter(this, mData);
         viewPager.setAdapter(mAdapter);
         viewPager.setCurrentItem(mPosition, false);
         //初始化title

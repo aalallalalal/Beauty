@@ -2,7 +2,7 @@ package com.dup.beauty.presenter.impl;
 
 import com.dup.beauty.model.util.DownLoadUtil;
 import com.dup.beauty.presenter.contract.IDownloadPresenter;
-import com.dup.beauty.ui.activity.DownloadActivity;
+import com.dup.beauty.ui.activity.DownLoadActivity;
 import com.dup.beauty.view.IDownloadView;
 
 import java.io.File;
@@ -13,10 +13,10 @@ import java.util.ArrayList;
  */
 public class DownloadPresenter implements IDownloadPresenter {
 
-    private DownloadActivity mActivity;
+    private DownLoadActivity mActivity;
     private IDownloadView mView;
 
-    public DownloadPresenter(DownloadActivity activity, IDownloadView view) {
+    public DownloadPresenter(DownLoadActivity activity, IDownloadView view) {
         this.mActivity = activity;
         this.mView = view;
     }

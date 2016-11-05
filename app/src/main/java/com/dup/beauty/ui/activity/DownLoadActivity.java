@@ -1,15 +1,11 @@
 package com.dup.beauty.ui.activity;
 
 import android.content.Intent;
-import android.os.Environment;
-import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
-import android.widget.ImageButton;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.dup.beauty.R;
 import com.dup.beauty.app.BaseActivity;
@@ -38,7 +34,7 @@ import butterknife.OnClick;
  * <li>{@link IDownloadView}</li>
  * </ul>
  */
-public class DownloadActivity extends BaseActivity implements IDownloadView, DownloadImagesAdapter.OnItemClickListener {
+public class DownLoadActivity extends BaseActivity implements IDownloadView, DownloadImagesAdapter.OnItemClickListener {
     @BindView(R.id.download_recyclerview)
     public RecyclerView recyclerView;
     @BindView(R.id.swipe_refresh)
@@ -69,14 +65,14 @@ public class DownloadActivity extends BaseActivity implements IDownloadView, Dow
     protected void initView() {
         super.initView();
         StatusBarUtil.setColor(this, SkinManager.getInstance().getResourceManager().getColor("status_bar_bg"),0);
-        ButterKnife.bind(DownloadActivity.this);
+        ButterKnife.bind(DownLoadActivity.this);
     }
 
     @Override
     protected void initData() {
         super.initData();
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        mDownloadImagesAdapter = new DownloadImagesAdapter(DownloadActivity.this, mData);
+        mDownloadImagesAdapter = new DownloadImagesAdapter(DownLoadActivity.this, mData);
         mDownloadImagesAdapter.setItemClickListener(this);
         recyclerView.setAdapter(mDownloadImagesAdapter);
         mPresenter.fetchDownloadImages();

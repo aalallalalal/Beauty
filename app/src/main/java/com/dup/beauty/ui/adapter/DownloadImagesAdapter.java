@@ -74,7 +74,6 @@ public class DownloadImagesAdapter extends RecyclerView.Adapter<DownloadImagesAd
             /*当图片大小数据已得到,先改变item大小,后加载图片*/
             setItemSize(sizeMap.get(path), holder.iv);
             Glide.with(context).load(mData.get(position))
-                    .priority(Priority.IMMEDIATE)
                     .thumbnail(Constant.THUMBNAIL)
                     .placeholder(R.drawable.icon_photo_empty)
                     .crossFade()
@@ -84,7 +83,6 @@ public class DownloadImagesAdapter extends RecyclerView.Adapter<DownloadImagesAd
             /*当图片大小数据没得到,通过target回调,根据图片大小改变item大小*/
             Glide.with(context).load(mData.get(position))
                     .asBitmap()
-                    .priority(Priority.IMMEDIATE)
                     .thumbnail(Constant.THUMBNAIL)
                     .placeholder(R.drawable.icon_photo_empty)
                     .error(R.drawable.icon_photo_error)

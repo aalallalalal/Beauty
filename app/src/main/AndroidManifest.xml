@@ -68,7 +68,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/TransparentTheme" />
         <activity
-            android:name=".ui.activity.DownloadActivity"
+            android:name=".ui.activity.DownLoadActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/TransparentTheme" />
