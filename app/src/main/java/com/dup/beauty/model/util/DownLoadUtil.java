@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.dup.beauty.util.DialogUtil;
@@ -60,7 +61,7 @@ public class DownLoadUtil {
             return;
         }
 
-        Glide.with(context).load(imageUrl).asBitmap().into(new SimpleTarget<Bitmap>() {
+        Glide.with(context).load(imageUrl).asBitmap().priority(Priority.LOW).into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                 Observable.just(saveImage(resource, FileUtil.getDownLoadImageFile(context, PIC_PATH, filename), downLoadTempFile))

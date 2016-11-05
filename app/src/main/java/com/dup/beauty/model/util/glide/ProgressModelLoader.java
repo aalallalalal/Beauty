@@ -1,6 +1,7 @@
 package com.dup.beauty.model.util.glide;
 
 import android.content.Context;
+import android.support.v4.util.ArrayMap;
 
 import com.bumptech.glide.load.data.DataFetcher;
 import com.bumptech.glide.load.model.GenericLoaderFactory;

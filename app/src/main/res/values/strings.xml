@@ -14,7 +14,7 @@
 
     <string name="picture_index">第%1$s张</string>
 
-    <string name="loading_percent">%1$s%%</string>
+    <string name="loading_percent">Loading...%1$s%%</string>
 
     <string name="mobile_warning">当前网络状态为数据流量，请注意流量使用！</string>
     <string name="mobile_safe">当前为离线缓存模式，放心的使用吧！</string>
@@ -89,4 +89,6 @@
     <string name="waiting_load_share">正在准备妹纸，请稍等...</string>
     <string name="crash_toast">妹纸生病了...症状信息作者已收集，妹纸会尽快痊愈!</string>
     <string name="version">版本号:%1$s</string>
+    <string name="image_loading">妹纸正在赶来的路上...</string>
+    <string name="image_loading_error">妹纸被堵在路上了...</string>
 </resources>

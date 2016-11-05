@@ -29,6 +29,7 @@ public class CacheUtil {
      * @param context
      */
     public static void clearImageCache(final Context context) {
+        Glide.get(context).clearMemory();
         new Thread() {
             @Override
             public void run() {
