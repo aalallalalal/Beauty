@@ -10,6 +10,7 @@ import com.dup.beauty.model.entity.Category;
 import com.dup.beauty.model.entity.Galleries;
 import com.dup.beauty.model.entity.Gallery;
 import com.dup.beauty.model.util.DBUtil;
+import com.dup.beauty.model.util.RUtil;
 import com.dup.beauty.presenter.contract.IMainContentPresenter;
 import com.dup.beauty.util.L;
 import com.dup.beauty.util.T;
@@ -19,8 +20,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Action2;
+import rx.functions.Func0;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -61,17 +66,20 @@ public class MainContentPresenter implements IMainContentPresenter {
         //2.如果banner数据不存在,但hot列表存在,则筛选数据后加载
         if (hotGalleries != null && hotGalleries.size() >= Constant.BANNER_NUM) {
             bannerGalleries = new ArrayList<>();
-            for (int i = 0; i < Constant.BANNER_NUM; i++) {
-                bannerGalleries.add(hotGalleries.get(i));
-            }
+            Observable.from(hotGalleries).take(Constant.BANNER_NUM).subscribe(new Action1<Gallery>() {
+                @Override
+                public void call(Gallery gallery) {
+                    bannerGalleries.add(gallery);
+                }
+            });
+
             mMainView.onBannerAndHotImgs(bannerGalleries, hotGalleries);
             L.d("从Hot列表中 获取banner和hot图片数据 成功");
             return;
         }
 
         //3.没有缓存存在,则直接网络请求加载
-        ApiClient.getApiService(mActivity).getGalleries(1, Constant.PAGE_COUNT, 0).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .unsubscribeOn(Schedulers.io())
+        ApiClient.getApiService(mActivity).getGalleries(1, Constant.PAGE_COUNT, 0)
                 .map(new Func1<Galleries, ArrayList<Gallery>>() {
                     @Override
                     public ArrayList<Gallery> call(final Galleries galleries) {
@@ -94,13 +102,18 @@ public class MainContentPresenter implements IMainContentPresenter {
 
                         Collections.sort(tempList, comparator);
 
-                        ArrayList<Gallery> list = new ArrayList<>();
-                        for (int i = 0; i < Constant.BANNER_NUM; i++) {
-                            list.add(tempList.get(i));
-                        }
+                        final ArrayList<Gallery> list = new ArrayList<>();
+                        Observable.from(tempList).take(Constant.BANNER_NUM).subscribe(new Action1<Gallery>() {
+                            @Override
+                            public void call(Gallery gallery) {
+                                list.add(gallery);
+                            }
+                        });
+
                         return list;
                     }
                 })
+                .compose(RUtil.<ArrayList<Gallery>>threadTrs())
                 .subscribe(new Observer<ArrayList<Gallery>>() {
                     @Override
                     public void onCompleted() {
@@ -111,7 +124,7 @@ public class MainContentPresenter implements IMainContentPresenter {
                     @Override
                     public void onError(Throwable e) {
                         L.e("从网络 获取banner和hot图片数据失败." + e.getMessage());
-                        T.e(mActivity.getApplicationContext(),R.string.img_error);
+                        T.e(mActivity.getApplicationContext(), R.string.img_error);
                     }
 
                     @Override
@@ -143,8 +156,8 @@ public class MainContentPresenter implements IMainContentPresenter {
         }
 
         //3.如果数据库数据不存在,则网络请求.并存入数据库
-        ApiClient.getApiService(mActivity).getCategories().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .unsubscribeOn(Schedulers.io())
+        ApiClient.getApiService(mActivity).getCategories()
+                .compose(RUtil.<Categories>threadTrs())
                 .subscribe(new Observer<Categories>() {
                     @Override
                     public void onCompleted() {
@@ -158,7 +171,7 @@ public class MainContentPresenter implements IMainContentPresenter {
                     @Override
                     public void onError(Throwable e) {
                         L.e("从网络 获取分类列表数据失败." + e.getMessage());
-                        T.e(mActivity.getApplicationContext(),R.string.category_error);
+                        T.e(mActivity.getApplicationContext(), R.string.category_error);
                     }
 
                     @Override
@@ -174,9 +187,8 @@ public class MainContentPresenter implements IMainContentPresenter {
      */
     @Override
     public void fetchMoreHotImgs() {
-        ApiClient.getApiService(mActivity).getGalleries(pageNum, Constant.PAGE_COUNT, 0).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .unsubscribeOn(Schedulers.io())
+        ApiClient.getApiService(mActivity).getGalleries(pageNum, Constant.PAGE_COUNT, 0)
+                .compose(RUtil.<Galleries>threadTrs())
                 .subscribe(new Observer<Galleries>() {
                     @Override
                     public void onCompleted() {
@@ -186,7 +198,7 @@ public class MainContentPresenter implements IMainContentPresenter {
                     @Override
                     public void onError(Throwable e) {
                         L.e("从网络 获取更多数据失败." + e.getMessage());
-                        T.e(mActivity.getApplicationContext(),R.string.loadmore_error);
+                        T.e(mActivity.getApplicationContext(), R.string.loadmore_error);
                     }
 
                     @Override

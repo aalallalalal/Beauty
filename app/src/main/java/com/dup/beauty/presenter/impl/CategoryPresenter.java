@@ -7,6 +7,7 @@ import com.dup.beauty.app.Constant;
 import com.dup.beauty.model.api.ApiClient;
 import com.dup.beauty.model.entity.Galleries;
 import com.dup.beauty.model.entity.Gallery;
+import com.dup.beauty.model.util.RUtil;
 import com.dup.beauty.presenter.contract.ICategoryPresenter;
 import com.dup.beauty.util.DialogUtil;
 import com.dup.beauty.util.L;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 /**
@@ -40,27 +42,36 @@ public class CategoryPresenter implements ICategoryPresenter {
 
     @Override
     public void fetchGalleriesWithId(final long id) {
-        mCategoryView.onDataLoad(false);
         ApiClient.getApiService(mActivity).getGalleries(1, Constant.PAGE_COUNT, id)
-                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .unsubscribeOn(Schedulers.io())
-                .subscribe(new Observer<Galleries>() {
+                .compose(RUtil.<Galleries>threadTrs(new Action0() {
+                    @Override
+                    public void call() {
+                        mCategoryView.onDataLoad(false);
+                    }
+                }))
+                .subscribe(new RUtil.DialogObserver<Galleries>() {
+
                     @Override
                     public void onCompleted() {
+                        super.onCompleted();
                         pageNum++;
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        super.onError(e);
                         L.e("从网络 获取该分类 图库数据失败." + e.getMessage());
-                        T.e(mActivity.getApplicationContext(),R.string.gallery_error);
-                        mCategoryView.onDataLoad(true);
+                        T.e(mActivity.getApplicationContext(), R.string.gallery_error);
                     }
 
                     @Override
                     public void onNext(Galleries galleries) {
                         mData.addAll(galleries.getGalleries());
-                        mCategoryView.onGalleriesWithId(mData,pageNum,id);
+                        mCategoryView.onGalleriesWithId(mData, pageNum, id);
+                    }
+
+                    @Override
+                    protected void dismissDialog() {
                         mCategoryView.onDataLoad(true);
                     }
                 });
@@ -68,9 +79,8 @@ public class CategoryPresenter implements ICategoryPresenter {
 
     @Override
     public void fetchMoreGalleriesWithId() {
-        ApiClient.getApiService(mActivity).getGalleries(pageNum, Constant.PAGE_COUNT, 0).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .unsubscribeOn(Schedulers.io())
+        ApiClient.getApiService(mActivity).getGalleries(pageNum, Constant.PAGE_COUNT, 0)
+                .compose(RUtil.<Galleries>threadTrs())
                 .subscribe(new Observer<Galleries>() {
                     @Override
                     public void onCompleted() {
@@ -80,12 +90,12 @@ public class CategoryPresenter implements ICategoryPresenter {
                     @Override
                     public void onError(Throwable e) {
                         L.e("从网络 获取该分类 更多图库数据失败." + e.getMessage());
-                        T.e(mActivity.getApplicationContext(),R.string.loadmore_error);
+                        T.e(mActivity.getApplicationContext(), R.string.loadmore_error);
                     }
 
                     @Override
                     public void onNext(Galleries galleries) {
-                        mCategoryView.onMoreGalleriesWithId(galleries.getGalleries(),pageNum);
+                        mCategoryView.onMoreGalleriesWithId(galleries.getGalleries(), pageNum);
                     }
                 });
     }

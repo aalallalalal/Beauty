@@ -69,17 +69,16 @@ public class PicturesAdapter extends RecyclerView.Adapter<PicturesAdapter.MyView
 
         Picture picture = mData.get(position);
         String url = ApiDefine.getImageUrlWithNoSize(picture.getSrc());
+        String urlThumbnail = ApiDefine.getImageUrlWithSize(picture.getSrc(), Constant.THUMBNAIL_WIDTH,0);
 
         if (sizeMap.containsKey(url) && !sizeMap.get(url).isNull()) {
             /*当图片大小数据已得到,先改变item大小,后加载图片*/
             setItemSize(sizeMap.get(url), holder.iv);
-            GlideUtil.beginNoProgress(context, url)
+            GlideUtil.beginAsBitmap(context, url,urlThumbnail, holder.progress)
                     .placeholder(R.drawable.icon_photo_empty)
-                    .crossFade()
                     .error(R.drawable.icon_photo_error)
                     .into(holder.iv);
         } else {
-            String urlThumbnail = ApiDefine.getImageUrlWithSize(picture.getSrc(), Constant.THUMBNAIL_WIDTH,0);
             /*当图片大小数据没得到,通过target回调,根据图片大小改变item大小*/
             GlideUtil.beginAsBitmap(context, url,urlThumbnail, holder.progress)
                     .placeholder(R.drawable.icon_photo_empty)

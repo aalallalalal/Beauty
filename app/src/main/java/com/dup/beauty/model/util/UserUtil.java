@@ -120,8 +120,7 @@ public class UserUtil {
             // 注册返回结果
             Observable<Oauth> register = ApiClient.getApiService(context).register(ApiDefine.Client_Id, ApiDefine.Client_Secret,
                     email, account, pwd);
-            register.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                    .unsubscribeOn(Schedulers.io()).subscribe(new Observer<Oauth>() {
+            register.compose(RUtil.<Oauth>threadTrs()).subscribe(new Observer<Oauth>() {
                 @Override
                 public void onCompleted() {
                     mListener = null;
@@ -159,8 +158,7 @@ public class UserUtil {
         if (judgeLoginParams(context, name, pwd)) {
             //登陆返回结果
             Observable<Oauth> login = ApiClient.getApiService(context).login(ApiDefine.Client_Id, ApiDefine.Client_Secret, name, pwd);
-            login.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                    .unsubscribeOn(Schedulers.io()).subscribe(
+            login.compose(RUtil.<Oauth>threadTrs()).subscribe(
                     new Observer<Oauth>() {
                         @Override
                         public void onCompleted() {

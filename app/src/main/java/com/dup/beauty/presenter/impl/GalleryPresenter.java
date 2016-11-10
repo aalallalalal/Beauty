@@ -5,14 +5,13 @@ import android.app.Activity;
 import com.dup.beauty.R;
 import com.dup.beauty.model.api.ApiClient;
 import com.dup.beauty.model.entity.Gallery;
+import com.dup.beauty.model.util.RUtil;
 import com.dup.beauty.presenter.contract.IGalleryPresenter;
 import com.dup.beauty.util.L;
 import com.dup.beauty.util.T;
 import com.dup.beauty.view.IGalleryView;
 
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import rx.functions.Action0;
 
 /**
  * Created by DP on 2016/9/18.
@@ -31,26 +30,33 @@ public class GalleryPresenter implements IGalleryPresenter {
      */
     @Override
     public void fetchGalleryWithId(final long id) {
-        mGalleryView.onDataLoad(false);
-        ApiClient.getApiService(mActivity).getPictures(id).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .unsubscribeOn(Schedulers.io())
-                .subscribe(new Observer<Gallery>() {
+        ApiClient.getApiService(mActivity).getPictures(id)
+                .compose(RUtil.<Gallery>threadTrs(new Action0() {
+                    @Override
+                    public void call() {
+                        mGalleryView.onDataLoad(false);
+                    }
+                }))
+                .subscribe(new RUtil.DialogObserver<Gallery>() {
                     @Override
                     public void onCompleted() {
+                        super.onCompleted();
                         L.d("从网络  获取 图库 " + id + " 成功");
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        super.onError(e);
                         L.e("从网络 获取 图库 " + id + " 失败." + e.getMessage());
-                        T.e(mActivity.getApplicationContext(),R.string.gallery_error);
-                        mGalleryView.onDataLoad(true);
+                        T.e(mActivity.getApplicationContext(), R.string.gallery_error);
                     }
 
                     @Override
                     public void onNext(Gallery gallery) {
                         mGalleryView.onGalleryWithId(gallery, id);
+                    }
+
+                    protected void dismissDialog() {
                         mGalleryView.onDataLoad(true);
                     }
                 });

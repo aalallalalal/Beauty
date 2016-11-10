@@ -48,7 +48,7 @@ public class GalleriesAdapter extends RecyclerView.Adapter<GalleriesAdapter.MyVi
      */
     private int itemWidth;
 
-    public GalleriesAdapter(Context context,  int width) {
+    public GalleriesAdapter(Context context, int width) {
         this.context = context;
         this.itemWidth = (width / 2) > Constant.PIC_MAX_WIDTH ? Constant.PIC_MAX_WIDTH : (width / 2);//如果需求值 大于 原图片最大值，图片将不显示。所以这控制一下
     }
@@ -75,25 +75,25 @@ public class GalleriesAdapter extends RecyclerView.Adapter<GalleriesAdapter.MyVi
         return new MyViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
         Gallery gallery = mData.get(position);
         String url = ApiDefine.getImageUrlWithNoSize(gallery.getImg());
+        //缩略图url
+        String urlThumbnail = ApiDefine.getImageUrlWithSize(gallery.getImg(), Constant.THUMBNAIL_WIDTH, 0);
 
         if (sizeMap.containsKey(url) && !sizeMap.get(url).isNull()) {
             /*当图片大小数据已得到,先改变item大小,后加载图片*/
             setItemSize(sizeMap.get(url), holder.iv);
-            GlideUtil.beginNoProgress(context, url)
+            GlideUtil.beginAsBitmap(context, url, urlThumbnail, holder.tvProgress)
                     .placeholder(R.drawable.icon_photo_empty)
-                    .crossFade()
                     .error(R.drawable.icon_photo_error)
                     .into(holder.iv);
         } else {
-            //缩略图url
-            String urlThumbnail = ApiDefine.getImageUrlWithSize(gallery.getImg(), Constant.THUMBNAIL_WIDTH,0);
              /*当图片大小数据没得到,通过target回调,根据图片大小改变item大小*/
-            GlideUtil.beginAsBitmap(context, url,urlThumbnail, holder.tvProgress)
+            GlideUtil.beginAsBitmap(context, url, urlThumbnail, holder.tvProgress)
                     .placeholder(R.drawable.icon_photo_empty)
                     .error(R.drawable.icon_photo_error)
                     .into(new ImageViewTarget(holder, url));
@@ -113,7 +113,7 @@ public class GalleriesAdapter extends RecyclerView.Adapter<GalleriesAdapter.MyVi
 
     @Override
     public int getItemCount() {
-        if(mData==null)
+        if (mData == null)
             return 0;
         return mData.size();
     }

@@ -37,6 +37,10 @@ import rx.functions.Func1;
  * 去下载网络图片，会导致进度数据时而显示thumbnail进度，时而原图数据进度。<br>
  * 经测试原因可能如上，目前解决办法是thumbnail（新请求）这个方法。这样原图和缩略图成为了两个不关联的请求。进度是原图下载进度.</b>
  * <p/>
+ *
+ * <ul>参考资料：
+ *     <li>https://github.com/bumptech/glide/issues/1548</li>
+ * </ul>
  * Created by DP on 2016/10/13.
  */
 public class GlideUtil {
@@ -212,8 +216,8 @@ public class GlideUtil {
         //缩略图采用 可设置图片大小的接口请求。
         BitmapRequestBuilder<String, Bitmap> thumbnailRequest = Glide
                 .with(context)
-                .load(urlThumbnail).asBitmap().diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(false);
+                .load(urlThumbnail).asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.ALL);
 
         return Glide.with(context).using(new ProgressModelLoader(new ProgressListener() {
             @Override
