@@ -29,30 +29,30 @@
         android:theme="@style/AppTheme">
 
         <meta-data
-            android:name="com.dup.beauty.model.util.glide.OkHttpGlideModule"
+            android:name="com.dup.beauty.mvp.model.util.glide.OkHttpGlideModule"
             android:value="GlideModule" />
 
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name=".mvp.ui.activity.MainActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.GalleryActivity"
+            android:name=".mvp.ui.activity.GalleryActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/TransparentTheme" />
         <activity
-            android:name=".ui.activity.CategoryActivity"
+            android:name=".mvp.ui.activity.CategoryActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/TransparentTheme" />
         <activity
-            android:name=".ui.activity.PictureActivity"
+            android:name=".mvp.ui.activity.PictureActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/TransparentTheme" />
         <activity
-            android:name=".ui.activity.SplashActivity"
+            android:name=".mvp.ui.activity.SplashActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/splashTheme">
@@ -63,22 +63,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.LoginRegisterActivity"
+            android:name=".mvp.ui.activity.LoginRegisterActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/TransparentTheme" />
         <activity
-            android:name=".ui.activity.DownLoadActivity"
+            android:name=".mvp.ui.activity.DownLoadActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/TransparentTheme" />
         <activity
-            android:name=".ui.activity.DownloadPicturesActivity"
+            android:name=".mvp.ui.activity.DownloadPicturesActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/TransparentTheme" />
         <activity
-            android:name=".ui.activity.SettingActivity"
+            android:name=".mvp.ui.activity.SettingActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/TransparentTheme" />

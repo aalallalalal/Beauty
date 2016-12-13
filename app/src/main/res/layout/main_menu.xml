@@ -184,7 +184,7 @@
                 android:textColor="@color/main_menu_text_color"
                 android:textSize="16sp" />
 
-            <com.dup.beauty.ui.widget.ColorFunSwitch
+            <com.dup.beauty.mvp.ui.widget.ColorFunSwitch
                 android:id="@+id/main_menu_offline_switcher"
                 android:layout_width="40dp"
                 android:layout_height="40dp" />
@@ -206,7 +206,7 @@
                 android:textColor="@color/main_menu_text_color"
                 android:textSize="16sp" />
 
-            <com.dup.beauty.ui.widget.ColorFunSwitch
+            <com.dup.beauty.mvp.ui.widget.ColorFunSwitch
                 android:id="@+id/main_menu_only_wifi_switcher"
                 android:layout_width="40dp"
                 android:layout_height="40dp" />

@@ -7,7 +7,7 @@
     android:fitsSystemWindows="true"
     android:background="@color/main_bg"
     android:tag="skin:main_bg:background"
-    tools:context="com.dup.beauty.ui.activity.SettingActivity">
+    tools:context=".mvp.ui.activity.SettingActivity">
 
     <RelativeLayout
         android:id="@+id/toolbar"
