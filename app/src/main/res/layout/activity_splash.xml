@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/splash_bg"
     android:tag="skin:splash_bg:background"
-    tools:context="com.dup.beauty.ui.activity.SplashActivity">
+    tools:context=".mvp.ui.activity.SplashActivity">
 
     <TextView
         android:layout_width="wrap_content"

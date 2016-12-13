@@ -2,9 +2,9 @@ package com.dup.beauty.app;
 
 import android.app.Application;
 
-import com.dup.beauty.model.util.DBUtil;
-import com.dup.beauty.model.util.GlideUtil;
-import com.dup.beauty.model.util.HttpUtil;
+import com.dup.beauty.mvp.model.util.DBUtil;
+import com.dup.beauty.mvp.model.util.GlideUtil;
+import com.dup.beauty.mvp.model.util.HttpUtil;
 import com.dup.beauty.util.CrashHandler;
 import com.dup.beauty.util.L;
 import com.dup.beauty.util.NetUtil;

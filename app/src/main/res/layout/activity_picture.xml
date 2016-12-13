@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.dup.beauty.ui.widget.PicturesViewPager
+    <com.dup.beauty.mvp.ui.widget.PicturesViewPager
         android:id="@+id/picture_viewpager"
         android:layout_width="match_parent"
         android:background="@color/viewpager_bg"

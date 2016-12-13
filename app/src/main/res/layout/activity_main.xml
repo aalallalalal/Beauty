@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.dup.beauty.ui.widget.MySlidingPaneLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.dup.beauty.mvp.ui.widget.MySlidingPaneLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/sliding_pane"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.MainActivity">
+    tools:context=".mvp.ui.activity.MainActivity">
 
     <include
         android:id="@+id/main_menu_include"
@@ -15,4 +15,4 @@
         layout="@layout/main_content" />
 
 
-</com.dup.beauty.ui.widget.MySlidingPaneLayout>
+</com.dup.beauty.mvp.ui.widget.MySlidingPaneLayout>
