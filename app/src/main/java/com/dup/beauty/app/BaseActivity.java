@@ -11,10 +11,12 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.dup.beauty.R;
-import com.dup.beauty.ui.widget.MySlidingPaneLayout;
+import com.dup.beauty.di.component.ActivityComponent;
+import com.dup.beauty.di.component.DaggerActivityComponent;
+import com.dup.beauty.di.module.ActivityModule;
+import com.dup.beauty.mvp.ui.widget.MySlidingPaneLayout;
 import com.dup.beauty.util.ActivityStackUtil;
 import com.dup.changeskin.SkinManager;
-import com.jaeger.library.StatusBarUtil;
 
 import java.lang.reflect.Field;
 
@@ -25,6 +27,8 @@ import java.lang.reflect.Field;
  * Created by DP on 2016/9/18.
  */
 public abstract class BaseActivity extends AppCompatActivity implements MySlidingPaneLayout.PanelSlideListener {
+
+    protected ActivityComponent mActivityComponent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +56,19 @@ public abstract class BaseActivity extends AppCompatActivity implements MySlidin
             window.setNavigationBarColor(Color.TRANSPARENT);
         }
 
-        bindPresenters();
+        initDI();
+        bindViewToPresenters();
         initView();
         initData();
         initAction();
         SkinManager.getInstance().register(this);
+    }
+
+    /**
+     * 初始话DI
+     */
+    protected void initDI() {
+        mActivityComponent = DaggerActivityComponent.builder().activityModule(new ActivityModule(this)).build();
     }
 
     @Override
@@ -64,6 +76,7 @@ public abstract class BaseActivity extends AppCompatActivity implements MySlidin
         super.onDestroy();
         SkinManager.getInstance().unregister(this);
         ActivityStackUtil.getInstance().removeActivity(this);
+        unBindPresentersView();
     }
 
     /**
@@ -87,7 +100,7 @@ public abstract class BaseActivity extends AppCompatActivity implements MySlidin
 
             //1.将一个透明空的view,当做menu.这样就可以露出下面的activity
             View leftView = new View(this);
-            leftView.setLayoutParams( new MySlidingPaneLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            leftView.setLayoutParams(new MySlidingPaneLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             slidingPaneLayout.addView(leftView, 0);
 
             //2.将当前activity先从decorview中移除掉，后加入slidepane作为content，最后将slidepane加入decorview
@@ -102,15 +115,20 @@ public abstract class BaseActivity extends AppCompatActivity implements MySlidin
 
     /**
      * 此界面是否支持侧滑结束
+     *
      * @return
      */
     protected abstract boolean isSupportSwipeBack();
 
-    protected void bindPresenters() {
+    protected void bindViewToPresenters() {
+    }
+
+    protected void unBindPresentersView(){
     }
 
     /**
      * 此activity界面layout
+     *
      * @return
      */
     @LayoutRes

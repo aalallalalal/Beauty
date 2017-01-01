@@ -49,5 +49,5 @@ public class Constant {
     /**
      * 网络下载缩略图默认宽度
      */
-    public static int THUMBNAIL_WIDTH = 80;
+    public static int THUMBNAIL_WIDTH = 140;
 }

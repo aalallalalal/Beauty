@@ -2,7 +2,7 @@ package com.dup.beauty.util;
 
 import android.app.Activity;
 
-import com.dup.beauty.ui.widget.LoadingDialog;
+import com.dup.beauty.mvp.ui.widget.LoadingDialog;
 
 /**
  * 等待层工具

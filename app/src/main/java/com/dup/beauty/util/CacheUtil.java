@@ -3,19 +3,8 @@ package com.dup.beauty.util;
 import android.content.Context;
 
 import com.bumptech.glide.Glide;
-import com.dup.beauty.model.util.HttpUtil;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.io.File;
-import java.io.IOException;
-
-import okhttp3.Cache;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 /**
  * app缓存数据管理

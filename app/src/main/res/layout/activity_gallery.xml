@@ -45,7 +45,7 @@
 
     </RelativeLayout>
 
-    <com.dup.beauty.ui.widget.ColorSwipeRefreshLayout
+    <com.dup.beauty.mvp.ui.widget.ColorSwipeRefreshLayout
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -56,7 +56,7 @@
             android:id="@+id/gallery_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
-    </com.dup.beauty.ui.widget.ColorSwipeRefreshLayout>
+    </com.dup.beauty.mvp.ui.widget.ColorSwipeRefreshLayout>
 
     <include
         android:id="@+id/bottom_bar"

@@ -7,7 +7,7 @@
     android:background="@color/main_bg"
     android:fitsSystemWindows="true"
     android:tag="skin:main_bg:background"
-    tools:context="com.dup.beauty.ui.activity.CategoryActivity">
+    tools:context=".mvp.ui.activity.CategoryActivity">
 
     <RelativeLayout
         android:id="@+id/toolbar"
@@ -35,7 +35,7 @@
 
     </RelativeLayout>
 
-    <com.dup.beauty.ui.widget.ColorSwipeRefreshLayout
+    <com.dup.beauty.mvp.ui.widget.ColorSwipeRefreshLayout
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -46,6 +46,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
            ></com.jcodecraeer.xrecyclerview.XRecyclerView>
-    </com.dup.beauty.ui.widget.ColorSwipeRefreshLayout>
+    </com.dup.beauty.mvp.ui.widget.ColorSwipeRefreshLayout>
 
 </RelativeLayout>
