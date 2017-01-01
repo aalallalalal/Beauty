@@ -1,6 +1,6 @@
 package com.dup.beauty.mvp.presenter.impl;
 
-import android.app.Activity;
+import android.content.Context;
 
 import com.dup.beauty.mvp.model.util.SPUtil;
 import com.dup.beauty.mvp.presenter.contract.IMainMenuPresenter;
@@ -13,11 +13,9 @@ import javax.inject.Inject;
  */
 public class MainMenuPresenter extends BasePresenter<IMainMenuView> implements IMainMenuPresenter {
 
-    private Activity mActivity;
-
     @Inject
-    public MainMenuPresenter(Activity activity) {
-        this.mActivity = activity;
+    public MainMenuPresenter(Context context) {
+        super(context);
     }
 
     /**

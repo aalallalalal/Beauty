@@ -1,6 +1,7 @@
 package com.dup.beauty.mvp.presenter.impl;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 
 import com.bumptech.glide.Glide;
@@ -23,40 +24,39 @@ import javax.inject.Inject;
  * Created by DP on 2016/10/26.
  */
 public class PicturePresenter extends BasePresenter<IPictureView> implements IPicturePresenter {
-    private Activity mActivity;
 
     @Inject
-    public PicturePresenter(Activity activity) {
-        this.mActivity = activity;
+    public PicturePresenter(Context context) {
+        super(context);
     }
 
     @Override
     public void shareNetImage(Gallery gallery, int position) {
         String url = ApiDefine.getImageUrlWithNoSize(gallery.getList().get(position).getSrc());
-        T.i(mActivity, R.string.waiting_load_share);
-        Glide.with(mActivity).load(url).asBitmap().priority(Priority.IMMEDIATE).into(new SimpleTarget<Bitmap>() {
+        T.i(getContext(), R.string.waiting_load_share);
+        Glide.with(getContext()).load(url).asBitmap().priority(Priority.IMMEDIATE).into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                UMShareUtil.getInstance().openSharePane(mActivity, resource);
+                UMShareUtil.getInstance().openSharePane((Activity) getContext(), resource);
             }
         });
     }
 
     @Override
     public void downloadImage(Gallery gallery, int position) {
-        T.i(mActivity.getApplicationContext(), R.string.start_download);
+        T.i(getContext().getApplicationContext(), R.string.start_download);
         final String fileName = gallery.getTitle() + "(" + (position + 1) + ").jpg";
         String url = ApiDefine.getImageUrlWithNoSize(gallery.getList().get(position).getSrc());
-        DownLoadUtil.getInstance().downloadImage(mActivity.getApplicationContext(), url,
+        DownLoadUtil.getInstance().downloadImage(getContext().getApplicationContext(), url,
                 fileName, new DownLoadUtil.OnImageDownLoadListener() {
                     @Override
                     public void onDownLoadSuccess() {
-                        view.onDownloadResult(true, fileName);
+                        getView().onDownloadResult(true, fileName);
                     }
 
                     @Override
                     public void onDownLoadFailed() {
-                        view.onDownloadResult(false, fileName);
+                        getView().onDownloadResult(false, fileName);
                     }
                 }
         );

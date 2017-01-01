@@ -76,6 +76,7 @@ public abstract class BaseActivity extends AppCompatActivity implements MySlidin
         super.onDestroy();
         SkinManager.getInstance().unregister(this);
         ActivityStackUtil.getInstance().removeActivity(this);
+        unBindPresentersView();
     }
 
     /**
@@ -120,6 +121,9 @@ public abstract class BaseActivity extends AppCompatActivity implements MySlidin
     protected abstract boolean isSupportSwipeBack();
 
     protected void bindViewToPresenters() {
+    }
+
+    protected void unBindPresentersView(){
     }
 
     /**

@@ -434,6 +434,13 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
         mMainMenuPresenter.attachView(this);
     }
 
+    @Override
+    protected void unBindPresentersView() {
+        super.unBindPresentersView();
+        mMainContentPresenter.clearRef();
+        mMainMenuPresenter.clearRef();
+    }
+
     /**
      * 获取到banner图片数据
      *

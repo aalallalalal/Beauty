@@ -9,8 +9,8 @@ import com.dup.beauty.R;
 import com.dup.beauty.app.BaseActivity;
 import com.dup.beauty.mvp.presenter.contract.ISettingPresenter;
 import com.dup.beauty.mvp.presenter.impl.SettingPresenter;
-import com.dup.beauty.util.T;
 import com.dup.beauty.mvp.view.ISettingView;
+import com.dup.beauty.util.T;
 import com.dup.changeskin.SkinManager;
 import com.jaeger.library.StatusBarUtil;
 
@@ -64,6 +64,12 @@ public class SettingActivity extends BaseActivity implements ISettingView {
     protected void bindViewToPresenters() {
         super.bindViewToPresenters();
         mPresenter.attachView(this);
+    }
+
+    @Override
+    protected void unBindPresentersView() {
+        super.unBindPresentersView();
+        mPresenter.clearRef();
     }
 
     @Override

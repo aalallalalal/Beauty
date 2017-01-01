@@ -105,6 +105,12 @@ public class PictureActivity extends BaseActivity implements PicturesViewPager.O
     }
 
     @Override
+    protected void unBindPresentersView() {
+        super.unBindPresentersView();
+        mPresenter.clearRef();
+    }
+
+    @Override
     protected void initDI() {
         super.initDI();
         mActivityComponent.inject(this);

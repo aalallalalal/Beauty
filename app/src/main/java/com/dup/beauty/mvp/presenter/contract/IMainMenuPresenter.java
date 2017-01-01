@@ -3,7 +3,7 @@ package com.dup.beauty.mvp.presenter.contract;
 /**
  * Created by DP on 2016/10/15.
  */
-public interface IMainMenuPresenter extends IBasePresenter {
+public interface IMainMenuPresenter{
 
     /**
      * 是否仅wifi联网。

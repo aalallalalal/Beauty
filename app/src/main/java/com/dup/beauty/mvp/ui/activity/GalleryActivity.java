@@ -83,6 +83,12 @@ public class GalleryActivity extends BaseActivity implements IGalleryView, Pictu
     }
 
     @Override
+    protected void unBindPresentersView() {
+        super.unBindPresentersView();
+        mPresenter.clearRef();
+    }
+
+    @Override
     protected void initDI() {
         super.initDI();
         mActivityComponent.inject(this);

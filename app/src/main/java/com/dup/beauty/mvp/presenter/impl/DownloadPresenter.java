@@ -1,6 +1,6 @@
 package com.dup.beauty.mvp.presenter.impl;
 
-import android.app.Activity;
+import android.content.Context;
 
 import com.dup.beauty.mvp.model.util.DownLoadUtil;
 import com.dup.beauty.mvp.presenter.contract.IDownloadPresenter;
@@ -16,11 +16,9 @@ import javax.inject.Inject;
  */
 public class DownloadPresenter extends BasePresenter<IDownloadView> implements IDownloadPresenter {
 
-    private Activity mActivity;
-
     @Inject
-    public DownloadPresenter(Activity activity) {
-        this.mActivity = activity;
+    public DownloadPresenter(Context context) {
+        super(context);
     }
 
     /**
@@ -28,12 +26,12 @@ public class DownloadPresenter extends BasePresenter<IDownloadView> implements I
      */
     @Override
     public void fetchDownloadImages() {
-        view.onDataLoad(false);
-        DownLoadUtil.getInstance().fetchDownloadImages(mActivity.getApplicationContext(), new DownLoadUtil.OnDownloadImagesFetchListener() {
+        getView().onDataLoad(false);
+        DownLoadUtil.getInstance().fetchDownloadImages(getContext().getApplicationContext(), new DownLoadUtil.OnDownloadImagesFetchListener() {
             @Override
             public void onFetchImages(ArrayList<File> list) {
-                view.onFetchDownloadImages(list);
-                view.onDataLoad(true);
+                getView().onFetchDownloadImages(list);
+                getView().onDataLoad(true);
             }
         });
     }

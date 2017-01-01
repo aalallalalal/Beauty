@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * 主界面MainActivity 的presenter
  * Created by DP on 2016/9/18.
  */
-public interface IMainContentPresenter extends IBasePresenter {
+public interface IMainContentPresenter  {
 
     /**
      * 获取banner数据
