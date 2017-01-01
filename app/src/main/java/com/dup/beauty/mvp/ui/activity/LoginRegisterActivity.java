@@ -73,6 +73,12 @@ public class LoginRegisterActivity extends BaseActivity implements ILoginRegiste
     }
 
     @Override
+    protected void unBindPresentersView() {
+        super.unBindPresentersView();
+        mPresenter.clearRef();
+    }
+
+    @Override
     protected void initDI() {
         super.initDI();
         mActivityComponent.inject(this);

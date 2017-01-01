@@ -1,15 +1,8 @@
 package com.dup.beauty.di.module;
 
-import android.app.Activity;
+import android.content.Context;
 
 import com.dup.beauty.di.scope.PerActivity;
-import com.dup.beauty.mvp.presenter.contract.IMainContentPresenter;
-import com.dup.beauty.mvp.presenter.contract.IMainMenuPresenter;
-import com.dup.beauty.mvp.presenter.impl.MainContentPresenter;
-import com.dup.beauty.mvp.presenter.impl.MainMenuPresenter;
-import com.dup.beauty.mvp.view.IBaseView;
-import com.dup.beauty.mvp.view.IMainContentView;
-import com.dup.beauty.mvp.view.IMainMenuView;
 
 import dagger.Module;
 import dagger.Provides;
@@ -20,16 +13,16 @@ import dagger.Provides;
 @Module
 public class ActivityModule {
 
-    private Activity activity;
+    private Context context;
 
-    public ActivityModule(Activity activity) {
-        this.activity = activity;
+    public ActivityModule(Context context) {
+        this.context = context;
     }
 
     @Provides
     @PerActivity
-    Activity provideMainActivity() {
-        return activity;
+    Context provideMainActivity() {
+        return context;
     }
 
 }

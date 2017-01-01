@@ -55,6 +55,12 @@ public class DownLoadActivity extends BaseActivity implements IDownloadView, Dow
     }
 
     @Override
+    protected void unBindPresentersView() {
+        super.unBindPresentersView();
+        mPresenter.clearRef();
+    }
+
+    @Override
     protected void initDI() {
         super.initDI();
         mActivityComponent.inject(this);

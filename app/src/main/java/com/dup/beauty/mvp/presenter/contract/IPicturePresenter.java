@@ -6,7 +6,7 @@ import com.dup.beauty.mvp.model.entity.Gallery;
  * 网络 大图查看界面的presenter
  * Created by DP on 2016/10/26.
  */
-public interface IPicturePresenter extends IBasePresenter {
+public interface IPicturePresenter {
     /**
      * 分享网络图片
      */

@@ -52,6 +52,12 @@ public class SplashActivity extends BaseActivity implements ISplashView {
     }
 
     @Override
+    protected void unBindPresentersView() {
+        super.unBindPresentersView();
+        mPresenter.clearRef();
+    }
+
+    @Override
     protected void initDI() {
         super.initDI();
         mActivityComponent.inject(this);

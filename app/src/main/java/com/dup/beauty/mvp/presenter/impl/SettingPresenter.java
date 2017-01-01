@@ -1,10 +1,10 @@
 package com.dup.beauty.mvp.presenter.impl;
 
-import android.app.Activity;
+import android.content.Context;
 
 import com.dup.beauty.mvp.presenter.contract.ISettingPresenter;
-import com.dup.beauty.util.CacheUtil;
 import com.dup.beauty.mvp.view.ISettingView;
+import com.dup.beauty.util.CacheUtil;
 
 import javax.inject.Inject;
 
@@ -14,11 +14,9 @@ import javax.inject.Inject;
  */
 public class SettingPresenter extends BasePresenter<ISettingView> implements ISettingPresenter {
 
-    private Activity mActivity;
-
     @Inject
-    public SettingPresenter(Activity activity) {
-        this.mActivity = activity;
+    public SettingPresenter(Context context) {
+        super(context);
     }
 
     /**
@@ -26,7 +24,7 @@ public class SettingPresenter extends BasePresenter<ISettingView> implements ISe
      */
     @Override
     public void clearImageCache() {
-        CacheUtil.clearImageCache(mActivity);
+        CacheUtil.clearImageCache(getContext());
     }
 
 }

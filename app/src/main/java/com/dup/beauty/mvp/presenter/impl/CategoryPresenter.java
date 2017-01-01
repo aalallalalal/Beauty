@@ -1,6 +1,6 @@
 package com.dup.beauty.mvp.presenter.impl;
 
-import android.app.Activity;
+import android.content.Context;
 
 import com.dup.beauty.R;
 import com.dup.beauty.app.Constant;
@@ -9,9 +9,9 @@ import com.dup.beauty.mvp.model.entity.Galleries;
 import com.dup.beauty.mvp.model.entity.Gallery;
 import com.dup.beauty.mvp.model.util.RUtil;
 import com.dup.beauty.mvp.presenter.contract.ICategoryPresenter;
+import com.dup.beauty.mvp.view.ICategoryView;
 import com.dup.beauty.util.L;
 import com.dup.beauty.util.T;
-import com.dup.beauty.mvp.view.ICategoryView;
 
 import java.util.ArrayList;
 
@@ -24,7 +24,6 @@ import rx.functions.Action0;
  * Created by DP on 2016/9/18.
  */
 public class CategoryPresenter extends BasePresenter<ICategoryView> implements ICategoryPresenter {
-    private Activity mActivity;
 
     //记录该加载第几页了
     private int pageNum = 2;
@@ -34,17 +33,17 @@ public class CategoryPresenter extends BasePresenter<ICategoryView> implements I
     private ArrayList<Gallery> mData = new ArrayList<>();
 
     @Inject
-    public CategoryPresenter(Activity activity) {
-        this.mActivity = activity;
+    public CategoryPresenter(Context context) {
+        super(context);
     }
 
     @Override
     public void fetchGalleriesWithId(final long id) {
-        ApiClient.getApiService(mActivity).getGalleries(1, Constant.PAGE_COUNT, id)
+        ApiClient.getApiService(getContext()).getGalleries(1, Constant.PAGE_COUNT, id)
                 .compose(RUtil.<Galleries>threadTrs(new Action0() {
                     @Override
                     public void call() {
-                        view.onDataLoad(false);
+                        getView().onDataLoad(false);
                     }
                 }))
                 .subscribe(new RUtil.DialogObserver<Galleries>() {
@@ -59,25 +58,25 @@ public class CategoryPresenter extends BasePresenter<ICategoryView> implements I
                     public void onError(Throwable e) {
                         super.onError(e);
                         L.e("从网络 获取该分类 图库数据失败." + e.getMessage());
-                        T.e(mActivity.getApplicationContext(), R.string.gallery_error);
+                        T.e(getContext().getApplicationContext(), R.string.gallery_error);
                     }
 
                     @Override
                     public void onNext(Galleries galleries) {
                         mData.addAll(galleries.getGalleries());
-                        view.onGalleriesWithId(mData, pageNum, id);
+                        getView().onGalleriesWithId(mData, pageNum, id);
                     }
 
                     @Override
                     protected void dismissDialog() {
-                        view.onDataLoad(true);
+                        getView().onDataLoad(true);
                     }
                 });
     }
 
     @Override
     public void fetchMoreGalleriesWithId() {
-        ApiClient.getApiService(mActivity).getGalleries(pageNum, Constant.PAGE_COUNT, 0)
+        ApiClient.getApiService(getContext()).getGalleries(pageNum, Constant.PAGE_COUNT, 0)
                 .compose(RUtil.<Galleries>threadTrs())
                 .subscribe(new Observer<Galleries>() {
                     @Override
@@ -88,12 +87,12 @@ public class CategoryPresenter extends BasePresenter<ICategoryView> implements I
                     @Override
                     public void onError(Throwable e) {
                         L.e("从网络 获取该分类 更多图库数据失败." + e.getMessage());
-                        T.e(mActivity.getApplicationContext(), R.string.loadmore_error);
+                        T.e(getContext().getApplicationContext(), R.string.loadmore_error);
                     }
 
                     @Override
                     public void onNext(Galleries galleries) {
-                        view.onMoreGalleriesWithId(galleries.getGalleries(), pageNum);
+                        getView().onMoreGalleriesWithId(galleries.getGalleries(), pageNum);
                     }
                 });
     }

@@ -1,6 +1,7 @@
 package com.dup.beauty.mvp.presenter.impl;
 
 import android.app.Activity;
+import android.content.Context;
 
 import com.dup.beauty.R;
 import com.dup.beauty.mvp.model.api.ApiClient;
@@ -19,11 +20,10 @@ import rx.functions.Action0;
  * Created by DP on 2016/9/18.
  */
 public class GalleryPresenter extends BasePresenter<IGalleryView> implements IGalleryPresenter {
-    private Activity mActivity;
 
     @Inject
-    public GalleryPresenter(Activity activity) {
-        this.mActivity = activity;
+    public GalleryPresenter(Context context) {
+        super(context);
     }
 
     /**
@@ -31,11 +31,11 @@ public class GalleryPresenter extends BasePresenter<IGalleryView> implements IGa
      */
     @Override
     public void fetchGalleryWithId(final long id) {
-        ApiClient.getApiService(mActivity).getPictures(id)
+        ApiClient.getApiService(getContext()).getPictures(id)
                 .compose(RUtil.<Gallery>threadTrs(new Action0() {
                     @Override
                     public void call() {
-                        view.onDataLoad(false);
+                        getView().onDataLoad(false);
                     }
                 }))
                 .subscribe(new RUtil.DialogObserver<Gallery>() {
@@ -49,16 +49,16 @@ public class GalleryPresenter extends BasePresenter<IGalleryView> implements IGa
                     public void onError(Throwable e) {
                         super.onError(e);
                         L.e("从网络 获取 图库 " + id + " 失败." + e.getMessage());
-                        T.e(mActivity.getApplicationContext(), R.string.gallery_error);
+                        T.e(getContext().getApplicationContext(), R.string.gallery_error);
                     }
 
                     @Override
                     public void onNext(Gallery gallery) {
-                        view.onGalleryWithId(gallery, id);
+                        getView().onGalleryWithId(gallery, id);
                     }
 
                     protected void dismissDialog() {
-                        view.onDataLoad(true);
+                        getView().onDataLoad(true);
                     }
                 });
     }
