@@ -16,6 +16,7 @@ import com.dup.beauty.mvp.model.entity.Gallery;
 import com.dup.beauty.mvp.presenter.contract.ICategoryPresenter;
 import com.dup.beauty.mvp.presenter.impl.CategoryPresenter;
 import com.dup.beauty.mvp.ui.adapter.GalleriesAdapter;
+import com.dup.beauty.mvp.ui.widget.AutoLoadXRecyclerView;
 import com.dup.beauty.mvp.ui.widget.ColorSwipeRefreshLayout;
 import com.dup.beauty.mvp.view.ICategoryView;
 import com.dup.changeskin.SkinManager;
@@ -43,7 +44,7 @@ public class CategoryActivity extends BaseActivity implements ICategoryView, Gal
     @BindView(R.id.toolbar_title)
     public TextView titleTv;
     @BindView(R.id.category_gallery_recyclerview)
-    public XRecyclerView recyclerView;
+    public AutoLoadXRecyclerView recyclerView;
     @BindView(R.id.swipe_refresh)
     public ColorSwipeRefreshLayout refreshLayout;
 

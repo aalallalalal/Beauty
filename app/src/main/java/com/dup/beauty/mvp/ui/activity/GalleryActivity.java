@@ -18,6 +18,7 @@ import com.dup.beauty.mvp.model.entity.Picture;
 import com.dup.beauty.mvp.presenter.contract.IGalleryPresenter;
 import com.dup.beauty.mvp.presenter.impl.GalleryPresenter;
 import com.dup.beauty.mvp.ui.adapter.PicturesAdapter;
+import com.dup.beauty.mvp.ui.widget.AutoLoadRecyclerView;
 import com.dup.beauty.mvp.ui.widget.ColorSwipeRefreshLayout;
 import com.dup.beauty.mvp.view.IGalleryView;
 import com.dup.changeskin.SkinManager;
@@ -44,7 +45,7 @@ public class GalleryActivity extends BaseActivity implements IGalleryView, Pictu
     @BindView(R.id.toolbar_title)
     public TextView titleTv;
     @BindView(R.id.gallery_recyclerview)
-    public RecyclerView recyclerView;
+    public AutoLoadRecyclerView recyclerView;
     @BindView(R.id.bottom_bar_pre)
     public TextView bottomPre;
     @BindView(R.id.bottom_bar_after)

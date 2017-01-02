@@ -99,12 +99,12 @@
             android:id="@+id/catalog_bar_hot"
             layout="@layout/bar_recommend" />-->
 
-        <com.jcodecraeer.xrecyclerview.XRecyclerView
+        <com.dup.beauty.mvp.ui.widget.AutoLoadXRecyclerView
             android:id="@+id/main_recyclerview_hot"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        </com.jcodecraeer.xrecyclerview.XRecyclerView>
+        </com.dup.beauty.mvp.ui.widget.AutoLoadXRecyclerView>
     </LinearLayout>
 
 
