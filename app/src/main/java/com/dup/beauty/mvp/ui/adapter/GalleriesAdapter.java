@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.dup.beauty.R;
@@ -17,6 +19,7 @@ import com.dup.beauty.app.Constant;
 import com.dup.beauty.mvp.model.api.ApiDefine;
 import com.dup.beauty.mvp.model.entity.Gallery;
 import com.dup.beauty.mvp.model.util.GlideUtil;
+import com.dup.beauty.util.L;
 import com.dup.changeskin.SkinManager;
 
 import java.util.ArrayList;

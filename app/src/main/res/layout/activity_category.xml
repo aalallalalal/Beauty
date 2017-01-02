@@ -41,11 +41,11 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar">
 
-        <com.jcodecraeer.xrecyclerview.XRecyclerView
+        <com.dup.beauty.mvp.ui.widget.AutoLoadXRecyclerView
             android:id="@+id/category_gallery_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-           ></com.jcodecraeer.xrecyclerview.XRecyclerView>
+           ></com.dup.beauty.mvp.ui.widget.AutoLoadXRecyclerView>
     </com.dup.beauty.mvp.ui.widget.ColorSwipeRefreshLayout>
 
 </RelativeLayout>

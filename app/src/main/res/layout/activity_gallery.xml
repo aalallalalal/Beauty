@@ -52,10 +52,10 @@
         android:layout_above="@+id/bottom_bar"
         android:layout_below="@+id/toolbar">
 
-        <android.support.v7.widget.RecyclerView
+        <com.dup.beauty.mvp.ui.widget.AutoLoadRecyclerView
             android:id="@+id/gallery_recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+            android:layout_height="match_parent"></com.dup.beauty.mvp.ui.widget.AutoLoadRecyclerView>
     </com.dup.beauty.mvp.ui.widget.ColorSwipeRefreshLayout>
 
     <include

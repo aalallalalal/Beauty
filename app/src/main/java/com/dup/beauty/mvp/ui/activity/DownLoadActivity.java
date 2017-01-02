@@ -13,6 +13,7 @@ import com.dup.beauty.mvp.model.util.DownLoadUtil;
 import com.dup.beauty.mvp.presenter.contract.IDownloadPresenter;
 import com.dup.beauty.mvp.presenter.impl.DownloadPresenter;
 import com.dup.beauty.mvp.ui.adapter.DownloadImagesAdapter;
+import com.dup.beauty.mvp.ui.widget.AutoLoadRecyclerView;
 import com.dup.beauty.mvp.ui.widget.ColorSwipeRefreshLayout;
 import com.dup.beauty.util.FileUtil;
 import com.dup.beauty.mvp.view.IDownloadView;
@@ -38,7 +39,7 @@ import butterknife.OnClick;
  */
 public class DownLoadActivity extends BaseActivity implements IDownloadView, DownloadImagesAdapter.OnItemClickListener {
     @BindView(R.id.download_recyclerview)
-    public RecyclerView recyclerView;
+    public AutoLoadRecyclerView recyclerView;
     @BindView(R.id.swipe_refresh)
     public ColorSwipeRefreshLayout refreshLayout;
 

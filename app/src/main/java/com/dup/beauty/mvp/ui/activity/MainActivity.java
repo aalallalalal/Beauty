@@ -24,7 +24,6 @@ import com.dup.beauty.R;
 import com.dup.beauty.app.BaseActivity;
 import com.dup.beauty.app.Constant;
 import com.dup.beauty.di.component.ActivityComponent;
-import com.dup.beauty.di.component.DaggerActivityComponent;
 import com.dup.beauty.di.module.ActivityModule;
 import com.dup.beauty.mvp.model.entity.Category;
 import com.dup.beauty.mvp.model.entity.Gallery;
@@ -36,6 +35,7 @@ import com.dup.beauty.mvp.presenter.impl.MainMenuPresenter;
 import com.dup.beauty.mvp.ui.adapter.BannerAdapter;
 import com.dup.beauty.mvp.ui.adapter.CategoriesAdapter;
 import com.dup.beauty.mvp.ui.adapter.GalleriesAdapter;
+import com.dup.beauty.mvp.ui.widget.AutoLoadXRecyclerView;
 import com.dup.beauty.mvp.ui.widget.ColorFunSwitch;
 import com.dup.beauty.mvp.ui.widget.MySlidingPaneLayout;
 import com.dup.beauty.mvp.view.IMainContentView;
@@ -96,7 +96,7 @@ public class MainActivity extends BaseActivity implements IMainContentView, IMai
     @BindView(R.id.main_recyclerview_categories)
     public RecyclerView recyclerViewCategories;
     @BindView(R.id.main_recyclerview_hot)
-    public XRecyclerView recyclerViewHot;
+    public AutoLoadXRecyclerView recyclerViewHot;
     @BindView(R.id.main_appbarlayout)
     public AppBarLayout appBarLayout;
     @BindView(R.id.main_blur_iv)
