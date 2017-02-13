@@ -18,4 +18,5 @@
  + 仅Wifi联网控制、离线缓存功能。
 * Glide+Okhttp实现：
  + 网络图片下载进度显示功能。
-*  
+* GreenDao数据库框架。
+* Dagger2 + MVP模式
